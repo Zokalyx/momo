@@ -1,7 +1,16 @@
 import Discord from "discord.js"
 import { Pool } from "pg"
+import Card from "./card"
+import User from "./user"
+import Database from "./database"
 
-const pool = new Pool()
-const client = new Discord.Client()
+global.data = {}
 
-console.log("Hi")
+const pool: Pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+})
+Database.file("r", pool)
+
