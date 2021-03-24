@@ -9,11 +9,8 @@ export default class Util {
     }
 
     static valueToRgb(value: number): RGB { /* Value must be in the range [0, 1] */
-        console.log(value)
-        let hue: number = 360 * value - 50
-        hue < 0 ? hue += 360 : {}
-        let saturation: number = hue * 120
-        return hsv.rgb([0, 0, 0])
+        value = Math.sqrt(value)
+        return hsv.rgb([value*360, value*100, value*100])
     }
 
     static chunk(array: Array<any>, size: number): Array<Array<any>> {
