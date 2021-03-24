@@ -6,11 +6,8 @@ class Util {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
     static valueToRgb(value) {
-        console.log(value);
-        let hue = 360 * value - 50;
-        hue < 0 ? hue += 360 : {};
-        let saturation = hue * 120;
-        return color_convert_1.hsv.rgb([0, 0, 0]);
+        value = Math.sqrt(value);
+        return color_convert_1.hsv.rgb([value * 360, value * 100, value * 100]);
     }
     static chunk(array, size) {
         let ans = [];
