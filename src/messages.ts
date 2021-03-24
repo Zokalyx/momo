@@ -1,0 +1,148 @@
+export = {
+
+    regionals: [
+        "🇦","🇧","🇨","🇩","🇪","🇫","🇬","🇭","🇮","🇯","🇰","🇱","🇲","🇳","🇴","🇵","🇶","🇷","🇸","🇹","🇺","🇻","🇼","🇽","🇾","🇿"
+    ],
+
+    reactions: [
+        "💯", "😊", "❤", "✅", "🔥", "👌", "🤣", "⭐", "👍", "😎", "😍", "🤘", "👀", "🤙", "💪", "🤑", "🤔", "🤗", "😄",
+    ],
+
+    rejections: [
+        "Naa",
+        "No quiero",
+        "NO",
+        "Ni ganas bro",
+        "Soy tu esclavo?",
+        "Te creés crack?",
+        "Nop.",
+        "Dato",
+        "Contame otro chiste",
+        "Nope",
+        "Nej",
+        "No molestes"
+    ],
+
+    games: [
+        "`connect4`: Cuatro en línea",
+    ],
+
+    new: [
+        "**__Últimas adiciones - Momo 2.0:__**",
+        "",
+        "__Reforma económica:__",
+        " - Los usuarios con pocas cartas tienen ligeramente más chances de rollear un carta propia, así aumentando su valor y ganando plata por las reacciones de otras personas",
+        " - Los usuarios con pocas cartas reciben más ingresos pasivos",
+        " - Podés revisar tus ingresos con `inc`",
+        "",
+        "__Mercado:__",
+        " - `give` y `pay` (nuevo) ahora se escriben mencionando a la persona primero",
+        " - `wait` ahora se puede usar para ver los tiempos restantes de otra persona",
+        " - Se implementó el sistema de subastas: Revisá las cartas con `auc list`, poné en subasta con `auc`, ofrecé con `offer` y reclamá con `claim`",
+        "",
+        "__Personalización:__",
+        " - Podés cambiar tu nombre principal con `name` y tu descripción con `desc`",
+        " - Podés renombrar tus cartas con `rename` y ponerles una descripción con `lore`",
+        "",
+        "__Otros:__",
+        " - Ahora hay límite de tiempo para poder comprar o reaccionar a cartas",
+        " - `config` ahora contiene muchas más variables que pueden ser modificadas",
+        " - Ahora existe `top pack`",
+        " - Se van a implementar juegos y apuestas, entre otras cosas",
+        " - Ahora las minúsculas y mayúsculas son totalmente intercambiables"
+    ],
+
+    help: {
+        
+        user: [
+            "**__Ayuda sobre usuarios:__**",
+            "",
+            "`user (<usuario>)` muestra los datos de un usuario (default = los tuyos)",
+            "`name <nombre>` cambia tu nombre principal (no es el que los demás van a usar)",
+            "`desc <descripción>` cambia tu descripción",
+
+            "`col (<usuario>)` muestra datos sobre toda la colección de un usuario (default = la tuya)",
+            "`col (<usuario>) <pack>` muestra las cartas pertenecientes a un pack de un usuario (default = las tuyas)",
+            "`top user` muestra los usuarios con más plata",
+
+            "`bal (<usuario>)` muestra el balance de un usuario (default = el tuyo)",
+            "`inc` muestra tus ingresos pasivos",
+            "`rolls`, `reacts`, `buys` y `invs` `(<usuario>)` muestran las acciones disponibles del usuario (default = las tuyas)",
+            "`wait (<usuario>)` muestra los minutos restantes para obtener más acciones",
+            "`pay <usuario> <plata>` le da plata a un usuario",
+
+            "`id` muestra tu ID y los nombres asociados al mismo",
+            "`id <nombre>` asocia un nombre a tu ID",
+            "`id - <nombre>` elimina el nombre",
+            "`id list` muestra todos los IDs y los nombres asociados a cada uno",
+        ],
+
+        card: [
+            "**__Ayuda sobre cartas:__**",
+            "",
+            "`card <pack> <número>` muestra una carta específica de una pack",
+            "",
+            "`roll` muestra una carta al azar que se puede comprar si no es de nadie",
+            "`inv <pack> <número>` invierte plata en la carta y aumenta su multiplicador (cuesta lo que vale la carta)",
+            "`sell <pack> <número>` vende una carta por la mitad de su valor",
+            "`give <usuario> <pack> <número>` le da esa carta a otro usuario",
+            "`rename <pack> <número> <nombre>` renombra la carta (tiene que ser tuya)",
+            "`lore <pack> <número> <descripción>` le pone una descripción a la carta",
+            "`top cards` muestra las 20 cartas más valiosas",
+
+            "`pack <pack>` muestra las cartas de un pack",
+            "`pack list` muestra una lista de todos los packs",
+            "`top pack` muestra la lista de los 10 packs con valor promedio de carta más alto"
+        ],
+
+        all: [
+            "__**Ayuda general:**__",
+            "",
+            "`< >` indica un **parámetro** de una lista o dado por el usuario",
+            "`( )` indica un parámetro **opcional**",
+            "",
+            "`new` muestra las adiciones más **nuevas**",
+            "",
+            "`help card` muestra los comandos relacionados a **cartas**",
+            "`help user` muestra los comandos relacionados a **usuarios**",
+            "`help cmd` muestra los comandos relacionados a comandos **personalizados**",
+            "`help bot` muestra los comandos relacionados al **bot**",
+            "",
+            "`h` es equivalente a `help`",
+            "`c` es equivalente a `card`",
+            "`u` es equivalente a `user`",
+            "`p` es equivalente a `pack`",
+            "`w` es equivalente a `wait`",
+        ],
+
+        cmd: [
+            "**__Ayuda sobre comandos personalizados:__**",
+            "",
+            "`+ <cmd>` agrega un comando personalizado",
+            "`- <cmd>` elimina un comando personalizado",
+            "",
+            "`<cmd> list` muestra todos las opciones del comando",
+            "`<cmd> <número>` muestra una opción específica del comando",
+            "`<cmd>` muestra una opción al azar del comando",
+            "`<cmd> + <opción>` agrega una opción al comando",
+            "`<cmd> - <número de opción>` remueve una opción específica del comando",
+            "`<cmd> -` remueve la última opción del comando",
+        ],
+
+        game: [
+            "**__Ayuda sobre juegos:__**",
+            "`game <juego>` inicia una partida del juego seleccionado",
+            "`game list` muestra todos los juegos disponibles",
+        ],
+
+        bot: [
+            "**__Ayuda sobre el bot:__**",
+            "",
+            "`save` guarda todos los datos permanentemente",
+            "`exit (nosave)` apaga el bot y guarda los datos a menos que se escriba 'nosave'",
+            "`config` muestra la configuración actual",
+        ],
+
+    },
+
+}
