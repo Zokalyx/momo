@@ -41,6 +41,7 @@ module.exports = {
         " - Podés renombrar tus cartas con `rename` y ponerles una descripción con `lore`",
         "",
         "__Otros:__",
+        " - Usa `link` para ver el último pack seleccionado en el navegador",
         " - Ahora hay límite de tiempo para poder comprar o reaccionar a cartas",
         " - `config` ahora contiene muchas más variables que pueden ser modificadas",
         " - Ahora existe `top pack`",
@@ -80,6 +81,7 @@ module.exports = {
             "`lore <pack> <número> <descripción>` le pone una descripción a la carta",
             "`top cards` muestra las 20 cartas más valiosas",
             "`pack <pack>` muestra las cartas de un pack",
+            "`link` muestra el último pack seleccionado en el navegador",
             "`pack list` muestra una lista de todos los packs",
             "`top pack` muestra la lista de los 10 packs con valor promedio de carta más alto"
         ],
