@@ -506,7 +506,7 @@ export default class User {
 
             case "sell":
                 if (isOwner) {
-                    
+                    if (!card.inAuction) {
                     card.owner = ""
                     this.removeCard(card)
                     this.modifyData("bal", card.value*Data.config.economy.sellMultiplier)
@@ -514,7 +514,7 @@ export default class User {
 
                     result = `${userName} vendió ${cardName} por $${card.value*Data.config.economy.sellMultiplier}!`
                     success = true
-
+                    } else { result = `${cardName} está siendo subastada`}
                 } else { result = `${cardName} no te pertenece` }
                 break
 

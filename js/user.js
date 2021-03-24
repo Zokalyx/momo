@@ -436,12 +436,17 @@ class User {
                 break;
             case "sell":
                 if (isOwner) {
-                    card.owner = "";
-                    this.removeCard(card);
-                    this.modifyData("bal", card.value * data_1.default.config.economy.sellMultiplier);
-                    this.updateEconomy();
-                    result = `${userName} vendió ${cardName} por $${card.value * data_1.default.config.economy.sellMultiplier}!`;
-                    success = true;
+                    if (!card.inAuction) {
+                        card.owner = "";
+                        this.removeCard(card);
+                        this.modifyData("bal", card.value * data_1.default.config.economy.sellMultiplier);
+                        this.updateEconomy();
+                        result = `${userName} vendió ${cardName} por $${card.value * data_1.default.config.economy.sellMultiplier}!`;
+                        success = true;
+                    }
+                    else {
+                        result = `${cardName} está siendo subastada`;
+                    }
                 }
                 else {
                     result = `${cardName} no te pertenece`;
