@@ -415,6 +415,9 @@ function CommandHandler(msg, client) {
                     resp.embed = data_1.default.cards[args[2]][Number(args[3]) - 1].getEmbed();
                 }
                 break;
+            case "link":
+                resp.text = [" - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
+                break;
             case "col":
             case "collection":
                 let callback;
@@ -500,6 +503,7 @@ function CommandHandler(msg, client) {
                         resp.text.push(`${util_1.default.title("Totales:")} ${gifs} gifs y ${imgs} imgs - Total: $${totalValue} - Promedio: $${Math.round(totalValue / tot)} - ${ownedCards}/${tot} (${Math.round(ownedCards / tot * 100)}%) con dueño`);
                     }
                     else if (args[1] in data_1.default.cards) {
+                        data_1.default.cache.packInWebsite = args[1];
                         resp.text = data_1.default.cards[args[1]].filter(c => c.isCard).map(c => util_1.default.bold(c.getLong() + ":") + ` ${c.type} - Valor: $${c.value} - Multiplicador: x${c.multiplier}`
                             + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + data_1.default.users[c.owner].defaultName));
                         resp.text.unshift("");
@@ -840,6 +844,7 @@ function customCommand(main, act, args, normalArgs, ogId) {
                         if (c.owner === ogId) {
                             tans = ["Fuiste compensado $" + c.value];
                             data_1.default.users[ogId].modifyData("bal", c.value);
+                            data_1.default.users[ogId].removeCard(c);
                         }
                         else if (c.owner !== "") {
                             tans = ["Esta carta le pertenece a " + data_1.default.users[c.owner].defaultName + ", escribí" + util_1.default.code("confirm") + " y se le compensará su valor"];

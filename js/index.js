@@ -36,7 +36,7 @@ client.on("ready", () => {
     client.user.setPresence({
         status: "online",
         activity: {
-            name: "el ☭ Manifiesto Comunista ☭",
+            name: "new",
             type: "LISTENING"
         }
     });

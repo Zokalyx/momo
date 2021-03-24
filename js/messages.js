@@ -41,9 +41,11 @@ module.exports = {
         " - Podés renombrar tus cartas con `rename` y ponerles una descripción con `lore`",
         "",
         "__Otros:__",
+        " - Ahora hay límite de tiempo para poder comprar o reaccionar a cartas",
         " - `config` ahora contiene muchas más variables que pueden ser modificadas",
         " - Ahora existe `top pack`",
-        " - Se van a implementar juegos y apuestas, entre otras cosas"
+        " - Se van a implementar juegos y apuestas, entre otras cosas",
+        " - Ahora las minúsculas y mayúsculas son totalmente intercambiables"
     ],
     help: {
         user: [

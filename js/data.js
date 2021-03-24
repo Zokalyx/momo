@@ -42,6 +42,7 @@ let Data = {
         auctionsLog: [],
     },
     cache: {
+        packInWebsite: "zuko",
         waitingForConfirm: false,
         thereWasChange: false,
         rollCache: [],

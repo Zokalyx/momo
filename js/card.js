@@ -60,10 +60,10 @@ class Card {
             .setDescription(this.description)
             .setImage(this.content)
             .setColor(util_1.default.valueToRgb(this.value * this.multiplier / data_1.default.storage.topCardValue))
-            .setFooter(`${this.cardIndex + 1}/${Card.cardsIn(this.pack)} - id: ${this.pack} ${this.id}`)
+            .setFooter(`${this.cardIndex + 1}/${Card.cardsIn(this.pack)} - id: ${this.pack} ${this.id + 1}`)
             .addFields({ name: "Dueño", value: nickname, inline: true }, { name: "Valor", value: "$" + this.value, inline: true }, { name: "Multiplicador", value: "x" + this.multiplier, inline: true });
         if (this.inAuction) {
-            ans.addFields({ name: "En subasta!", value: "Revisá auctions", inline: false });
+            ans.addFields({ name: "En subasta!", value: "Revisá auc list", inline: false });
         }
         return ans;
     }

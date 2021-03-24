@@ -6,6 +6,7 @@ class Util {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
     static valueToRgb(value) {
+        console.log(value);
         let hue = 360 * value - 50;
         hue < 0 ? hue += 360 : {};
         let saturation = hue * 120;

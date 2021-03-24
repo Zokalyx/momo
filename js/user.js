@@ -75,7 +75,7 @@ class User {
             .setDescription(this.description)
             .setColor(this.color)
             .setThumbnail(this.avatarURL)
-            .addFields({ name: "Cartas   ", value: cardsOwned + "/" + card_1.default.totalAmount() + ` - ${Math.round(100 * cardsOwned / card_1.default.totalAmount())}%`, inline: true }, { name: "Total    ", value: "$" + totalValue, inline: true }, { name: "Promedio  ", value: "$" + Math.round(averageValue), inline: true }, { name: "Balance", value: "$" + Math.floor(bal), inline: true }, { name: "Ingresos", value: `$ ${Math.floor(realPassive)}/día`, inline: true }, { name: "Inversiones", value: Math.round(invs) + max.invs, inline: true }, { name: "Rolls", value: Math.round(rolls) + max.rolls, inline: true }, { name: "Reacciones", value: Math.round(reacts) + max.reacts, inline: true }, { name: "Compras", value: Math.round(buys) + max.buys, inline: true })
+            .addFields({ name: "Cartas   ", value: cardsOwned + "/" + card_1.default.totalAmount() + ` - ${Math.round(100 * cardsOwned / card_1.default.totalAmount())}%`, inline: true }, { name: "Total    ", value: "$" + totalValue, inline: true }, { name: "Promedio  ", value: "$" + Math.round(averageValue), inline: true }, { name: "Balance", value: "$" + Math.floor(bal), inline: true }, { name: "Ingresos", value: `$ ${Math.floor(realPassive)}/día`, inline: true }, { name: "Inversiones", value: Math.floor(invs) + max.invs, inline: true }, { name: "Rolls", value: Math.floor(rolls) + max.rolls, inline: true }, { name: "Reacciones", value: Math.floor(reacts) + max.reacts, inline: true }, { name: "Compras", value: Math.floor(buys) + max.buys, inline: true })
             .setFooter(`nombres: ${this.nicks.join(", ")}  -  id: ${this.id}`);
     }
     updateGuildInfo(guild) {
@@ -212,7 +212,7 @@ class User {
     addCard(card) {
         let packCol = this.collection[card.pack];
         packCol.push(card.id);
-        packCol.sort();
+        packCol.sort((a, b) => a - b);
     }
     giveMoneyTo(amount, user) {
         if (this.updateEconomy().bal >= amount) {
@@ -251,14 +251,19 @@ class User {
         switch (action) {
             case "give":
                 if (isOwner) {
-                    if (other) {
-                        card.owner = other.id;
-                        this.removeCard(card);
-                        other.addCard(card);
-                        this.updateEconomy();
-                        other.updateEconomy();
-                        result = `${userName} le dio ${cardName} a ${other.defaultName}!`;
-                        success = true;
+                    if (!card.inAuction) {
+                        if (other) {
+                            card.owner = other.id;
+                            this.removeCard(card);
+                            other.addCard(card);
+                            this.updateEconomy();
+                            other.updateEconomy();
+                            result = `${userName} le dio ${cardName} a ${other.defaultName}!`;
+                            success = true;
+                        }
+                    }
+                    else {
+                        result = `${cardName} está siendo subastada`;
                     }
                 }
                 else {
@@ -401,7 +406,7 @@ class User {
                         if (cardObj.msg !== undefined) {
                             if (!cardObj.msg.reactedBy.includes(this.id)) {
                                 let reactorReward;
-                                let baseReward = Math.round(card.value * data_1.default.config.economy.reactorBaseRewardMultiplier);
+                                let baseReward = Math.round(card.value * card.multiplier * data_1.default.config.economy.reactorBaseRewardMultiplier);
                                 if (card.owner === "") {
                                     reactorReward = baseReward;
                                     result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`;
@@ -422,7 +427,7 @@ class User {
                         }
                     }
                     else {
-                        result = `No te quedan reacciones disponibles - Siguiente en ${wait.reacts} minutos`;
+                        result = `No te quedan reacciones disponibles - Siguiente en ${Math.round(wait.reacts)} minutos`;
                     }
                 }
                 else {
