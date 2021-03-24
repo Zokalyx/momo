@@ -247,7 +247,7 @@ function CommandHandler(msg, client) {
                             let c = data_1.default.cards[v.card.pack][v.card.id];
                             let timeDiff = (Date.now() - v.offeredAt) / 1000 / 60 / 60;
                             return (`${util_1.default.bold(c.getLong())} de ${data_1.default.users[c.owner].defaultName}: `
-                                + (c.owner === v.offeredBy ? `Sin ofertas (valor inicial: $${v.offerValue})` : `${data_1.default.users[v.offeredBy]} ofertó $${v.offerValue}`)
+                                + (c.owner === v.offeredBy ? `Sin ofertas (valor inicial: $${v.offerValue})` : `${data_1.default.users[v.offeredBy].defaultName} ofertó $${v.offerValue}`)
                                 + " - Se puede reclamar" + (timeDiff >= data_1.default.config.economy.hoursToClaim ? "!" : ` en ${Math.round(data_1.default.config.economy.hoursToClaim - timeDiff)} horas`));
                         });
                         resp.text.unshift("");

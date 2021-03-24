@@ -391,12 +391,14 @@ export default class User {
                         if (cardObj.newOffer) {
                             if (bal >= cardObj.newOffer) {
                                 if (cardObj.newOffer >= Data.config.economy.minimumOfferIncrease) {
-
-                                    auctionObject = {card: {pack: card.pack, id: card.id}, offerValue: cardObj.newOffer, offeredBy: this.id, offeredAt: Date.now()}
-
-                                    result = `${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`
-                                    success = true
-
+                                    if (auctionObject) {
+                                        auctionObject.offerValue = cardObj.newOffer
+                                        auctionObject.offeredBy = this.id
+                                        auctionObject.offeredAt = Date.now()
+                                        
+                                        result = `${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`
+                                        success = true
+                                        }
                                 } else { result = `Tenés que aumentar la oferta por lo menos $${Data.config.economy.minimumOfferIncrease}`}
                             } else { result = `No podés ofertar más plata de la que tenés`}
                         }

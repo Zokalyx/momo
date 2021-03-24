@@ -221,7 +221,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         let c = Data.cards[v.card.pack][v.card.id]
                         let timeDiff = (Date.now() - v.offeredAt)/1000/60/60
                         return (`${Util.bold(c.getLong())} de ${Data.users[c.owner].defaultName}: `
-                        + (c.owner === v.offeredBy ? `Sin ofertas (valor inicial: $${v.offerValue})` : `${Data.users[v.offeredBy]} ofertó $${v.offerValue}`)
+                        + (c.owner === v.offeredBy ? `Sin ofertas (valor inicial: $${v.offerValue})` : `${Data.users[v.offeredBy].defaultName} ofertó $${v.offerValue}`)
                         + " - Se puede reclamar" + (timeDiff >= Data.config.economy.hoursToClaim ? "!" : ` en ${Math.round(Data.config.economy.hoursToClaim - timeDiff)} horas`))
                     })
                     resp.text.unshift("")

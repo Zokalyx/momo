@@ -294,9 +294,13 @@ class User {
                         if (cardObj.newOffer) {
                             if (bal >= cardObj.newOffer) {
                                 if (cardObj.newOffer >= data_1.default.config.economy.minimumOfferIncrease) {
-                                    auctionObject = { card: { pack: card.pack, id: card.id }, offerValue: cardObj.newOffer, offeredBy: this.id, offeredAt: Date.now() };
-                                    result = `${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`;
-                                    success = true;
+                                    if (auctionObject) {
+                                        auctionObject.offerValue = cardObj.newOffer;
+                                        auctionObject.offeredBy = this.id;
+                                        auctionObject.offeredAt = Date.now();
+                                        result = `${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`;
+                                        success = true;
+                                    }
                                 }
                                 else {
                                     result = `Tenés que aumentar la oferta por lo menos $${data_1.default.config.economy.minimumOfferIncrease}`;
