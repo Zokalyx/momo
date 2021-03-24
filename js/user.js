@@ -367,7 +367,7 @@ class User {
                         }
                     }
                     else {
-                        result = `No te quedan compras disponibles - Siguiente en ${wait.buys} minutos`;
+                        result = `No te quedan compras disponibles - Siguiente en ${Math.round(wait.buys)} minutos`;
                     }
                 }
                 else {
@@ -393,7 +393,7 @@ class User {
                         }
                     }
                     else {
-                        result = `No te quedan inversiones disponibles - Siguiente en ${wait.invs} minutos`;
+                        result = `No te quedan inversiones disponibles - Siguiente en ${Math.round(wait.invs)} minutos`;
                     }
                 }
                 else {

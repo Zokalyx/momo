@@ -450,7 +450,7 @@ export default class User {
                             
 
                         } else { result = `Te faltan $${card.value - bal} para poder comprar ${cardName}` }
-                    } else { result = `No te quedan compras disponibles - Siguiente en ${wait.buys} minutos` }
+                    } else { result = `No te quedan compras disponibles - Siguiente en ${Math.round(wait.buys)} minutos` }
                 } else { result = `${cardName} le pertenece a ${Data.users[card.owner].defaultName}` }
                 break
 
@@ -473,7 +473,7 @@ export default class User {
                             }
                             
                         } else { result = `Te faltan $${card.value - bal} para poder invertir en ${cardName}` }
-                    } else { result = `No te quedan inversiones disponibles - Siguiente en ${wait.invs} minutos` }
+                    } else { result = `No te quedan inversiones disponibles - Siguiente en ${Math.round(wait.invs)} minutos` }
                 } else { result = `${cardName} no te pertenece` }
                 break
 
