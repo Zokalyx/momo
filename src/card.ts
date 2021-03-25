@@ -48,9 +48,11 @@ export default class Card { /* Command option */
     type: string
     isCard: boolean
     inAuction: boolean
+    inArk: boolean
 
     constructor( {pack, content, rarity = 0, owner = "", value = 0, multiplier = 1, name = "", description = ""}: cardInput ) {
     
+        this.inArk = false
         this.pack = pack
         this.content = content
         this.rarity = rarity

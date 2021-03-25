@@ -180,6 +180,18 @@ export default class User {
         }
     }
 
+    getArk() {
+        let ans = []
+        for (const pack in this.collection) {
+            for (const id of this.collection[pack]) {
+                if (Data.cards[pack][id].inArk) {
+                    ans.push(Data.cards[pack][id])
+                }
+            }
+        }
+        return ans
+    }
+
     updateEconomy(): initials {
         const now = Date.now()
         let eco = this.economy

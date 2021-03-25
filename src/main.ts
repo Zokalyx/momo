@@ -63,6 +63,37 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     let askedForConfirm = false
     switch(main) {
 
+
+        case "ark":
+            if (act > 1) {
+                if (args[1] === "+") {
+                    if (act > 3) {
+                        let response = Card.validate(args[2], args[3])
+                        if (response.success) {
+                            resp.text = ["Se añadio " + response.card?.getLong() + " a tu arca de cartas"]
+                            response.card!.inArk = true
+                        } else {
+                            resp.text = [response.message!]
+                        }
+                    } else { resp.text = ["Añadi cartas con ark + y remove con ark -"] }
+                } else if (args[1] === "-") {
+                    if (act > 3) {
+                        let response = Card.validate(args[2], args[3])
+                        if (response.success) {
+                            response.card!.inArk = false
+                            resp.text = ["Se removio " + response.card?.getLong() + " de tu arca de cartas"]
+                        } else {
+                            resp.text = [response.message!]
+                        }
+                    } else { resp.text = ["Añadi cartas con ark + y remove con ark -"] }
+                }
+            }
+                resp.text = ogUser.getArk().map( c => `${c.getLong()} - $${c.value} - ${c.multiplier}`)
+                resp.text.unshift("Tu arca de cartas")
+                resp.text.push(String(ogUser.getArk().length) + " cartas")
+                resp.text.push("Añadi cartas con ark + y remove con ark -")
+            break
+
         case "backup":
             Database.createBackup()
             break
