@@ -232,7 +232,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     resp.text = Data.storage.auctionsLog.map( v => {
                         let c = Data.cards[v.card.pack][v.card.id]
                         let timeDiff = (Date.now() - v.offeredAt)/1000/60/60
-                        return `${Util.bold(c.getLong())} de ${Data.users[v.exOwner].defaultName}: ${Data.users[v.offeredBy]} la compró por $${v.offerValue}`
+                        return `${Util.bold(c.getLong())} de ${Data.users[v.exOwner].defaultName}: ${Data.users[v.offeredBy].defaultName} la compró por $${v.offerValue}`
                     })
                     resp.text.unshift("")
                     resp.text.unshift(Util.title("Subastas terminadas:"))
