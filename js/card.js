@@ -8,6 +8,7 @@ const data_1 = __importDefault(require("./data"));
 const util_1 = __importDefault(require("./util"));
 class Card {
     constructor({ pack, content, rarity = 0, owner = "", value = 0, multiplier = 1, name = "", description = "" }) {
+        this.inArk = false;
         this.pack = pack;
         this.content = content;
         this.rarity = rarity;

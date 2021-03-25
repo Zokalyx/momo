@@ -26,7 +26,7 @@ exports.default = Main;
 Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
 function CommandHandler(msg, client) {
-    var _a;
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         if (!msg.content.startsWith(data_1.default.config.prefix)) {
             return;
@@ -77,6 +77,44 @@ function CommandHandler(msg, client) {
         let response; // Auxiliary
         let askedForConfirm = false;
         switch (main) {
+            case "ark":
+                if (act > 1) {
+                    if (args[1] === "+") {
+                        if (act > 3) {
+                            let response = card_1.default.validate(args[2], args[3]);
+                            if (response.success) {
+                                resp.text = ["Se añadio " + ((_a = response.card) === null || _a === void 0 ? void 0 : _a.getLong()) + " a tu arca de cartas"];
+                                response.card.inArk = true;
+                            }
+                            else {
+                                resp.text = [response.message];
+                            }
+                        }
+                        else {
+                            resp.text = ["Añadi cartas con ark + y remove con ark -"];
+                        }
+                    }
+                    else if (args[1] === "-") {
+                        if (act > 3) {
+                            let response = card_1.default.validate(args[2], args[3]);
+                            if (response.success) {
+                                response.card.inArk = false;
+                                resp.text = ["Se removio " + ((_b = response.card) === null || _b === void 0 ? void 0 : _b.getLong()) + " de tu arca de cartas"];
+                            }
+                            else {
+                                resp.text = [response.message];
+                            }
+                        }
+                        else {
+                            resp.text = ["Añadi cartas con ark + y remove con ark -"];
+                        }
+                    }
+                }
+                resp.text = ogUser.getArk().map(c => `${c.getLong()} - $${c.value} - ${c.multiplier}`);
+                resp.text.unshift("Tu arca de cartas");
+                resp.text.push(String(ogUser.getArk().length) + " cartas");
+                resp.text.push("Añadi cartas con ark + y remove con ark -");
+                break;
             case "backup":
                 database_1.default.createBackup();
                 break;
@@ -131,7 +169,7 @@ function CommandHandler(msg, client) {
                     if (act > 2) {
                         let response = card_1.default.validate(args[1], args[2]);
                         if (response.success) {
-                            resp.embed = (_a = response.card) === null || _a === void 0 ? void 0 : _a.getEmbed();
+                            resp.embed = (_c = response.card) === null || _c === void 0 ? void 0 : _c.getEmbed();
                         }
                         else {
                             resp.text = [response.message];

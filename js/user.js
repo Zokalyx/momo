@@ -99,6 +99,17 @@ class User {
             }
         });
     }
+    getArk() {
+        let ans = [];
+        for (const pack in this.collection) {
+            for (const id of this.collection[pack]) {
+                if (data_1.default.cards[pack][id].inArk) {
+                    ans.push(data_1.default.cards[pack][id]);
+                }
+            }
+        }
+        return ans;
+    }
     updateEconomy() {
         const now = Date.now();
         let eco = this.economy;
