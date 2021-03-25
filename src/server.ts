@@ -20,7 +20,7 @@ function displayPackInfo() {
         let cont = c.content
         delete c.content
         delete c.isCard
-        delete c.cardIndex
+        delete c.id
         delete c.type
         ans += `<strong>${c.getName()}</strong> ${JSON.stringify(c)} <br> <img height=300 src="${cont}"> <br> <br>`
     }
