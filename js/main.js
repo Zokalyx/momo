@@ -570,7 +570,7 @@ function CommandHandler(msg, client) {
                         case "c":
                         case "card":
                         case "cards":
-                            resp.text = card_1.default.getTop().slice(0, 20).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
+                            resp.text = card_1.default.getTop().slice(0, 15).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
                                 + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + data_1.default.users[c.owner].defaultName)
                                 + (c.inAuction ? " - En subasta" : ""));
                             resp.text.unshift(util_1.default.title("Top cartas:"));
@@ -586,7 +586,7 @@ function CommandHandler(msg, client) {
                             resp.text.unshift(util_1.default.title("Top packs:"));
                             break;
                         case "col":
-                            resp.text = card_1.default.getTop().filter(c => c.owner === ogId).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
+                            resp.text = card_1.default.getTop().filter(c => c.owner === ogId).slice(0, 15).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
                                 + (c.inAuction ? " - En subasta" : ""));
                             resp.text.unshift(util_1.default.title("Top cartas tuyas:"));
                             break;

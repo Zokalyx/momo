@@ -522,7 +522,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     case "c":
                     case "card":
                     case "cards":
-                        resp.text = Card.getTop().slice(0, 20).map((c, i) =>
+                        resp.text = Card.getTop().slice(0, 15).map((c, i) =>
                             `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
                             + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + Data.users[c.owner].defaultName) 
                             + (c.inAuction ? " - En subasta" : ""))
@@ -541,7 +541,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         break
 
                     case "col":
-                        resp.text = Card.getTop().filter( c => c.owner === ogId ).map((c, i) =>
+                        resp.text = Card.getTop().filter( c => c.owner === ogId ).slice(0, 15).map((c, i) =>
                         `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
                         + (c.inAuction ? " - En subasta" : ""))
                         resp.text.unshift(Util.title("Top cartas tuyas:"))
