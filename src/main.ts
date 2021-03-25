@@ -544,8 +544,8 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         resp.text = Card.getTop().filter( c => c.owner === ogId ).map((c, i) =>
                         `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
                         + (c.inAuction ? " - En subasta" : ""))
-                    resp.text.unshift(Util.title("Top cartas tuyas:"))
-
+                        resp.text.unshift(Util.title("Top cartas tuyas:"))
+                        break
 
                     default:
                         resp.text = [`Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")} o ${Util.code("packs")})`]
