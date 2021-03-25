@@ -88,7 +88,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     } else { resp.text = ["Añadi cartas con ark + y remove con ark -"] }
                 }
             }
-                resp.text = ogUser.getArk().map( c => `${c.getLong()} - $${c.value} - ${c.multiplier}`)
+                resp.text = ogUser.getArk().map( c => `${c.getLong()} - $${c.value} - x${c.multiplier}`)
                 resp.text.unshift("Tu arca de cartas, van a seguir siendo tuyas despues del reset")
                 resp.text.push(String(ogUser.getArk().length) + " cartas")
                 resp.text.push("Añadi cartas con ark + y remove con ark -")
