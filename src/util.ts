@@ -9,7 +9,7 @@ export default class Util {
     }
 
     static valueToRgb(value: number): RGB { /* Value must be in the range [0, 1] */
-        value = Math.sqrt(value)
+        value = Math.pow(value, 0.3)
         return hsv.rgb([value*360, value*100, value*100])
     }
 

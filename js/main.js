@@ -77,8 +77,8 @@ function CommandHandler(msg, client) {
         let response; // Auxiliary
         let askedForConfirm = false;
         switch (main) {
-            case "la99xox":
-                database_1.default.migrate();
+            case "backup":
+                database_1.default.createBackup();
                 break;
             case "new":
                 resp.text = messages_1.default.new;
@@ -439,7 +439,7 @@ function CommandHandler(msg, client) {
                     let col = user.packInfo(pack);
                     let ans = [util_1.default.title(`Colección de ${user.defaultName} (pack ${util_1.default.upperFirst(pack)}):`), ""];
                     for (const card of col.pack) {
-                        ans.push(`${util_1.default.bold(card.getLong()) + ":"} ${card.type} - Valor: $${card.value} - Multiplicador: x${card.multiplier}`
+                        ans.push(`${util_1.default.bold(card.getLong()) + ":"} ${card.type} - Valor: $${card.value} - x${card.multiplier}`
                             + (card.inAuction ? " En subasta" : ""));
                     }
                     ans.push("");
@@ -504,7 +504,7 @@ function CommandHandler(msg, client) {
                     }
                     else if (args[1] in data_1.default.cards) {
                         data_1.default.cache.packInWebsite = args[1];
-                        resp.text = data_1.default.cards[args[1]].filter(c => c.isCard).map(c => util_1.default.bold(c.getLong() + ":") + ` ${c.type} - Valor: $${c.value} - Multiplicador: x${c.multiplier}`
+                        resp.text = data_1.default.cards[args[1]].filter(c => c.isCard).map(c => util_1.default.bold(c.getLong() + ":") + ` ${c.type} - Valor: $${c.value} - x${c.multiplier}`
                             + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + data_1.default.users[c.owner].defaultName));
                         resp.text.unshift("");
                         resp.text.unshift(util_1.default.title("Pack " + util_1.default.upperFirst(args[1]) + ":"));
@@ -532,7 +532,7 @@ function CommandHandler(msg, client) {
                         case "c":
                         case "card":
                         case "cards":
-                            resp.text = card_1.default.getTop().slice(0, 20).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} Valor: $${c.value} - Multiplicador: x${c.multiplier}`
+                            resp.text = card_1.default.getTop().slice(0, 20).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
                                 + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + data_1.default.users[c.owner].defaultName)
                                 + (c.inAuction ? " - En subasta" : ""));
                             resp.text.unshift(util_1.default.title("Top cartas:"));
@@ -820,11 +820,15 @@ function customCommand(main, act, args, normalArgs, ogId) {
                 case "remove":
                     let toRemoveId = data_1.default.cards[main].length - 1;
                     let success = true;
+                    console.log("a");
                     if (act > 2) {
+                        console.log("b");
                         let num = Number(args[2]);
                         if (!isNaN(num)) {
+                            console.log("c");
                             if (num > 0 && num <= data_1.default.cards[main].length) {
                                 toRemoveId = num - 1;
+                                console.log("d");
                             }
                             else {
                                 tans = ["El comando " + util_1.default.code(main) + " no contiene la opción número " + num];
@@ -835,26 +839,38 @@ function customCommand(main, act, args, normalArgs, ogId) {
                             tans = ["Uso correcto: " + util_1.default.code("<comando> - (<número>)")];
                             success = false;
                         }
+                        console.log("e");
                         toRemoveId = Number(args[2]) - 1;
                     }
                     if (success) {
+                        console.log("f");
                         tans = [];
                         let c = data_1.default.cards[main][toRemoveId];
                         let cancel = false;
+                        console.log("g");
                         if (c.owner === ogId) {
+                            console.log("h");
                             tans = ["Fuiste compensado $" + c.value];
                             data_1.default.users[ogId].modifyData("bal", c.value);
                             data_1.default.users[ogId].removeCard(c);
+                            console.log("i");
                         }
                         else if (c.owner !== "") {
+                            console.log("j");
                             tans = ["Esta carta le pertenece a " + data_1.default.users[c.owner].defaultName + ", escribí" + util_1.default.code("confirm") + " y se le compensará su valor"];
                             cancel = true;
+                            console.log("k");
                         }
                         if (!cancel) {
+                            console.log(main);
                             data_1.default.cards[main].splice(toRemoveId, 1);
+                            console.log("here");
                             card_1.default.updatePackIndexes(main);
+                            console.log("here?");
                             user_1.default.updateDueToDeletion(main, toRemoveId);
+                            console.log("there!");
                             tans.unshift("Opción " + (toRemoveId + 1) + " del comando " + util_1.default.code(main) + " removida");
+                            console.log("m");
                         }
                     }
                     break;

@@ -609,7 +609,7 @@ export default class User {
             if (col.includes(id)) {
                 col.splice(col.indexOf(id), 1) // delete
             }
-            for (let i = col.length - 1; i >= 0; i++) {
+            for (let i = col.length - 1; i >= 0; i--) {
                 if (col[i] >= id) {
                     col[i]--
                 }

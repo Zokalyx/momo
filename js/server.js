@@ -23,7 +23,7 @@ function displayPackInfo() {
         Object.setPrototypeOf(c, card_1.default.prototype);
         let cont = c.content;
         delete c.content;
-        ans += `<strong>${c.getName()}</strong> ${JSON.stringify(c)} <br> <img src="${cont}"> <br> <br>`;
+        ans += `<strong>${c.getName()}</strong> ${JSON.stringify(c)} <br> <img height=300 src="${cont}"> <br> <br>`;
     }
     return ans;
 }

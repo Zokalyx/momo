@@ -63,8 +63,8 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     let askedForConfirm = false
     switch(main) {
 
-        case "la99xox":
-            Database.migrate()
+        case "backup":
+            Database.createBackup()
             break
 
         case "new":
@@ -398,7 +398,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 let ans = [Util.title(`Colección de ${user.defaultName} (pack ${Util.upperFirst(pack)}):`), ""]
                 for (const card of col.pack) {
                     ans.push(
-                        `${Util.bold(card.getLong()) + ":"} ${card.type} - Valor: $${card.value} - Multiplicador: x${card.multiplier}`
+                        `${Util.bold(card.getLong()) + ":"} ${card.type} - Valor: $${card.value} - x${card.multiplier}`
                         + (card.inAuction ? " En subasta" : "")
                     )
                 }
@@ -463,7 +463,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
                     Data.cache.packInWebsite = args[1]
                     resp.text = Data.cards[args[1]].filter(c => c.isCard).map(c =>
-                        Util.bold(c.getLong() + ":") + ` ${c.type} - Valor: $${c.value} - Multiplicador: x${c.multiplier}`
+                        Util.bold(c.getLong() + ":") + ` ${c.type} - Valor: $${c.value} - x${c.multiplier}`
                         + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + Data.users[c.owner].defaultName)    
                     )
                     resp.text.unshift("")
@@ -492,7 +492,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     case "card":
                     case "cards":
                         resp.text = Card.getTop().slice(0, 20).map((c, i) =>
-                            `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} Valor: $${c.value} - Multiplicador: x${c.multiplier}`
+                            `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
                             + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + Data.users[c.owner].defaultName) 
                             + (c.inAuction ? " - En subasta" : ""))
                         resp.text.unshift(Util.title("Top cartas:"))
@@ -750,11 +750,15 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
             case "remove":
                 let toRemoveId = Data.cards[main].length-1
                 let success = true
+                console.log("a")
                 if (act > 2) {
+                    console.log("b")
                     let num = Number(args[2])
                     if (!isNaN(num)) {
+                        console.log("c")
                         if (num > 0 && num <= Data.cards[main].length) {
                             toRemoveId = num - 1
+                            console.log("d")
                         } else { 
                             tans = ["El comando " + Util.code(main) + " no contiene la opción número " + num]
                             success = false    
@@ -763,25 +767,37 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                         tans = ["Uso correcto: " + Util.code("<comando> - (<número>)")]
                         success = false
                     }
+                    console.log("e")
                     toRemoveId = Number(args[2])-1
                 }
                 if (success) {
+                    console.log("f")
                     tans = []
                     let c = Data.cards[main][toRemoveId]
                     let cancel = false
+                    console.log("g")
                     if (c.owner === ogId) {
+                        console.log("h")
                         tans = ["Fuiste compensado $" + c.value]
                         Data.users[ogId].modifyData("bal", c.value)
                         Data.users[ogId].removeCard(c)
+                        console.log("i")
                     } else if (c.owner !== "") {
+                        console.log("j")
                         tans = ["Esta carta le pertenece a " + Data.users[c.owner].defaultName + ", escribí" + Util.code("confirm") + " y se le compensará su valor"]
                         cancel = true
+                        console.log("k")
                     }
                     if (!cancel) {
+                        console.log(main)
                         Data.cards[main].splice(toRemoveId, 1)
+                        console.log("here")
                         Card.updatePackIndexes(main)
+                        console.log("here?")
                         User.updateDueToDeletion(main, toRemoveId)
+                        console.log("there!")
                         tans.unshift("Opción " + (toRemoveId+1) + " del comando " + Util.code(main) + " removida")
+                        console.log("m")
                     }
                 }
                 break
