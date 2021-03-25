@@ -259,7 +259,7 @@ function CommandHandler(msg, client) {
                         resp.text = data_1.default.storage.auctionsLog.map(v => {
                             let c = data_1.default.cards[v.card.pack][v.card.id];
                             let timeDiff = (Date.now() - v.offeredAt) / 1000 / 60 / 60;
-                            return `${util_1.default.bold(c.getLong())} de ${data_1.default.users[v.exOwner].defaultName}: ${data_1.default.users[v.offeredBy]} la compró por $${v.offerValue}`;
+                            return `${util_1.default.bold(c.getLong())} de ${data_1.default.users[v.exOwner].defaultName}: ${data_1.default.users[v.offeredBy].defaultName} la compró por $${v.offerValue}`;
                         });
                         resp.text.unshift("");
                         resp.text.unshift(util_1.default.title("Subastas terminadas:"));
