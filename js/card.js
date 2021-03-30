@@ -183,15 +183,15 @@ class Card {
                     }
                 }
                 else {
-                    message = "El pack " + util_1.default.upperFirst(pack) + " no contiene la carta #" + number;
+                    message = "❌ El pack " + util_1.default.upperFirst(pack) + " no contiene la carta #" + number;
                 }
             }
             else {
-                message = "Escribí un número para especificar una carta";
+                message = "❌ Escribí un número para especificar una carta";
             }
         }
         else {
-            message = "No existe el pack " + util_1.default.code(pack);
+            message = "❌ No existe el pack " + util_1.default.code(pack);
         }
         return { success: success, message: message, card: selectedCard };
     }

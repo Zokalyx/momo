@@ -122,10 +122,10 @@ function CommandHandler(msg, client) {
                                 data_1.default.users[u].fixPack(args[1]);
                                 data_1.default.users[u].fixPack(args[3]);
                             }
-                            resp.text = ["Se movió " + oldName + " al pack " + util_1.default.upperFirst(args[3])];
+                            resp.text = ["✅ Se movió " + oldName + " al pack " + util_1.default.upperFirst(args[3])];
                         }
                         else {
-                            resp.text = ["No existe el pack " + util_1.default.upperFirst(args[3])];
+                            resp.text = ["❌ No existe el pack " + util_1.default.upperFirst(args[3])];
                         }
                     }
                     else {
@@ -133,7 +133,7 @@ function CommandHandler(msg, client) {
                     }
                 }
                 else {
-                    resp.text = ["Uso correcto: " + util_1.default.code("move <pack> <número> <pack>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("move <pack> <número> <pack>")];
                 }
                 break;
             /*case "load":
@@ -171,10 +171,10 @@ function CommandHandler(msg, client) {
             case "backup":
                 if (process.env.ON_LOCAL === "true") {
                     database_1.default.createBackup();
-                    resp.text = ["Backup creado"];
+                    resp.text = ["✅ Backup creado"];
                 }
                 else {
-                    resp.text = ["Comando no disponible"];
+                    resp.text = ["❌ Comando no disponible"];
                 }
                 break;
             case "new":
@@ -202,7 +202,7 @@ function CommandHandler(msg, client) {
                             t = m.cmd;
                             break;
                         default:
-                            t = ["Uso correcto: leer `help`"];
+                            t = ["❌ Uso correcto: leer `help`"];
                     }
                 }
                 else {
@@ -214,14 +214,14 @@ function CommandHandler(msg, client) {
             case "next":
             case "p":
             case "prev":
-                resp.text = ["Comando actualmente no disponible"];
+                resp.text = ["❌ Comando actualmente no disponible"];
                 break;
             case "fix":
                 for (const pack in data_1.default.cards) {
                     card_1.default.updatePackIndexes(pack);
                 }
                 user_1.default.fixAllCol();
-                resp.text = ["Se arreglaron packs y collecciones"];
+                resp.text = ["✅ Se arreglaron packs y collecciones"];
                 break;
             case "income":
             case "inc":
@@ -243,19 +243,19 @@ function CommandHandler(msg, client) {
                         }
                     }
                     else {
-                        resp.text = ["Uso correcto: " + util_1.default.code("card <pack> <número>")];
+                        resp.text = ["❌ Uso correcto: " + util_1.default.code("card <pack> <número>")];
                     }
                 }
                 else {
-                    resp.text = ["Uso correcto: " + util_1.default.code("card <pack> <número>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("card <pack> <número>")];
                 }
                 break;
             case "confirm":
                 if (data_1.default.cache.waitingForConfirm) {
-                    resp.text = ["Funcion todavia no agregada"];
+                    resp.text = ["❌ Función todavía no agregada"];
                 }
                 else {
-                    resp.text = ["Comando no disponible"];
+                    resp.text = ["❌ Comando no disponible"];
                 }
                 break;
             case "rename":
@@ -323,7 +323,7 @@ function CommandHandler(msg, client) {
                         }
                     }
                     else {
-                        resp.text = ["Uso correcto: " + util_1.default.code("offer <pack> <número> <plata>")];
+                        resp.text = ["❌ Uso correcto: " + util_1.default.code("offer <pack> <número> <plata>")];
                     }
                 }
                 else {
@@ -383,7 +383,7 @@ function CommandHandler(msg, client) {
                             }
                         }
                         else {
-                            resp.text = ["Uso correcto: " + util_1.default.code("auc <pack> <número> <plata>")];
+                            resp.text = ["❌ Uso correcto: " + util_1.default.code("auc <pack> <número> <plata>")];
                         }
                     }
                     else {
@@ -395,20 +395,20 @@ function CommandHandler(msg, client) {
             case "description":
                 if (act > 1) {
                     ogUser.description = normalArgs.slice(1).join(" ");
-                    resp.text = ["Tu descripción fue actualizada"];
+                    resp.text = ["✅ Tu descripción fue actualizada"];
                 }
                 else {
-                    resp.text = ["Uso correcto: " + util_1.default.code("desc <descripción>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("desc <descripción>")];
                 }
                 break;
             case "name":
             case "nick":
                 if (act > 1) {
                     ogUser.defaultName = normalArgs.slice(1).join(" ");
-                    resp.text = ["Tu nombre principal fue actualizado"];
+                    resp.text = ["✅ Tu nombre principal fue actualizado"];
                 }
                 else {
-                    resp.text = ["Uso correcto: " + util_1.default.code("name <nombre>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("name <nombre>")];
                 }
                 break;
             case "debug":
@@ -418,7 +418,7 @@ function CommandHandler(msg, client) {
             case "save":
                 let msg = yield ch.send("Guardando datos...");
                 yield database_1.default.file("w");
-                msg.edit("Guardando datos... listo");
+                msg.edit("Guardando datos... ✅");
                 break;
             case "user":
             case "u":
@@ -478,19 +478,19 @@ function CommandHandler(msg, client) {
                                     return [`${ogName} le dio $${money} a ${targetName}!`];
                                 }
                                 else {
-                                    return [`No tenés suficiente plata`];
+                                    return [`❌ No tenés suficiente plata`];
                                 }
                             }
                             else {
-                                return [`Escribí un número positivo`];
+                                return [`❌ Escribí un número positivo`];
                             }
                         }
                         else {
-                            return [`Uso correcto: ${util_1.default.code("pay <usuario> <plata>")}`];
+                            return [`❌ Uso correcto: ${util_1.default.code("pay <usuario> <plata>")}`];
                         }
                     }
                     else {
-                        return [`Uso correcto: ${util_1.default.code("pay <usuario> <plata>")}`];
+                        return [`❌ Uso correcto: ${util_1.default.code("pay <usuario> <plata>")}`];
                     }
                 };
                 resp = user_1.default.doIfTarget(targetUser, targetFound, pay, args[1]);
@@ -510,11 +510,11 @@ function CommandHandler(msg, client) {
                             }
                         }
                         else {
-                            return ["Uso correcto: " + util_1.default.code("<give> <usuario> <pack> <número>")];
+                            return ["❌ Uso correcto: " + util_1.default.code("<give> <usuario> <pack> <número>")];
                         }
                     }
                     else {
-                        return ["Uso correcto: " + util_1.default.code("<give> <usuario> <pack> <número>")];
+                        return ["❌ Uso correcto: " + util_1.default.code("<give> <usuario> <pack> <número>")];
                     }
                 }, args[1]).text;
                 if (showEmbed) {
@@ -522,7 +522,7 @@ function CommandHandler(msg, client) {
                 }
                 break;
             case "link":
-                resp.text = ["NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
+                resp.text = ["❌ NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
                 break;
             case "col":
             case "collection":
@@ -559,7 +559,7 @@ function CommandHandler(msg, client) {
                             return packInfo(targetUser, args[2]);
                         }
                         else {
-                            return [`No existe el pack ${util_1.default.code(args[2])}`];
+                            return [`❌ No existe el pack ${util_1.default.code(args[2])}`];
                         }
                     };
                 }
@@ -619,11 +619,11 @@ function CommandHandler(msg, client) {
                         resp.text.push(`${util_1.default.title("Totales:")} Total: $${pinf.totalValue} - Promedio: $${Math.round(pinf.averageValue)} - ${pinf.cardsOwned}/${card_1.default.cardsIn(args[1])} con dueño`);
                     }
                     else {
-                        resp.text = ["No existe el pack " + util_1.default.code(args[1])];
+                        resp.text = ["❌ No existe el pack " + util_1.default.code(args[1])];
                     }
                 }
                 else {
-                    resp.text = ["Uso correcto: " + util_1.default.code("pack <pack>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("pack <pack>")];
                 }
                 break;
             case "top":
@@ -659,11 +659,11 @@ function CommandHandler(msg, client) {
                             resp.text.unshift(util_1.default.title("Top cartas tuyas:"));
                             break;
                         default:
-                            resp.text = [`Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")} o ${util_1.default.code("packs")})`];
+                            resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")} o ${util_1.default.code("packs")})`];
                     }
                 }
                 else {
-                    resp.text = [`Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")} o ${util_1.default.code("packs")})`];
+                    resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")} o ${util_1.default.code("packs")})`];
                 }
                 break;
             case "exit":
@@ -700,23 +700,23 @@ function CommandHandler(msg, client) {
                             if (act > 2) {
                                 if (ogUser.nicks.includes(args[2])) {
                                     ogUser.nicks.splice(ogUser.nicks.indexOf(args[2]), 1);
-                                    resp.text = ["Nombre " + util_1.default.code(args[2]) + " removido"];
+                                    resp.text = ["✅ Nombre " + util_1.default.code(args[2]) + " removido"];
                                 }
                                 else {
                                     resp.text = [util_1.default.code(args[2]) + " no es un nombre tuyo"];
                                 }
                             }
                             else {
-                                resp.text = ["Uso correcto: " + util_1.default.code("id - <nombre>")];
+                                resp.text = ["❌ Uso correcto: " + util_1.default.code("id - <nombre>")];
                             }
                             break;
                         default:
                             if (!ogUser.nicks.includes(args[1])) {
                                 ogUser.nicks.push(args[1]);
-                                resp.text = ["Nombre " + util_1.default.code(args[1]) + " agregado"];
+                                resp.text = ["✅ Nombre " + util_1.default.code(args[1]) + " agregado"];
                             }
                             else {
-                                resp.text = ["El nombre " + util_1.default.code(args[1]) + " ya es tuyo"];
+                                resp.text = ["❌ El nombre " + util_1.default.code(args[1]) + " ya es tuyo"];
                             }
                     }
                 }
@@ -736,14 +736,14 @@ function CommandHandler(msg, client) {
                         for (const u in data_1.default.users) {
                             delete data_1.default.users[u].collection[args[1]];
                         }
-                        resp.text = [`Comando ${util_1.default.code(args[1])} removido`];
+                        resp.text = [`✅ Comando ${util_1.default.code(args[1])} removido`];
                     }
                     else {
-                        resp.text = ["No existe el comando " + util_1.default.code(args[1])];
+                        resp.text = ["❌ No existe el comando " + util_1.default.code(args[1])];
                     }
                 }
                 else {
-                    resp.text = ["Uso correcto: " + util_1.default.code("- <comando>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("- <comando>")];
                 }
                 break;
             case "+":
@@ -754,14 +754,14 @@ function CommandHandler(msg, client) {
                         for (const u in data_1.default.users) {
                             data_1.default.users[u].collection[args[1]] = [];
                         }
-                        resp.text = [`Comando ${util_1.default.code(args[1])} agregado`];
+                        resp.text = [`✅ Comando ${util_1.default.code(args[1])} agregado`];
                     }
                     else {
-                        resp.text = ["Ya existe el comando " + util_1.default.code(args[1])];
+                        resp.text = ["❌ Ya existe el comando " + util_1.default.code(args[1])];
                     }
                 }
                 else {
-                    resp.text = ["Uso correcto: " + util_1.default.code("+ <comando>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("+ <comando>")];
                 }
                 break;
             case "roll":
@@ -780,7 +780,7 @@ function CommandHandler(msg, client) {
                 }
                 else {
                     let wait = ogUser.waitingTimes().rolls;
-                    resp.text = ["No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`];
+                    resp.text = ["❌ No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`];
                 }
                 break;
             default:
@@ -793,7 +793,7 @@ function CommandHandler(msg, client) {
                     }
                 }
                 else {
-                    resp.text = [`No existe el comando ${util_1.default.code(main)}`];
+                    resp.text = [`❌ No existe el comando ${util_1.default.code(main)}`];
                 }
         }
         if (resp === null || resp === void 0 ? void 0 : resp.text) {
@@ -869,7 +869,7 @@ function verifyInput(args, act, correctUse, requireExtra = false) {
                         success = true;
                     }
                     else {
-                        tans = ["Uso correcto: " + util_1.default.code(correctUse)];
+                        tans = ["❌ Uso correcto: " + util_1.default.code(correctUse)];
                     }
                 }
             }
@@ -878,11 +878,11 @@ function verifyInput(args, act, correctUse, requireExtra = false) {
             }
         }
         else {
-            tans = ["Uso correcto: " + util_1.default.code(correctUse)];
+            tans = ["❌ Uso correcto: " + util_1.default.code(correctUse)];
         }
     }
     else {
-        tans = ["Uso correcto: " + util_1.default.code(correctUse)];
+        tans = ["❌ Uso correcto: " + util_1.default.code(correctUse)];
     }
     return { tans: tans, success: success, card: card };
 }
@@ -909,7 +909,7 @@ function customCommand(main, act, args, normalArgs, ogId) {
                                 cont = gifRequest.link;
                             }
                             else {
-                                tans = ["Hubo un error"];
+                                tans = ["❌Hubo un error"];
                                 break;
                             }
                         }
@@ -922,7 +922,7 @@ function customCommand(main, act, args, normalArgs, ogId) {
                         else if (nw.type === "img") {
                             niceType = "Imagen";
                         }
-                        tans = [niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + (card_1.default.cardsIn(main) - 1) + ")"];
+                        tans = ["✅" + niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + (card_1.default.cardsIn(main) - 1) + ")"];
                     }
                     else {
                         tans = ["Esperando contenido para el pack " + util_1.default.code(main)];
@@ -941,12 +941,12 @@ function customCommand(main, act, args, normalArgs, ogId) {
                                 toRemoveId = num - 1;
                             }
                             else {
-                                tans = ["El comando " + util_1.default.code(main) + " no contiene la opción número " + num];
+                                tans = ["❌ El comando " + util_1.default.code(main) + " no contiene la opción número " + num];
                                 success = false;
                             }
                         }
                         else {
-                            tans = ["Uso correcto: " + util_1.default.code("<comando> - (<número>)")];
+                            tans = ["❌ Uso correcto: " + util_1.default.code("<comando> - (<número>)")];
                             success = false;
                         }
                         toRemoveId = Number(args[2]) - 1;
@@ -965,7 +965,7 @@ function customCommand(main, act, args, normalArgs, ogId) {
                             cancel = true;
                         }
                         else if (c.inAuction) {
-                            tans = ["Esta carta está en subasta"];
+                            tans = ["❌ Esta carta está en subasta"];
                             cancel = true;
                         }
                         if (!cancel) {
@@ -973,7 +973,7 @@ function customCommand(main, act, args, normalArgs, ogId) {
                             card_1.default.updatePackIndexes(main);
                             card_1.default.updateAuctionsDueTo("delete", main, toRemoveId);
                             user_1.default.updateDueToDeletion(main, toRemoveId);
-                            tans.unshift("Opción " + (toRemoveId + 1) + " del comando " + util_1.default.code(main) + " removida");
+                            tans.unshift("✅ Opción " + (toRemoveId + 1) + " del comando " + util_1.default.code(main) + " removida");
                         }
                     }
                     break;

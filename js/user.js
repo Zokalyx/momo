@@ -305,16 +305,16 @@ class User {
                             other.addCard(card);
                             this.updateEconomy();
                             other.updateEconomy();
-                            result = `${userName} le dio ${cardName} a ${other.defaultName}!`;
+                            result = `✅ ${userName} le dio ${cardName} a ${other.defaultName}!`;
                             success = true;
                         }
                     }
                     else {
-                        result = `${cardName} está siendo subastada`;
+                        result = `❌ ${cardName} está siendo subastada`;
                     }
                 }
                 else {
-                    result = `${cardName} no te pertenece`;
+                    result = `❌ ${cardName} no te pertenece`;
                 }
                 break;
             case "auc":
@@ -323,16 +323,16 @@ class User {
                         if (cardObj.auctionStartingPrice) {
                             data_1.default.storage.auctions.push({ card: { pack: card.pack, id: card.id }, offerValue: cardObj.auctionStartingPrice, offeredBy: this.id, offeredAt: Date.now() });
                             card.inAuction = true;
-                            result = `${userName} puso ${cardName} en subasta empezando por $${cardObj.auctionStartingPrice}!`;
+                            result = `✅ ${userName} puso ${cardName} en subasta empezando por $${cardObj.auctionStartingPrice}!`;
                             success = true;
                         }
                     }
                     else {
-                        result = `${cardName} ya está siendo subastada`;
+                        result = `❌ ${cardName} ya está siendo subastada`;
                     }
                 }
                 else {
-                    result = `${cardName} no te pertenece`;
+                    result = `❌ ${cardName} no te pertenece`;
                 }
                 break;
             case "offer":
@@ -345,25 +345,25 @@ class User {
                                         auctionObject.offerValue = cardObj.newOffer;
                                         auctionObject.offeredBy = this.id;
                                         auctionObject.offeredAt = Date.now();
-                                        result = `${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`;
+                                        result = `✅ ${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`;
                                         success = true;
                                     }
                                 }
                                 else {
-                                    result = `Tenés que aumentar la oferta por lo menos $${data_1.default.config.economy.minimumOfferIncrease}`;
+                                    result = `❌ Tenés que aumentar la oferta por lo menos $${data_1.default.config.economy.minimumOfferIncrease}`;
                                 }
                             }
                             else {
-                                result = `No podés ofertar más plata de la que tenés`;
+                                result = `❌ No podés ofertar más plata de la que tenés`;
                             }
                         }
                     }
                     else {
-                        result = `No podés ofrecer plata por tu propia carta`;
+                        result = `❌ No podés ofrecer plata por tu propia carta`;
                     }
                 }
                 else {
-                    result = `${cardName} no está siendo subastada`;
+                    result = `❌ ${cardName} no está siendo subastada`;
                 }
                 break;
             case "claim":
@@ -381,24 +381,24 @@ class User {
                                     card.inAuction = false;
                                     data_1.default.storage.auctionsLog.unshift(Object.assign(auctionObject, { exOwner: exowner.id }));
                                     data_1.default.storage.auctions.splice(indexOfAuction, 1);
-                                    result = `${userName} reclamó ${cardName} de ${exowner.defaultName} por $${auctionObject.offerValue}!`;
+                                    result = `✅ ${userName} reclamó ${cardName} de ${exowner.defaultName} por $${auctionObject.offerValue}!`;
                                     success = true;
                                 }
                                 else {
-                                    result = `Te faltan $${Math.round(auctionObject.offerValue - bal)} para poder reclamar ${cardName}`;
+                                    result = `❌ Te faltan $${Math.round(auctionObject.offerValue - bal)} para poder reclamar ${cardName}`;
                                 }
                             }
                             else {
-                                result = `Faltan ${Math.round(data_1.default.config.economy.hoursToClaim - timeDiff)} horas para poder reclamar ${cardName}`;
+                                result = `❌ Faltan ${Math.round(data_1.default.config.economy.hoursToClaim - timeDiff)} horas para poder reclamar ${cardName}`;
                             }
                         }
                         else {
-                            result = `Tenés que ser la oferta más grande para poder reclamar ${cardName}`;
+                            result = `❌ Tenés que ser la oferta más grande para poder reclamar ${cardName}`;
                         }
                     }
                 }
                 else {
-                    result = `${cardName} no está siendo subastada`;
+                    result = `❌ ${cardName} no está siendo subastada`;
                 }
                 break;
             case "buy":
@@ -411,19 +411,19 @@ class User {
                             this.modifyData("bal", -card.value);
                             this.updateEconomy();
                             this.lastBuyTime = Date.now();
-                            result = `${userName} compró ${cardName} por $${card.value}!`;
+                            result = `✅ ${userName} compró ${cardName} por $${card.value}!`;
                             success = true;
                         }
                         else {
-                            result = `Te faltan $${card.value - bal} para poder comprar ${cardName}`;
+                            result = `❌ Te faltan $${card.value - bal} para poder comprar ${cardName}`;
                         }
                     }
                     else {
-                        result = `No te quedan compras disponibles - Siguiente en ${Math.round(wait.buys)} minutos`;
+                        result = `❌ No te quedan compras disponibles - Siguiente en ${Math.round(wait.buys)} minutos`;
                     }
                 }
                 else {
-                    result = `${cardName} le pertenece a ${data_1.default.users[card.owner].defaultName}`;
+                    result = `❌ ${cardName} le pertenece a ${data_1.default.users[card.owner].defaultName}`;
                 }
                 break;
             case "inv":
@@ -434,22 +434,22 @@ class User {
                             this.modifyData("invs", -1);
                             this.modifyData("bal", -card.value);
                             this.updateEconomy();
-                            result = `${userName} invirtió en ${cardName} por $${card.value} y aumentó su multiplicador a x${card.multiplier}!`;
+                            result = `✅ ${userName} invirtió en ${cardName} por $${card.value} y aumentó su multiplicador a x${card.multiplier}!`;
                             success = true;
                             if (card.value * card.multiplier > data_1.default.storage.topCardValue) {
                                 data_1.default.storage.topCardValue = card.value * card.multiplier;
                             }
                         }
                         else {
-                            result = `Te faltan $${card.value - bal} para poder invertir en ${cardName}`;
+                            result = `❌ Te faltan $${card.value - bal} para poder invertir en ${cardName}`;
                         }
                     }
                     else {
-                        result = `No te quedan inversiones disponibles - Siguiente en ${Math.round(wait.invs)} minutos`;
+                        result = `❌ No te quedan inversiones disponibles - Siguiente en ${Math.round(wait.invs)} minutos`;
                     }
                 }
                 else {
-                    result = `${cardName} no te pertenece`;
+                    result = `❌ ${cardName} no te pertenece`;
                 }
                 break;
             case "react":
@@ -477,16 +477,16 @@ class User {
                                 success = true;
                             }
                             else {
-                                result = `Ya reaccionaste a ${cardName}`;
+                                result = `❌ Ya reaccionaste a ${cardName}`;
                             }
                         }
                     }
                     else {
-                        result = `No te quedan reacciones disponibles - Siguiente en ${Math.round(wait.reacts)} minutos`;
+                        result = `❌ No te quedan reacciones disponibles - Siguiente en ${Math.round(wait.reacts)} minutos`;
                     }
                 }
                 else {
-                    result = `No podés reaccionar a ${cardName} porque ya es tuya`;
+                    result = `❌ No podés reaccionar a ${cardName} porque ya es tuya`;
                 }
                 break;
             case "sell":
@@ -496,39 +496,39 @@ class User {
                         this.removeCard(card);
                         this.modifyData("bal", card.value * data_1.default.config.economy.sellMultiplier);
                         this.updateEconomy();
-                        result = `${userName} vendió ${cardName} por $${card.value * data_1.default.config.economy.sellMultiplier}!`;
+                        result = `✅ ${userName} vendió ${cardName} por $${card.value * data_1.default.config.economy.sellMultiplier}!`;
                         success = true;
                     }
                     else {
-                        result = `${cardName} está siendo subastada`;
+                        result = `❌ ${cardName} está siendo subastada`;
                     }
                 }
                 else {
-                    result = `${cardName} no te pertenece`;
+                    result = `❌ ${cardName} no te pertenece`;
                 }
                 break;
             case "rename":
                 if (isOwner) {
                     if (cardObj.newInfo !== undefined) {
                         card.name = cardObj.newInfo;
-                        result = `${userName} renombró a ${cardName} "${cardObj.newInfo}"!`;
+                        result = `✅ ${userName} renombró a ${cardName} "${cardObj.newInfo}"!`;
                         success = true;
                     }
                 }
                 else {
-                    result = `${cardName} no te pertenece`;
+                    result = `❌ ${cardName} no te pertenece`;
                 }
                 break;
             case "desc":
                 if (isOwner) {
                     if (cardObj.newInfo !== undefined) {
                         card.description = cardObj.newInfo;
-                        result = `${userName} cambió la descripción de ${cardName} "${cardObj.newInfo}"!`;
+                        result = `✅ ${userName} cambió la descripción de ${cardName} "${cardObj.newInfo}"!`;
                         success = true;
                     }
                 }
                 else {
-                    result = `${cardName} no te pertenece`;
+                    result = `❌ ${cardName} no te pertenece`;
                 }
                 break;
         }
@@ -574,7 +574,7 @@ class User {
             }
         }
         else {
-            return { text: [`El nombre ${util_1.default.code(nick)} no está registrado`], embed: undefined };
+            return { text: [`❌ El nombre ${util_1.default.code(nick)} no está registrado`], embed: undefined };
         }
     }
     static createNew(id, guild, username) {
