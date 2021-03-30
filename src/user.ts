@@ -1,4 +1,4 @@
-import {  Message, MessageEmbed, Guild } from "discord.js"
+import {  Message, MessageEmbed, Guild, DataResolver } from "discord.js"
 import { response } from "express"
 import Card from "./card"
 import Data from "./data"
@@ -72,6 +72,7 @@ interface totalPackData {
 
 export default class User {
 
+    lastBuyTime: number
     id: string
     nicks: Array<string>
     defaultName: string
@@ -91,6 +92,7 @@ export default class User {
     
     constructor({id, guild, defaultName = "", nicks = [], initials = {bal: -1, reacts: -1, buys: -1, invs: -1, rolls: -1}, description = ""}: userInput) {
 
+        this.lastBuyTime = Date.now()
         this.id = id
         this.nicks = nicks
         this.description = description
@@ -142,7 +144,7 @@ export default class User {
             }
         }
         let {totalValue, averageValue, passiveIncome, cardsOwned} = this.collectionInfo().total 
-        let realPassive = passiveIncome + this.subsidio()
+        let realPassive = Date.now() - this.lastBuyTime > Data.config.economy.lastBuyTimeLimit*60*60*1000 ? "0 (inactivo)" : Math.floor(passiveIncome + this.subsidio())
         return new MessageEmbed()
             .setTitle(`__${this.defaultName}__`)
             .setDescription(this.description)
@@ -153,7 +155,7 @@ export default class User {
                 { name: "Total    ", value: "$" + totalValue, inline: true },
                 { name: "Promedio  ", value: "$" + Math.round(averageValue), inline: true },
                 { name: "Balance", value: "$" + Math.floor(bal), inline: true },
-                { name: "Ingresos", value: `$ ${Math.floor(realPassive)}/día`, inline: true },
+                { name: "Ingresos", value: `$${realPassive}/día`, inline: true },
                 { name: "Inversiones", value: Math.floor(invs) + max.invs, inline: true },
                 { name: "Rolls", value: Math.floor(rolls) + max.rolls, inline: true },
                 { name: "Reacciones", value: Math.floor(reacts) + max.reacts, inline: true },
@@ -199,7 +201,22 @@ export default class User {
             let commonEco = eco[key]
             if (key === "bal") {
                 let { passiveIncome } = this.collectionInfo().total
-                commonEco.amount += (now - commonEco.lastChecked)/86400000*(passiveIncome + this.subsidio())// p. income is measured in days
+                let actual = passiveIncome + this.subsidio()
+
+                let timeLimit = this.lastBuyTime + Data.config.economy.lastBuyTimeLimit*60*60*1000
+
+                if (commonEco.lastChecked < timeLimit) {
+
+                    if (now > timeLimit) {
+                        commonEco.amount += (timeLimit - commonEco.lastChecked)/86400000*actual
+                    } else {
+                        commonEco.amount += (now - commonEco.lastChecked)/86400000*actual
+                    }
+
+                } else {
+                    commonEco.amount += 0
+                }
+
             } else {
                 commonEco.amount += (now - commonEco.lastChecked)/3600000*Data.config.economy.rates[key] // measured in hours
                 if (commonEco.amount >= Data.config.economy.max[key]) {
@@ -254,6 +271,23 @@ export default class User {
 
     modifyData(key: string, amount: number): void {
         this.economy[key].amount += amount
+    }
+
+    fixPack(pack: string) {
+        this.collection[pack] = []
+        for (const c of Data.cards[pack]) {
+            if (c.owner === this.id) {
+                this.collection[pack].push(c.id)
+            }
+        }
+    }
+
+    static fixAllCol() {
+        for (const u in Data.users) {
+            for (const pack in Data.cards) {
+                Data.users[u].fixPack(pack)
+            }
+        }
     }
 
     collectionSize(): number { // How many cards in total user has
@@ -334,11 +368,14 @@ export default class User {
     }
 
     subsidio(): number {
+        /*
         let ans = 16000/this.collectionSize()+100
         if (ans > 1500 || isNaN(ans) || ans < 0) {
             ans = 1500
         }
         return ans
+        */
+       return Data.config.economy.subsidio
     }
 
     intWithCard(action: "auc" | "buy" | "inv" | "react" | "sell" | "give" | "offer" | "rename" | "desc" | "claim",
@@ -458,6 +495,7 @@ export default class User {
                             this.modifyData("buys", -1)
                             this.modifyData("bal", -card.value)
                             this.updateEconomy()
+                            this.lastBuyTime = Date.now()
 
                             result = `${userName} compró ${cardName} por $${card.value}!`
                             success = true
@@ -499,9 +537,12 @@ export default class User {
 
                                 let reactorReward
                                 let baseReward = Math.round(card.value*card.multiplier*Data.config.economy.reactorBaseRewardMultiplier)
-                                if (card.owner === "") {
+                                if (card.owner === "" || cardObj.msg.reactedBy.length === 0) {
                                     reactorReward = baseReward
                                     result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`
+                                    if (card.owner !== "") {
+                                        result += `\n${Data.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`
+                                    }
                                 } else {
                                     reactorReward = Math.round(baseReward*Data.config.economy.reactorNonOwnerMultiplier)
                                     result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}`

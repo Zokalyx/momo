@@ -130,7 +130,6 @@ export default class Card { /* Command option */
             if (this === card) {
                 break
             }
-
             id++
             if (card.isCard) {
                 cardIndex++
@@ -256,6 +255,44 @@ export default class Card { /* Command option */
         }
         return { success: success, message: message, card: selectedCard }
     }
+
+
+    static updateAuctionsDueTo(reason: "move" | "delete", pack: string, deletedNumber: number, newPack?: string, newNumber?: number) {
+        for (const auc of Data.storage.auctions) {
+            if (auc.card.pack === pack) {
+
+                if (reason === "delete") {
+                    if (auc.card.id > deletedNumber) {
+                        auc.card.id--
+                    }
+                } else {
+
+                    if (auc.card.id === deletedNumber) {
+                        auc.card.pack = newPack!
+                        auc.card.id = newNumber!
+                    }
+                }
+            }
+        }
+        for (const auc of Data.storage.auctionsLog) {
+            if (auc.card.pack === pack) {
+
+                if (reason === "delete") {
+                    if (auc.card.id > deletedNumber) {
+                        auc.card.id--
+                    } else if (auc.card.id === deletedNumber) {
+                        Data.storage.auctionsLog.splice(Data.storage.auctionsLog.indexOf(auc), 1)
+                    }
+                } else {
+
+                    if (auc.card.id === deletedNumber) {
+                        auc.card.pack = newPack!
+                        auc.card.id = newNumber!
+                    }
+                }
+            }
+        }
+    }
     
 
     static rollCard(userID: string) {
@@ -263,6 +300,30 @@ export default class Card { /* Command option */
         if (Data.cache.rollCacheIndex > Data.config.maxRollCacheIndex) {
             Data.cache.rollCacheIndex = 0
         }
+        let totalWeights = 0
+        for (const pack in Data.cards) {
+            let col = Data.cards[pack]
+            for (const c of col.filter( c => c.isCard )) {
+                totalWeights += 100 - c.rarity
+            }
+        }
+
+        let randomCard = Math.floor(Math.random()*totalWeights)
+        let acc = 0
+        for (const pack in Data.cards) {
+            let col = Data.cards[pack]
+            for (const c of col.filter( c => c.isCard )) {
+                if (randomCard < acc) {
+                    c.value += Data.config.card.baseValue*c.rarity/10
+                    if (c.value * c.multiplier > Data.storage.topCardValue) {
+                        Data.storage.topCardValue = c.value * c.multiplier
+                    }
+                    return c
+                }
+                acc += 100 - c.rarity
+            }
+        }
+        /*
         let t = Card.totalAmount()
         let c = Data.users[userID].collectionSize()
         let d = t-c
@@ -296,5 +357,6 @@ export default class Card { /* Command option */
                 }
             }
         }
+        */
     }
 }

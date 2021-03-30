@@ -28,7 +28,7 @@ export = {
     ],
 
     new: [
-        "**__Últimas adiciones - Momo 2.0:__**",
+        "**__Momo 2.0:__**",
         "",
         "__Reforma económica:__",
         " - Los usuarios con pocas cartas tienen ligeramente más chances de rollear un carta propia, así aumentando su valor y ganando plata por las reacciones de otras personas",
@@ -50,7 +50,20 @@ export = {
         " - `config` ahora contiene muchas más variables que pueden ser modificadas",
         " - Ahora existe `top pack`",
         " - Se van a implementar juegos y apuestas, entre otras cosas",
-        " - Ahora las minúsculas y mayúsculas son totalmente intercambiables"
+        " - Ahora las minúsculas y mayúsculas son totalmente intercambiables",
+        "",
+        "",
+        "**__Momo 2.1:__**",
+        "",
+        " - Modo de adición rápida: `<pack> +` inicia la adición rápida de imágenes y gifs",
+        " - Comando `move`: Se pueden mover cartas entre packs",
+        " - Ajustes a la economía para favorecer un crecimiento estable y lento",
+        " - Los gifs ahora valen 2.5 lo que valen las imágenes nórmales y son más raras de obtener",
+        " - Los ingresos pasivos son ahora muy igualitarios, pero se frenan cuando no comprás por cierto tiempo",
+        " - Nuevo reglamento: Los personajes tienen que tener 5, 10 o 15 cartas dependiendo de su importancia",
+        " - Los packs generales no pueden tener más de 50 cartas",
+        " - Arreglos de bugs",
+        " - Varias adiciones más y cambios planeados!",
     ],
 
     help: {
@@ -90,6 +103,7 @@ export = {
             "`rename <pack> <número> <nombre>` renombra la carta (tiene que ser tuya)",
             "`lore <pack> <número> <descripción>` le pone una descripción a la carta",
             "`top cards` muestra las 20 cartas más valiosas",
+            "`move` <pack> <número> <pack>` mueve una carta de un pack a otro",
 
             "`pack <pack>` muestra las cartas de un pack",
             "`link` muestra el último pack seleccionado en el navegador",
@@ -127,6 +141,7 @@ export = {
             "`<cmd> <número>` muestra una opción específica del comando",
             "`<cmd>` muestra una opción al azar del comando",
             "`<cmd> + <opción>` agrega una opción al comando",
+            "`<pack> +` inicia la adición rápida de imágenes y gifs",
             "`<cmd> - <número de opción>` remueve una opción específica del comando",
             "`<cmd> -` remueve la última opción del comando",
         ],

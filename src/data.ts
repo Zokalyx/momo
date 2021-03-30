@@ -12,6 +12,8 @@ interface data {
         maxTimeToInteract: number
         [key: string]: Object
         economy: {
+            subsidio: number
+            lastBuyTimeLimit: number
             hoursToClaim: number
             minimumOfferIncrease: number
             sellMultiplier: number
@@ -74,6 +76,10 @@ interface data {
             message: Message
         }>
         rollCacheIndex: number
+        waitingForBulk: {
+            status: boolean
+            pack: string
+        }
     }
 }
 
@@ -86,6 +92,8 @@ let Data: data = {
         maxRollCacheIndex: 5,
         maxTimeToInteract: 1, // hours
         economy: {
+            subsidio: 500,
+            lastBuyTimeLimit: 24, // hours
             hoursToClaim: 48, // auction
             minimumOfferIncrease: 50, // auction
             sellMultiplier: 0.5,
@@ -124,6 +132,10 @@ let Data: data = {
         thereWasChange: false,
         rollCache: [],
         rollCacheIndex: 0,
+        waitingForBulk: {
+            status: false,
+            pack: "",
+        }
     }
 }
 

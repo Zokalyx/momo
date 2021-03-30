@@ -7,6 +7,7 @@ import Util from "./util"
 import Database from "./database"
 import Request from "./request"
 import Messages from "./messages"
+import { transcode } from "node:buffer"
 
 export default class Main {
     static cmdHandler = CommandHandler
@@ -14,7 +15,34 @@ export default class Main {
 }
 
 async function CommandHandler(msg: Discord.Message, client: Client) {
-    if (!msg.content.startsWith(Data.config.prefix)) {return} // only listen when prefix
+    if (!msg.content.startsWith(Data.config.prefix)) {
+        if (!msg.author.bot && msg.content.startsWith("http") && Data.cache.waitingForBulk.status) {
+            let cont = msg.content
+            let tans: string
+            let main = Data.cache.waitingForBulk.pack
+            if (cont.includes("tenor") && !cont.endsWith(".gif")) {
+                let gifRequest: {success: boolean, link: string} = await Request.getTenorGif(cont)
+                if (gifRequest.success) {
+                    cont = gifRequest.link
+                } else {
+                    tans = "Hubo un error"
+                }
+            }
+            let nw = new Card({pack: main, content: cont})
+            Data.cards[main].push(nw)
+            let niceType = "Texto"
+            if (nw.type === "gif") {
+                niceType = "Gif"
+            } else if (nw.type === "img") {
+                niceType = "Imagen"
+            }
+            tans = niceType + " agregado/a al comando " + Util.code(main)  + " (#" + (Card.cardsIn(main)-1) + ")"
+            msg.channel.send(tans)
+            return
+        }
+        return
+    } // only listen when prefix
+    Data.cache.waitingForBulk.status = false
     
     Data.cache.thereWasChange = true
 
@@ -63,8 +91,38 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     let askedForConfirm = false
     switch(main) {
 
+        case "move":
+            if (act > 3) {
+                let val = Card.validate(args[1], args[2])
+                if (val.success) {
+                    if (args[3] in Data.cards) {
 
-        case "ark":
+                        let c = val.card!
+                        let oldName = c.getName()
+                        c.pack = args[3]
+                        Data.cards[args[1]].splice(c.id, 1)
+                        c.id = Card.cardsIn(c.pack)
+                        Data.cards[args[3]].push(c)
+                        Card.updatePackIndexes(args[3])
+                        Card.updatePackIndexes(args[1])
+                        Card.updateAuctionsDueTo("move", args[1], Number(args[2]), c.pack, c.id)
+                        for (const u in Data.users) {
+                            Data.users[u].fixPack(args[1])
+                            Data.users[u].fixPack(args[3])
+                        }
+
+                        resp.text = [ "Se movió " + oldName + " al pack " + Util.upperFirst(args[3])]
+
+                    } else { resp.text = [ "No existe el pack " + Util.upperFirst(args[3]) ] }
+                } else { resp.text = [ val.message! ] }
+            } else { resp.text = ["Uso correcto: " + Util.code("move <pack> <número> <pack>")] }
+            break
+
+        /*case "load":
+            Database.migrate()
+            break*/
+
+        /*case "ark":
             if (act > 1) {
                 if (args[1] === "+") {
                     if (act > 3) {
@@ -92,7 +150,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 resp.text.unshift("Tu arca de cartas, van a seguir siendo tuyas despues del reset")
                 resp.text.push(String(ogUser.getArk().length) + " cartas")
                 resp.text.push("Añadi cartas con ark + y remove con ark -")
-            break
+            break*/
 
         case "backup":
             Database.createBackup()
@@ -140,6 +198,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "p":
         case "prev":
             resp.text = ["Comando actualmente no disponible"]
+            break
 
 
 
@@ -404,7 +463,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
 
         case "link":
-            resp.text = [ "https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
+            resp.text = [ "NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
             break
 
         case "col":
@@ -661,8 +720,10 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         default:
             if (main in Data.cards) {
                 resp.text = await customCommand(main, act, args, normalArgs, ogId)
-                if (resp.text[0].startsWith("Esta carta le pertenece a")) {
-                    askedForConfirm = true
+                if (resp.text) {
+                    if (resp.text[0].startsWith("Esta carta le pertenece a")) {
+                        askedForConfirm = true
+                    }
                 }
             } else { resp.text = [`No existe el comando ${Util.code(main)}`]}
         }
@@ -764,7 +825,6 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                     let cont = normalArgs.slice(2).join(" ")
                     if (cont.includes("tenor") && !cont.endsWith(".gif")) {
                         let gifRequest: {success: boolean, link: string} = await Request.getTenorGif(cont)
-                        console.log(gifRequest)
                         if (gifRequest.success) {
                             cont = gifRequest.link
                         } else {
@@ -780,23 +840,23 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                     } else if (nw.type === "img") {
                         niceType = "Imagen"
                     }
-                    tans = [niceType + " agregado/a al comando " + Util.code(main)]
-                } else { tans = ["Uso correcto: " + Util.code("<comando> + <contenido>")]}
+                    tans = [niceType + " agregado/a al comando " + Util.code(main) + " (#" + (Card.cardsIn(main)-1) + ")"]
+                } else { 
+                    tans = ["Esperando contenido para el pack " + Util.code(main)]
+                    Data.cache.waitingForBulk.status = true
+                    Data.cache.waitingForBulk.pack = main
+                }
                 break
 
             case "-":
             case "remove":
                 let toRemoveId = Data.cards[main].length-1
                 let success = true
-                console.log("a")
                 if (act > 2) {
-                    console.log("b")
                     let num = Number(args[2])
                     if (!isNaN(num)) {
-                        console.log("c")
                         if (num > 0 && num <= Data.cards[main].length) {
                             toRemoveId = num - 1
-                            console.log("d")
                         } else { 
                             tans = ["El comando " + Util.code(main) + " no contiene la opción número " + num]
                             success = false    
@@ -805,37 +865,29 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                         tans = ["Uso correcto: " + Util.code("<comando> - (<número>)")]
                         success = false
                     }
-                    console.log("e")
                     toRemoveId = Number(args[2])-1
                 }
                 if (success) {
-                    console.log("f")
                     tans = []
                     let c = Data.cards[main][toRemoveId]
                     let cancel = false
-                    console.log("g")
                     if (c.owner === ogId) {
-                        console.log("h")
                         tans = ["Fuiste compensado $" + c.value]
                         Data.users[ogId].modifyData("bal", c.value)
                         Data.users[ogId].removeCard(c)
-                        console.log("i")
                     } else if (c.owner !== "") {
-                        console.log("j")
                         tans = ["Esta carta le pertenece a " + Data.users[c.owner].defaultName + ", escribí" + Util.code("confirm") + " y se le compensará su valor"]
                         cancel = true
-                        console.log("k")
+                    } else if (c.inAuction) {
+                        tans = ["Esta carta está en subasta"]
+                        cancel = true
                     }
                     if (!cancel) {
-                        console.log(main)
                         Data.cards[main].splice(toRemoveId, 1)
-                        console.log("here")
                         Card.updatePackIndexes(main)
-                        console.log("here?")
+                        Card.updateAuctionsDueTo("delete", main, toRemoveId)
                         User.updateDueToDeletion(main, toRemoveId)
-                        console.log("there!")
                         tans.unshift("Opción " + (toRemoveId+1) + " del comando " + Util.code(main) + " removida")
-                        console.log("m")
                     }
                 }
                 break

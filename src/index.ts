@@ -33,7 +33,7 @@ Database.file("r")
         process.exit()
     })
 
-client.on("ready", () => {
+client.on("ready", async () => {
     console.log("Connection to Discord established!")
     client.user!.setPresence({
         status: "online",

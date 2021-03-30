@@ -38,7 +38,7 @@ export default class Database {
         }, Data.config.autosaveFrequency*60*1000)
     }
 
-    /*static migrate() {
+    static migrate() {
         let fs = require("fs")
         let read = JSON.parse(fs.readFileSync("C:\\Users\\White Python\\Desktop\\Momo\\backup.json", 'utf8'))
         Data.users = read.users
@@ -46,7 +46,7 @@ export default class Database {
         Data.cards = read.cards
         Data.storage = read.storage
         Database.file("w")
-    }*/
+    }
 
     static createBackup() {
         let fs = require("fs")
@@ -59,5 +59,7 @@ export default class Database {
                 return
             }
         })
+        console.log("Creating a backup...")
     }
+
 }
