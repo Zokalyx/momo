@@ -111,11 +111,11 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                             Data.users[u].fixPack(args[3])
                         }
 
-                        resp.text = [ "Se movió " + oldName + " al pack " + Util.upperFirst(args[3])]
+                        resp.text = [ "✅ Se movió " + oldName + " al pack " + Util.upperFirst(args[3])]
 
-                    } else { resp.text = [ "No existe el pack " + Util.upperFirst(args[3]) ] }
+                    } else { resp.text = [ "❌ No existe el pack " + Util.upperFirst(args[3]) ] }
                 } else { resp.text = [ val.message! ] }
-            } else { resp.text = ["Uso correcto: " + Util.code("move <pack> <número> <pack>")] }
+            } else { resp.text = ["❌ Uso correcto: " + Util.code("move <pack> <número> <pack>")] }
             break
 
         /*case "load":
@@ -155,9 +155,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "backup":
             if (process.env.ON_LOCAL === "true") {
                 Database.createBackup()
-                resp.text = [ "Backup creado" ]
+                resp.text = [ "✅ Backup creado" ]
             } else {
-                resp.text = [ "Comando no disponible" ]
+                resp.text = [ "❌ Comando no disponible" ]
             }
             break
 
@@ -191,7 +191,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         break
                     
                     default:
-                        t = ["Uso correcto: leer `help`"]
+                        t = ["❌ Uso correcto: leer `help`"]
                 }
             } else { t = Messages.help.all }
             resp.text = t
@@ -202,7 +202,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "next":
         case "p":
         case "prev":
-            resp.text = ["Comando actualmente no disponible"]
+            resp.text = ["❌ Comando actualmente no disponible"]
             break
 
 
@@ -211,7 +211,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 Card.updatePackIndexes(pack)
             }
             User.fixAllCol()
-            resp.text = ["Se arreglaron packs y collecciones"]
+            resp.text = ["✅ Se arreglaron packs y collecciones"]
             break
 
         case "income":
@@ -232,15 +232,15 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     } else {
                         resp.text = [response.message!]
                     }
-                } else { resp.text = ["Uso correcto: " + Util.code("card <pack> <número>")] }
-            } else { resp.text = ["Uso correcto: " + Util.code("card <pack> <número>")] }
+                } else { resp.text = ["❌ Uso correcto: " + Util.code("card <pack> <número>")] }
+            } else { resp.text = ["❌ Uso correcto: " + Util.code("card <pack> <número>")] }
             break
 
         case "confirm":
             if (Data.cache.waitingForConfirm) {
-                resp.text = ["Funcion todavia no agregada"]
+                resp.text = ["❌ Función todavía no agregada"]
             } else {
-                resp.text = ["Comando no disponible"]
+                resp.text = ["❌ Comando no disponible"]
             }
             break
 
@@ -299,7 +299,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     if (res.success) {
                         resp.embed = response.card!.getEmbed()
                     }
-                } else { resp.text = ["Uso correcto: " + Util.code("offer <pack> <número> <plata>")] }
+                } else { resp.text = ["❌ Uso correcto: " + Util.code("offer <pack> <número> <plata>")] }
             } else { resp.text = response.tans }
             break
 
@@ -351,7 +351,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         if (res.success) {
                             resp.embed = response.card!.getEmbed()
                         }
-                    } else { resp.text = ["Uso correcto: " + Util.code("auc <pack> <número> <plata>")] }
+                    } else { resp.text = ["❌ Uso correcto: " + Util.code("auc <pack> <número> <plata>")] }
                 } else { resp.text = response.tans }
             }
             break
@@ -361,9 +361,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             if (act > 1) {
 
                 ogUser.description = normalArgs.slice(1).join(" ")
-                resp.text = ["Tu descripción fue actualizada"]
+                resp.text = ["✅ Tu descripción fue actualizada"]
 
-            } else { resp.text = ["Uso correcto: " + Util.code("desc <descripción>")] }
+            } else { resp.text = ["❌ Uso correcto: " + Util.code("desc <descripción>")] }
             break
 
         case "name":
@@ -371,9 +371,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             if (act > 1) {
 
                 ogUser.defaultName = normalArgs.slice(1).join(" ")
-                resp.text = ["Tu nombre principal fue actualizado"]
+                resp.text = ["✅ Tu nombre principal fue actualizado"]
 
-            } else { resp.text = ["Uso correcto: " + Util.code("name <nombre>")] }
+            } else { resp.text = ["❌ Uso correcto: " + Util.code("name <nombre>")] }
             break
 
         case "debug":
@@ -384,7 +384,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "save":
             let msg = await ch.send("Guardando datos...")
             await Database.file("w")
-            msg.edit("Guardando datos... listo")
+            msg.edit("Guardando datos... ✅")
             break
 
         case "user":
@@ -446,10 +446,10 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                                 
                                 return [`${ogName} le dio $${money} a ${targetName}!`]
 
-                            } else { return [`No tenés suficiente plata`] }
-                        } else { return [`Escribí un número positivo`] }
-                    } else { return [`Uso correcto: ${Util.code("pay <usuario> <plata>")}`] }
-                } else { return [`Uso correcto: ${Util.code("pay <usuario> <plata>")}`] }
+                            } else { return [`❌ No tenés suficiente plata`] }
+                        } else { return [`❌ Escribí un número positivo`] }
+                    } else { return [`❌ Uso correcto: ${Util.code("pay <usuario> <plata>")}`] }
+                } else { return [`❌ Uso correcto: ${Util.code("pay <usuario> <plata>")}`] }
             }
             resp = User.doIfTarget(targetUser, targetFound, pay, args[1])
             break
@@ -466,8 +466,8 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         } else {
                             return [response.message]
                         }
-                    } else { return ["Uso correcto: " + Util.code("<give> <usuario> <pack> <número>")] }
-                } else { return ["Uso correcto: " + Util.code("<give> <usuario> <pack> <número>")] }
+                    } else { return ["❌ Uso correcto: " + Util.code("<give> <usuario> <pack> <número>")] }
+                } else { return ["❌ Uso correcto: " + Util.code("<give> <usuario> <pack> <número>")] }
             },args[1]).text
             if (showEmbed) {
                 resp.embed = Data.cards[args[2]][Number(args[3])-1].getEmbed()
@@ -476,7 +476,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
 
         case "link":
-            resp.text = [ "NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
+            resp.text = [ "❌ NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
             break
 
         case "col":
@@ -515,7 +515,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 callback = () => {
                     if (args[2] in Data.cards) {
                         return packInfo(targetUser, args[2])
-                    } else { return [`No existe el pack ${Util.code(args[2])}`] }
+                    } else { return [`❌ No existe el pack ${Util.code(args[2])}`] }
                 }
             } else if (act > 1) {
                 targetName = args[1]
@@ -576,9 +576,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     resp.text.push(`${Util.title("Totales:")} Total: $${pinf.totalValue} - Promedio: $${Math.round(pinf.averageValue)} - ${pinf.cardsOwned}/${Card.cardsIn(args[1])} con dueño`)
                 
                 } else {
-                    resp.text = ["No existe el pack " + Util.code(args[1])]
+                    resp.text = ["❌ No existe el pack " + Util.code(args[1])]
                 }
-            } else { resp.text = ["Uso correcto: " + Util.code("pack <pack>")] }
+            } else { resp.text = ["❌ Uso correcto: " + Util.code("pack <pack>")] }
             break
 
         case "top":
@@ -620,9 +620,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         break
 
                     default:
-                        resp.text = [`Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")} o ${Util.code("packs")})`]
+                        resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")} o ${Util.code("packs")})`]
                 }
-            } else { resp.text = [`Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")} o ${Util.code("packs")})`] }
+            } else { resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")} o ${Util.code("packs")})`] }
             break
 
         case "exit":
@@ -660,16 +660,16 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         if (act > 2) {
                             if (ogUser.nicks.includes(args[2])) {
                                 ogUser.nicks.splice(ogUser.nicks.indexOf(args[2]), 1)
-                                resp.text = ["Nombre " + Util.code(args[2]) + " removido"]
+                                resp.text = ["✅ Nombre " + Util.code(args[2]) + " removido"]
                             } else { resp.text = [Util.code(args[2]) + " no es un nombre tuyo"]}
-                        } else { resp.text = ["Uso correcto: " + Util.code("id - <nombre>")]}
+                        } else { resp.text = ["❌ Uso correcto: " + Util.code("id - <nombre>")]}
                         break
 
                     default:
                         if (!ogUser.nicks.includes(args[1])) {
                             ogUser.nicks.push(args[1])
-                            resp.text = ["Nombre " + Util.code(args[1]) + " agregado"]
-                        } else { resp.text = ["El nombre " + Util.code(args[1]) + " ya es tuyo"]}
+                            resp.text = ["✅ Nombre " + Util.code(args[1]) + " agregado"]
+                        } else { resp.text = ["❌ El nombre " + Util.code(args[1]) + " ya es tuyo"]}
                 }
             } else {
                 resp.text = [`Tu ID es ${Util.code(ogId)} y los nombres asociados a la misma son: \`` + ogUser.nicks.join("`, `") + "`"]
@@ -691,9 +691,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     for (const u in Data.users) {
                         delete Data.users[u].collection[args[1]]
                     }
-                    resp.text = [`Comando ${Util.code(args[1])} removido`]
-                } else { resp.text = ["No existe el comando " + Util.code(args[1])]}
-            } else { resp.text = ["Uso correcto: " + Util.code("- <comando>")]}
+                    resp.text = [`✅ Comando ${Util.code(args[1])} removido`]
+                } else { resp.text = ["❌ No existe el comando " + Util.code(args[1])]}
+            } else { resp.text = ["❌ Uso correcto: " + Util.code("- <comando>")]}
             break
 
         case "+":
@@ -704,9 +704,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     for (const u in Data.users) {
                         Data.users[u].collection[args[1]] = []
                     }
-                    resp.text = [`Comando ${Util.code(args[1])} agregado`]
-                } else { resp.text = ["Ya existe el comando " + Util.code(args[1])]}
-            } else { resp.text = ["Uso correcto: " + Util.code("+ <comando>")]}
+                    resp.text = [`✅ Comando ${Util.code(args[1])} agregado`]
+                } else { resp.text = ["❌ Ya existe el comando " + Util.code(args[1])]}
+            } else { resp.text = ["❌ Uso correcto: " + Util.code("+ <comando>")]}
             break
 
 
@@ -726,7 +726,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
             } else { 
                 let wait = ogUser.waitingTimes().rolls
-                resp.text = ["No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`]}
+                resp.text = ["❌ No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`]}
             break
 
 
@@ -738,7 +738,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         askedForConfirm = true
                     }
                 }
-            } else { resp.text = [`No existe el comando ${Util.code(main)}`]}
+            } else { resp.text = [`❌ No existe el comando ${Util.code(main)}`]}
         }
 
     if (resp?.text) {
@@ -810,13 +810,13 @@ function verifyInput(args: Array<string>, act: number, correctUse: string, requi
                     if (act > 3 || !requireExtra) {
                         card = c
                         success = true
-                    } else { tans = ["Uso correcto: " + Util.code(correctUse)] }
+                    } else { tans = ["❌ Uso correcto: " + Util.code(correctUse)] }
                 }
             } else {
                 tans = [response.message!]
             }
-        } else { tans = ["Uso correcto: " + Util.code(correctUse)] }
-    } else { tans = ["Uso correcto: " + Util.code(correctUse)] }     
+        } else { tans = ["❌ Uso correcto: " + Util.code(correctUse)] }
+    } else { tans = ["❌ Uso correcto: " + Util.code(correctUse)] }     
     return {tans: tans, success: success, card: card}  
 }
 
@@ -841,7 +841,7 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                         if (gifRequest.success) {
                             cont = gifRequest.link
                         } else {
-                            tans = ["Hubo un error"]
+                            tans = ["❌Hubo un error"]
                             break
                         }
                     }
@@ -853,7 +853,7 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                     } else if (nw.type === "img") {
                         niceType = "Imagen"
                     }
-                    tans = [niceType + " agregado/a al comando " + Util.code(main) + " (#" + (Card.cardsIn(main)-1) + ")"]
+                    tans = ["✅" + niceType + " agregado/a al comando " + Util.code(main) + " (#" + (Card.cardsIn(main)-1) + ")"]
                 } else { 
                     tans = ["Esperando contenido para el pack " + Util.code(main)]
                     Data.cache.waitingForBulk.status = true
@@ -871,11 +871,11 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                         if (num > 0 && num <= Data.cards[main].length) {
                             toRemoveId = num - 1
                         } else { 
-                            tans = ["El comando " + Util.code(main) + " no contiene la opción número " + num]
+                            tans = ["❌ El comando " + Util.code(main) + " no contiene la opción número " + num]
                             success = false    
                         }
                     } else { 
-                        tans = ["Uso correcto: " + Util.code("<comando> - (<número>)")]
+                        tans = ["❌ Uso correcto: " + Util.code("<comando> - (<número>)")]
                         success = false
                     }
                     toRemoveId = Number(args[2])-1
@@ -892,7 +892,7 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                         tans = ["Esta carta le pertenece a " + Data.users[c.owner].defaultName + ", escribí" + Util.code("confirm") + " y se le compensará su valor"]
                         cancel = true
                     } else if (c.inAuction) {
-                        tans = ["Esta carta está en subasta"]
+                        tans = ["❌ Esta carta está en subasta"]
                         cancel = true
                     }
                     if (!cancel) {
@@ -900,7 +900,7 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                         Card.updatePackIndexes(main)
                         Card.updateAuctionsDueTo("delete", main, toRemoveId)
                         User.updateDueToDeletion(main, toRemoveId)
-                        tans.unshift("Opción " + (toRemoveId+1) + " del comando " + Util.code(main) + " removida")
+                        tans.unshift("✅ Opción " + (toRemoveId+1) + " del comando " + Util.code(main) + " removida")
                     }
                 }
                 break

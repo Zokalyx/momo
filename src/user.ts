@@ -416,12 +416,12 @@ export default class User {
                             this.updateEconomy()
                             other.updateEconomy()
 
-                            result = `${userName} le dio ${cardName} a ${other.defaultName}!`
+                            result = `✅ ${userName} le dio ${cardName} a ${other.defaultName}!`
                             success = true
 
                         }
-                    } else { result = `${cardName} está siendo subastada`}
-                } else { result = `${cardName} no te pertenece` }
+                    } else { result = `❌ ${cardName} está siendo subastada`}
+                } else { result = `❌ ${cardName} no te pertenece` }
                 break
 
             case "auc":
@@ -432,12 +432,12 @@ export default class User {
                             Data.storage.auctions.push({card: {pack: card.pack, id: card.id}, offerValue: cardObj.auctionStartingPrice, offeredBy: this.id, offeredAt: Date.now()})
                             card.inAuction = true
                             
-                            result = `${userName} puso ${cardName} en subasta empezando por $${cardObj.auctionStartingPrice}!`
+                            result = `✅ ${userName} puso ${cardName} en subasta empezando por $${cardObj.auctionStartingPrice}!`
                             success = true
 
                         }
-                    } else { result = `${cardName} ya está siendo subastada` }
-                } else { result = `${cardName} no te pertenece` }
+                    } else { result = `❌ ${cardName} ya está siendo subastada` }
+                } else { result = `❌ ${cardName} no te pertenece` }
                 break
 
             case "offer":
@@ -451,14 +451,14 @@ export default class User {
                                         auctionObject.offeredBy = this.id
                                         auctionObject.offeredAt = Date.now()
                                         
-                                        result = `${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`
+                                        result = `✅ ${userName} ofreció $${auctionObject.offerValue} por ${cardName}!`
                                         success = true
                                         }
-                                } else { result = `Tenés que aumentar la oferta por lo menos $${Data.config.economy.minimumOfferIncrease}`}
-                            } else { result = `No podés ofertar más plata de la que tenés`}
+                                } else { result = `❌ Tenés que aumentar la oferta por lo menos $${Data.config.economy.minimumOfferIncrease}`}
+                            } else { result = `❌ No podés ofertar más plata de la que tenés`}
                         }
-                    } else { result = `No podés ofrecer plata por tu propia carta`}
-                } else { result = `${cardName} no está siendo subastada`}
+                    } else { result = `❌ No podés ofrecer plata por tu propia carta`}
+                } else { result = `❌ ${cardName} no está siendo subastada`}
                 break
 
             case "claim":
@@ -480,14 +480,14 @@ export default class User {
                                     Data.storage.auctionsLog.unshift(Object.assign(auctionObject, {exOwner: exowner.id}))
                                     Data.storage.auctions.splice(indexOfAuction, 1)
 
-                                    result = `${userName} reclamó ${cardName} de ${exowner.defaultName} por $${auctionObject.offerValue}!`
+                                    result = `✅ ${userName} reclamó ${cardName} de ${exowner.defaultName} por $${auctionObject.offerValue}!`
                                     success = true
 
-                                } else { result = `Te faltan $${Math.round(auctionObject.offerValue - bal)} para poder reclamar ${cardName}`}
-                            } else { result = `Faltan ${Math.round(Data.config.economy.hoursToClaim - timeDiff)} horas para poder reclamar ${cardName}`}
-                        } else { result = `Tenés que ser la oferta más grande para poder reclamar ${cardName}`}
+                                } else { result = `❌ Te faltan $${Math.round(auctionObject.offerValue - bal)} para poder reclamar ${cardName}`}
+                            } else { result = `❌ Faltan ${Math.round(Data.config.economy.hoursToClaim - timeDiff)} horas para poder reclamar ${cardName}`}
+                        } else { result = `❌ Tenés que ser la oferta más grande para poder reclamar ${cardName}`}
                     }
-                } else { result = `${cardName} no está siendo subastada` }
+                } else { result = `❌ ${cardName} no está siendo subastada` }
                 break
 
             case "buy":
@@ -503,13 +503,13 @@ export default class User {
                             this.updateEconomy()
                             this.lastBuyTime = Date.now()
 
-                            result = `${userName} compró ${cardName} por $${card.value}!`
+                            result = `✅ ${userName} compró ${cardName} por $${card.value}!`
                             success = true
                             
 
-                        } else { result = `Te faltan $${card.value - bal} para poder comprar ${cardName}` }
-                    } else { result = `No te quedan compras disponibles - Siguiente en ${Math.round(wait.buys)} minutos` }
-                } else { result = `${cardName} le pertenece a ${Data.users[card.owner].defaultName}` }
+                        } else { result = `❌ Te faltan $${card.value - bal} para poder comprar ${cardName}` }
+                    } else { result = `❌ No te quedan compras disponibles - Siguiente en ${Math.round(wait.buys)} minutos` }
+                } else { result = `❌ ${cardName} le pertenece a ${Data.users[card.owner].defaultName}` }
                 break
 
             case "inv":
@@ -523,16 +523,16 @@ export default class User {
                             this.modifyData("bal", -card.value)
                             this.updateEconomy()
 
-                            result = `${userName} invirtió en ${cardName} por $${card.value} y aumentó su multiplicador a x${card.multiplier}!`
+                            result = `✅ ${userName} invirtió en ${cardName} por $${card.value} y aumentó su multiplicador a x${card.multiplier}!`
                             success = true
 
                             if (card.value * card.multiplier > Data.storage.topCardValue) {
                                 Data.storage.topCardValue = card.value * card.multiplier
                             }
                             
-                        } else { result = `Te faltan $${card.value - bal} para poder invertir en ${cardName}` }
-                    } else { result = `No te quedan inversiones disponibles - Siguiente en ${Math.round(wait.invs)} minutos` }
-                } else { result = `${cardName} no te pertenece` }
+                        } else { result = `❌ Te faltan $${card.value - bal} para poder invertir en ${cardName}` }
+                    } else { result = `❌ No te quedan inversiones disponibles - Siguiente en ${Math.round(wait.invs)} minutos` }
+                } else { result = `❌ ${cardName} no te pertenece` }
                 break
 
             case "react":
@@ -559,10 +559,10 @@ export default class User {
                                 this.modifyData("reacts", -1)
                                 success = true
                                 
-                            } else { result = `Ya reaccionaste a ${cardName}`}
+                            } else { result = `❌ Ya reaccionaste a ${cardName}`}
                         }
-                    } else { result = `No te quedan reacciones disponibles - Siguiente en ${Math.round(wait.reacts)} minutos` }
-                } else { result = `No podés reaccionar a ${cardName} porque ya es tuya`}
+                    } else { result = `❌ No te quedan reacciones disponibles - Siguiente en ${Math.round(wait.reacts)} minutos` }
+                } else { result = `❌ No podés reaccionar a ${cardName} porque ya es tuya`}
                 break
 
             case "sell":
@@ -573,10 +573,10 @@ export default class User {
                     this.modifyData("bal", card.value*Data.config.economy.sellMultiplier)
                     this.updateEconomy()
 
-                    result = `${userName} vendió ${cardName} por $${card.value*Data.config.economy.sellMultiplier}!`
+                    result = `✅ ${userName} vendió ${cardName} por $${card.value*Data.config.economy.sellMultiplier}!`
                     success = true
-                    } else { result = `${cardName} está siendo subastada`}
-                } else { result = `${cardName} no te pertenece` }
+                    } else { result = `❌ ${cardName} está siendo subastada`}
+                } else { result = `❌ ${cardName} no te pertenece` }
                 break
 
             case "rename":
@@ -585,11 +585,11 @@ export default class User {
 
                         card.name = cardObj.newInfo
 
-                        result = `${userName} renombró a ${cardName} "${cardObj.newInfo}"!`
+                        result = `✅ ${userName} renombró a ${cardName} "${cardObj.newInfo}"!`
                         success = true
 
                     }
-                } else { result = `${cardName} no te pertenece` }
+                } else { result = `❌ ${cardName} no te pertenece` }
                 break
 
             case "desc":
@@ -598,11 +598,11 @@ export default class User {
 
                         card.description = cardObj.newInfo
 
-                        result = `${userName} cambió la descripción de ${cardName} "${cardObj.newInfo}"!`
+                        result = `✅ ${userName} cambió la descripción de ${cardName} "${cardObj.newInfo}"!`
                         success = true
 
                     }
-                } else { result = `${cardName} no te pertenece` }
+                } else { result = `❌ ${cardName} no te pertenece` }
                 break
         }
         return {success: success, result: result, updatedCard: card}
@@ -649,7 +649,7 @@ export default class User {
                 return {text: undefined, embed: result}
             }
         } else {
-            return {text: [`El nombre ${Util.code(nick)} no está registrado`], embed: undefined}
+            return {text: [`❌ El nombre ${Util.code(nick)} no está registrado`], embed: undefined}
         }
     }
 

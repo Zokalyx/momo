@@ -245,13 +245,13 @@ export default class Card { /* Command option */
                         }
                     }
                 } else {
-                    message = "El pack " + Util.upperFirst(pack) + " no contiene la carta #" + number 
+                    message = "❌ El pack " + Util.upperFirst(pack) + " no contiene la carta #" + number 
                 }
             } else {
-                message = "Escribí un número para especificar una carta"
+                message = "❌ Escribí un número para especificar una carta"
             }
         } else {
-            message = "No existe el pack " + Util.code(pack)
+            message = "❌ No existe el pack " + Util.code(pack)
         }
         return { success: success, message: message, card: selectedCard }
     }
