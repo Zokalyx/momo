@@ -195,45 +195,103 @@ class Card {
         }
         return { success: success, message: message, card: selectedCard };
     }
+    static updateAuctionsDueTo(reason, pack, deletedNumber, newPack, newNumber) {
+        for (const auc of data_1.default.storage.auctions) {
+            if (auc.card.pack === pack) {
+                if (reason === "delete") {
+                    if (auc.card.id > deletedNumber) {
+                        auc.card.id--;
+                    }
+                }
+                else {
+                    if (auc.card.id === deletedNumber) {
+                        auc.card.pack = newPack;
+                        auc.card.id = newNumber;
+                    }
+                }
+            }
+        }
+        for (const auc of data_1.default.storage.auctionsLog) {
+            if (auc.card.pack === pack) {
+                if (reason === "delete") {
+                    if (auc.card.id > deletedNumber) {
+                        auc.card.id--;
+                    }
+                    else if (auc.card.id === deletedNumber) {
+                        data_1.default.storage.auctionsLog.splice(data_1.default.storage.auctionsLog.indexOf(auc), 1);
+                    }
+                }
+                else {
+                    if (auc.card.id === deletedNumber) {
+                        auc.card.pack = newPack;
+                        auc.card.id = newNumber;
+                    }
+                }
+            }
+        }
+    }
     static rollCard(userID) {
         data_1.default.cache.rollCacheIndex++;
         if (data_1.default.cache.rollCacheIndex > data_1.default.config.maxRollCacheIndex) {
             data_1.default.cache.rollCacheIndex = 0;
         }
-        let t = Card.totalAmount();
-        let c = data_1.default.users[userID].collectionSize();
-        let d = t - c;
-        let w = 10;
-        let k = 1.5 * t;
-        let o = Math.floor(w * (1 + k / (c * c)));
-        if (o > 9 * w) {
-            o = 9 * w;
+        let totalWeights = 0;
+        for (const pack in data_1.default.cards) {
+            let col = data_1.default.cards[pack];
+            for (const c of col.filter(c => c.isCard)) {
+                totalWeights += 100 - c.rarity;
+            }
         }
-        // console.log(w, o)
-        let sumOfWeights = d * w + (isNaN(o) ? 0 : c * o);
-        let randomCard = Math.floor(Math.random() * sumOfWeights);
+        let randomCard = Math.floor(Math.random() * totalWeights);
         let acc = 0;
         for (const pack in data_1.default.cards) {
             let col = data_1.default.cards[pack];
             for (const c of col.filter(c => c.isCard)) {
-                if (c.owner === userID) {
-                    acc += o;
-                }
-                else {
-                    acc += w;
-                }
                 if (randomCard < acc) {
                     c.value += data_1.default.config.card.baseValue * c.rarity / 10;
                     if (c.value * c.multiplier > data_1.default.storage.topCardValue) {
                         data_1.default.storage.topCardValue = c.value * c.multiplier;
                     }
-                    if (c.owner !== "") {
-                        data_1.default.users[c.owner].updateEconomy();
-                    }
                     return c;
+                }
+                acc += 100 - c.rarity;
+            }
+        }
+        /*
+        let t = Card.totalAmount()
+        let c = Data.users[userID].collectionSize()
+        let d = t-c
+        let w = 10
+        let k = 1.5 * t
+        let o = Math.floor(w*(1+k/(c*c)))
+        if (o > 9*w) {
+            o = 9*w
+        }
+        // console.log(w, o)
+        let sumOfWeights = d*w + (isNaN(o) ? 0 : c*o)
+        let randomCard = Math.floor(Math.random()*sumOfWeights)
+        let acc = 0
+        for (const pack in Data.cards) {
+            let col = Data.cards[pack]
+            for (const c of col.filter( c => c.isCard )) {
+                if (c.owner === userID) {
+                    acc += o
+                } else {
+                    acc += w
+                }
+                if (randomCard < acc) {
+                    c.value += Data.config.card.baseValue*c.rarity/10
+                    if (c.value * c.multiplier > Data.storage.topCardValue) {
+                        Data.storage.topCardValue = c.value * c.multiplier
+                    }
+                    if (c.owner !== "") {
+                        Data.users[c.owner].updateEconomy()
+                    }
+                    return c
                 }
             }
         }
+        */
     }
 }
 exports.default = Card;

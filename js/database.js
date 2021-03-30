@@ -50,15 +50,15 @@ class Database {
             }, data_1.default.config.autosaveFrequency * 60 * 1000);
         });
     }
-    /*static migrate() {
-        let fs = require("fs")
-        let read = JSON.parse(fs.readFileSync("C:\\Users\\White Python\\Desktop\\Momo\\backup.json", 'utf8'))
-        Data.users = read.users
-        Data.config = read.config
-        Data.cards = read.cards
-        Data.storage = read.storage
-        Database.file("w")
-    }*/
+    static migrate() {
+        let fs = require("fs");
+        let read = JSON.parse(fs.readFileSync("C:\\Users\\White Python\\Desktop\\Momo\\backup.json", 'utf8'));
+        data_1.default.users = read.users;
+        data_1.default.config = read.config;
+        data_1.default.cards = read.cards;
+        data_1.default.storage = read.storage;
+        Database.file("w");
+    }
     static createBackup() {
         let fs = require("fs");
         let toSave = JSON.parse(JSON.stringify(data_1.default));
@@ -70,6 +70,7 @@ class Database {
                 return;
             }
         });
+        console.log("Creating a backup...");
     }
 }
 exports.default = Database;

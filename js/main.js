@@ -26,11 +26,38 @@ exports.default = Main;
 Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
 function CommandHandler(msg, client) {
-    var _a, _b, _c;
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         if (!msg.content.startsWith(data_1.default.config.prefix)) {
+            if (!msg.author.bot && msg.content.startsWith("http") && data_1.default.cache.waitingForBulk.status) {
+                let cont = msg.content;
+                let tans;
+                let main = data_1.default.cache.waitingForBulk.pack;
+                if (cont.includes("tenor") && !cont.endsWith(".gif")) {
+                    let gifRequest = yield request_1.default.getTenorGif(cont);
+                    if (gifRequest.success) {
+                        cont = gifRequest.link;
+                    }
+                    else {
+                        tans = "Hubo un error";
+                    }
+                }
+                let nw = new card_1.default({ pack: main, content: cont });
+                data_1.default.cards[main].push(nw);
+                let niceType = "Texto";
+                if (nw.type === "gif") {
+                    niceType = "Gif";
+                }
+                else if (nw.type === "img") {
+                    niceType = "Imagen";
+                }
+                tans = niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + (card_1.default.cardsIn(main) - 1) + ")";
+                msg.channel.send(tans);
+                return;
+            }
             return;
         } // only listen when prefix
+        data_1.default.cache.waitingForBulk.status = false;
         data_1.default.cache.thereWasChange = true;
         let normalArgs = msg.content.split(" "); // To be used when user input is important
         let args = normalArgs.map(a => a.toLowerCase());
@@ -77,46 +104,78 @@ function CommandHandler(msg, client) {
         let response; // Auxiliary
         let askedForConfirm = false;
         switch (main) {
-            case "ark":
+            case "move":
+                if (act > 3) {
+                    let val = card_1.default.validate(args[1], args[2]);
+                    if (val.success) {
+                        if (args[3] in data_1.default.cards) {
+                            let c = val.card;
+                            let oldName = c.getName();
+                            c.pack = args[3];
+                            data_1.default.cards[args[1]].splice(c.id, 1);
+                            c.id = card_1.default.cardsIn(c.pack);
+                            data_1.default.cards[args[3]].push(c);
+                            card_1.default.updatePackIndexes(args[3]);
+                            card_1.default.updatePackIndexes(args[1]);
+                            card_1.default.updateAuctionsDueTo("move", args[1], Number(args[2]), c.pack, c.id);
+                            for (const u in data_1.default.users) {
+                                data_1.default.users[u].fixPack(args[1]);
+                                data_1.default.users[u].fixPack(args[3]);
+                            }
+                            resp.text = ["Se movió " + oldName + " al pack " + util_1.default.upperFirst(args[3])];
+                        }
+                        else {
+                            resp.text = ["No existe el pack " + util_1.default.upperFirst(args[3])];
+                        }
+                    }
+                    else {
+                        resp.text = [val.message];
+                    }
+                }
+                else {
+                    resp.text = ["Uso correcto: " + util_1.default.code("move <pack> <número> <pack>")];
+                }
+                break;
+            /*case "load":
+                Database.migrate()
+                break*/
+            /*case "ark":
                 if (act > 1) {
                     if (args[1] === "+") {
                         if (act > 3) {
-                            let response = card_1.default.validate(args[2], args[3]);
+                            let response = Card.validate(args[2], args[3])
                             if (response.success) {
-                                resp.text = ["Se añadio " + ((_a = response.card) === null || _a === void 0 ? void 0 : _a.getLong()) + " a tu arca de cartas"];
-                                response.card.inArk = true;
+                                resp.text = ["Se añadio " + response.card?.getLong() + " a tu arca de cartas"]
+                                response.card!.inArk = true
+                            } else {
+                                resp.text = [response.message!]
                             }
-                            else {
-                                resp.text = [response.message];
-                            }
-                        }
-                        else {
-                            resp.text = ["Añadi cartas con ark + y remove con ark -"];
-                        }
-                    }
-                    else if (args[1] === "-") {
+                        } else { resp.text = ["Añadi cartas con ark + y remove con ark -"] }
+                    } else if (args[1] === "-") {
                         if (act > 3) {
-                            let response = card_1.default.validate(args[2], args[3]);
+                            let response = Card.validate(args[2], args[3])
                             if (response.success) {
-                                response.card.inArk = false;
-                                resp.text = ["Se removio " + ((_b = response.card) === null || _b === void 0 ? void 0 : _b.getLong()) + " de tu arca de cartas"];
+                                response.card!.inArk = false
+                                resp.text = ["Se removio " + response.card?.getLong() + " de tu arca de cartas"]
+                            } else {
+                                resp.text = [response.message!]
                             }
-                            else {
-                                resp.text = [response.message];
-                            }
-                        }
-                        else {
-                            resp.text = ["Añadi cartas con ark + y remove con ark -"];
-                        }
+                        } else { resp.text = ["Añadi cartas con ark + y remove con ark -"] }
                     }
                 }
-                resp.text = ogUser.getArk().map(c => `${c.getLong()} - $${c.value} - x${c.multiplier}`);
-                resp.text.unshift("Tu arca de cartas, van a seguir siendo tuyas despues del reset");
-                resp.text.push(String(ogUser.getArk().length) + " cartas");
-                resp.text.push("Añadi cartas con ark + y remove con ark -");
-                break;
+                    resp.text = ogUser.getArk().map( c => `${c.getLong()} - $${c.value} - x${c.multiplier}`)
+                    resp.text.unshift("Tu arca de cartas, van a seguir siendo tuyas despues del reset")
+                    resp.text.push(String(ogUser.getArk().length) + " cartas")
+                    resp.text.push("Añadi cartas con ark + y remove con ark -")
+                break*/
             case "backup":
-                database_1.default.createBackup();
+                if (process.env.ON_LOCAL === "true") {
+                    database_1.default.createBackup();
+                    resp.text = ["Backup creado"];
+                }
+                else {
+                    resp.text = ["Comando no disponible"];
+                }
                 break;
             case "new":
                 resp.text = messages_1.default.new;
@@ -156,6 +215,14 @@ function CommandHandler(msg, client) {
             case "p":
             case "prev":
                 resp.text = ["Comando actualmente no disponible"];
+                break;
+            case "fix":
+                for (const pack in data_1.default.cards) {
+                    card_1.default.updatePackIndexes(pack);
+                }
+                user_1.default.fixAllCol();
+                resp.text = ["Se arreglaron packs y collecciones"];
+                break;
             case "income":
             case "inc":
             case "sub":
@@ -169,7 +236,7 @@ function CommandHandler(msg, client) {
                     if (act > 2) {
                         let response = card_1.default.validate(args[1], args[2]);
                         if (response.success) {
-                            resp.embed = (_c = response.card) === null || _c === void 0 ? void 0 : _c.getEmbed();
+                            resp.embed = (_a = response.card) === null || _a === void 0 ? void 0 : _a.getEmbed();
                         }
                         else {
                             resp.text = [response.message];
@@ -190,6 +257,7 @@ function CommandHandler(msg, client) {
                 else {
                     resp.text = ["Comando no disponible"];
                 }
+                break;
             case "rename":
                 response = verifyInput(args, act, "rename <pack> <número> <nombre>", true);
                 if (response.success) {
@@ -454,7 +522,7 @@ function CommandHandler(msg, client) {
                 }
                 break;
             case "link":
-                resp.text = ["https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
+                resp.text = ["NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
                 break;
             case "col":
             case "collection":
@@ -718,8 +786,10 @@ function CommandHandler(msg, client) {
             default:
                 if (main in data_1.default.cards) {
                     resp.text = yield customCommand(main, act, args, normalArgs, ogId);
-                    if (resp.text[0].startsWith("Esta carta le pertenece a")) {
-                        askedForConfirm = true;
+                    if (resp.text) {
+                        if (resp.text[0].startsWith("Esta carta le pertenece a")) {
+                            askedForConfirm = true;
+                        }
                     }
                 }
                 else {
@@ -835,7 +905,6 @@ function customCommand(main, act, args, normalArgs, ogId) {
                         let cont = normalArgs.slice(2).join(" ");
                         if (cont.includes("tenor") && !cont.endsWith(".gif")) {
                             let gifRequest = yield request_1.default.getTenorGif(cont);
-                            console.log(gifRequest);
                             if (gifRequest.success) {
                                 cont = gifRequest.link;
                             }
@@ -853,25 +922,23 @@ function customCommand(main, act, args, normalArgs, ogId) {
                         else if (nw.type === "img") {
                             niceType = "Imagen";
                         }
-                        tans = [niceType + " agregado/a al comando " + util_1.default.code(main)];
+                        tans = [niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + (card_1.default.cardsIn(main) - 1) + ")"];
                     }
                     else {
-                        tans = ["Uso correcto: " + util_1.default.code("<comando> + <contenido>")];
+                        tans = ["Esperando contenido para el pack " + util_1.default.code(main)];
+                        data_1.default.cache.waitingForBulk.status = true;
+                        data_1.default.cache.waitingForBulk.pack = main;
                     }
                     break;
                 case "-":
                 case "remove":
                     let toRemoveId = data_1.default.cards[main].length - 1;
                     let success = true;
-                    console.log("a");
                     if (act > 2) {
-                        console.log("b");
                         let num = Number(args[2]);
                         if (!isNaN(num)) {
-                            console.log("c");
                             if (num > 0 && num <= data_1.default.cards[main].length) {
                                 toRemoveId = num - 1;
-                                console.log("d");
                             }
                             else {
                                 tans = ["El comando " + util_1.default.code(main) + " no contiene la opción número " + num];
@@ -882,38 +949,31 @@ function customCommand(main, act, args, normalArgs, ogId) {
                             tans = ["Uso correcto: " + util_1.default.code("<comando> - (<número>)")];
                             success = false;
                         }
-                        console.log("e");
                         toRemoveId = Number(args[2]) - 1;
                     }
                     if (success) {
-                        console.log("f");
                         tans = [];
                         let c = data_1.default.cards[main][toRemoveId];
                         let cancel = false;
-                        console.log("g");
                         if (c.owner === ogId) {
-                            console.log("h");
                             tans = ["Fuiste compensado $" + c.value];
                             data_1.default.users[ogId].modifyData("bal", c.value);
                             data_1.default.users[ogId].removeCard(c);
-                            console.log("i");
                         }
                         else if (c.owner !== "") {
-                            console.log("j");
                             tans = ["Esta carta le pertenece a " + data_1.default.users[c.owner].defaultName + ", escribí" + util_1.default.code("confirm") + " y se le compensará su valor"];
                             cancel = true;
-                            console.log("k");
+                        }
+                        else if (c.inAuction) {
+                            tans = ["Esta carta está en subasta"];
+                            cancel = true;
                         }
                         if (!cancel) {
-                            console.log(main);
                             data_1.default.cards[main].splice(toRemoveId, 1);
-                            console.log("here");
                             card_1.default.updatePackIndexes(main);
-                            console.log("here?");
+                            card_1.default.updateAuctionsDueTo("delete", main, toRemoveId);
                             user_1.default.updateDueToDeletion(main, toRemoveId);
-                            console.log("there!");
                             tans.unshift("Opción " + (toRemoveId + 1) + " del comando " + util_1.default.code(main) + " removida");
-                            console.log("m");
                         }
                     }
                     break;

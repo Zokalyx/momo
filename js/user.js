@@ -18,6 +18,7 @@ const data_1 = __importDefault(require("./data"));
 const util_1 = __importDefault(require("./util"));
 class User {
     constructor({ id, guild, defaultName = "", nicks = [], initials = { bal: -1, reacts: -1, buys: -1, invs: -1, rolls: -1 }, description = "" }) {
+        this.lastBuyTime = Date.now();
         this.id = id;
         this.nicks = nicks;
         this.description = description;
@@ -69,13 +70,13 @@ class User {
             }
         }
         let { totalValue, averageValue, passiveIncome, cardsOwned } = this.collectionInfo().total;
-        let realPassive = passiveIncome + this.subsidio();
+        let realPassive = Date.now() - this.lastBuyTime > data_1.default.config.economy.lastBuyTimeLimit * 60 * 60 * 1000 ? "0 (inactivo)" : Math.floor(passiveIncome + this.subsidio());
         return new discord_js_1.MessageEmbed()
             .setTitle(`__${this.defaultName}__`)
             .setDescription(this.description)
             .setColor(this.color)
             .setThumbnail(this.avatarURL)
-            .addFields({ name: "Cartas   ", value: cardsOwned + "/" + card_1.default.totalAmount() + ` - ${Math.round(100 * cardsOwned / card_1.default.totalAmount())}%`, inline: true }, { name: "Total    ", value: "$" + totalValue, inline: true }, { name: "Promedio  ", value: "$" + Math.round(averageValue), inline: true }, { name: "Balance", value: "$" + Math.floor(bal), inline: true }, { name: "Ingresos", value: `$ ${Math.floor(realPassive)}/día`, inline: true }, { name: "Inversiones", value: Math.floor(invs) + max.invs, inline: true }, { name: "Rolls", value: Math.floor(rolls) + max.rolls, inline: true }, { name: "Reacciones", value: Math.floor(reacts) + max.reacts, inline: true }, { name: "Compras", value: Math.floor(buys) + max.buys, inline: true })
+            .addFields({ name: "Cartas   ", value: cardsOwned + "/" + card_1.default.totalAmount() + ` - ${Math.round(100 * cardsOwned / card_1.default.totalAmount())}%`, inline: true }, { name: "Total    ", value: "$" + totalValue, inline: true }, { name: "Promedio  ", value: "$" + Math.round(averageValue), inline: true }, { name: "Balance", value: "$" + Math.floor(bal), inline: true }, { name: "Ingresos", value: `$${realPassive}/día`, inline: true }, { name: "Inversiones", value: Math.floor(invs) + max.invs, inline: true }, { name: "Rolls", value: Math.floor(rolls) + max.rolls, inline: true }, { name: "Reacciones", value: Math.floor(reacts) + max.reacts, inline: true }, { name: "Compras", value: Math.floor(buys) + max.buys, inline: true })
             .setFooter(`nombres: ${this.nicks.join(", ")}  -  id: ${this.id}`);
     }
     updateGuildInfo(guild) {
@@ -117,7 +118,19 @@ class User {
             let commonEco = eco[key];
             if (key === "bal") {
                 let { passiveIncome } = this.collectionInfo().total;
-                commonEco.amount += (now - commonEco.lastChecked) / 86400000 * (passiveIncome + this.subsidio()); // p. income is measured in days
+                let actual = passiveIncome + this.subsidio();
+                let timeLimit = this.lastBuyTime + data_1.default.config.economy.lastBuyTimeLimit * 60 * 60 * 1000;
+                if (commonEco.lastChecked < timeLimit) {
+                    if (now > timeLimit) {
+                        commonEco.amount += (timeLimit - commonEco.lastChecked) / 86400000 * actual;
+                    }
+                    else {
+                        commonEco.amount += (now - commonEco.lastChecked) / 86400000 * actual;
+                    }
+                }
+                else {
+                    commonEco.amount += 0;
+                }
             }
             else {
                 commonEco.amount += (now - commonEco.lastChecked) / 3600000 * data_1.default.config.economy.rates[key]; // measured in hours
@@ -168,6 +181,21 @@ class User {
     }
     modifyData(key, amount) {
         this.economy[key].amount += amount;
+    }
+    fixPack(pack) {
+        this.collection[pack] = [];
+        for (const c of data_1.default.cards[pack]) {
+            if (c.owner === this.id) {
+                this.collection[pack].push(c.id);
+            }
+        }
+    }
+    static fixAllCol() {
+        for (const u in data_1.default.users) {
+            for (const pack in data_1.default.cards) {
+                data_1.default.users[u].fixPack(pack);
+            }
+        }
     }
     collectionSize() {
         let ans = 0;
@@ -235,12 +263,20 @@ class User {
             return false;
         }
     }
+    addCardAll(pack, num) {
+        let c = data_1.default.cards[pack][num];
+        c.owner = this.id;
+        this.addCard(c);
+    }
     subsidio() {
-        let ans = 16000 / this.collectionSize() + 100;
+        /*
+        let ans = 16000/this.collectionSize()+100
         if (ans > 1500 || isNaN(ans) || ans < 0) {
-            ans = 1500;
+            ans = 1500
         }
-        return ans;
+        return ans
+        */
+        return data_1.default.config.economy.subsidio;
     }
     intWithCard(action, cardObj, other) {
         /* Interactions with cards: Auction, Buy, Inv, React, Sell, Give */
@@ -374,6 +410,7 @@ class User {
                             this.modifyData("buys", -1);
                             this.modifyData("bal", -card.value);
                             this.updateEconomy();
+                            this.lastBuyTime = Date.now();
                             result = `${userName} compró ${cardName} por $${card.value}!`;
                             success = true;
                         }
@@ -422,9 +459,12 @@ class User {
                             if (!cardObj.msg.reactedBy.includes(this.id)) {
                                 let reactorReward;
                                 let baseReward = Math.round(card.value * card.multiplier * data_1.default.config.economy.reactorBaseRewardMultiplier);
-                                if (card.owner === "") {
+                                if (card.owner === "" || cardObj.msg.reactedBy.length === 0) {
                                     reactorReward = baseReward;
                                     result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`;
+                                    if (card.owner !== "") {
+                                        result += `\n${data_1.default.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`;
+                                    }
                                 }
                                 else {
                                     reactorReward = Math.round(baseReward * data_1.default.config.economy.reactorNonOwnerMultiplier);
@@ -516,6 +556,9 @@ class User {
             }
         }
         return { success: false };
+    }
+    static gu(nick) {
+        return User.getUserFromNick(nick).user;
     }
     static doIfTarget(targetUser, targetFound, callback, nick, formatData) {
         if (targetFound) {

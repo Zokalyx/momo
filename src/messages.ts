@@ -56,7 +56,8 @@ export = {
         "**__Momo 2.1:__**",
         "",
         " - Modo de adición rápida: `<pack> +` inicia la adición rápida de imágenes y gifs",
-        " - Comando `move`: Se pueden mover cartas entre packs",
+        " - Comando `move`: se pueden mover cartas entre packs",
+        " - Comando `fix`: reordena cartas y colecciones en caso de que haya un problema",
         " - Ajustes a la economía para favorecer un crecimiento estable y lento",
         " - Los gifs ahora valen 2.5 lo que valen las imágenes nórmales y son más raras de obtener",
         " - Los ingresos pasivos son ahora muy igualitarios, pero se frenan cuando no comprás por cierto tiempo",
@@ -158,6 +159,7 @@ export = {
             "`save` guarda todos los datos permanentemente",
             "`exit (nosave)` apaga el bot y guarda los datos a menos que se escriba 'nosave'",
             "`config` muestra la configuración actual",
+            "`fix` reordena cartas y colecciones en caso de que haya un problema",
         ],
 
     },

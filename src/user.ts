@@ -367,6 +367,12 @@ export default class User {
         }
     }
 
+    addCardAll(pack: string, num: number) {
+        let c =  Data.cards[pack][num]
+        c.owner = this.id
+        this.addCard(c)
+    }
+
     subsidio(): number {
         /*
         let ans = 16000/this.collectionSize()+100
@@ -625,6 +631,10 @@ export default class User {
             }
         }
         return { success: false }
+    }
+
+    static gu(nick: string) {
+        return User.getUserFromNick(nick).user!
     }
 
     static doIfTarget(targetUser: User, targetFound: boolean, callback: Function, nick: string, formatData?: ((arg0: any) => Array<string>)) {

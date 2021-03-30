@@ -153,7 +153,12 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             break*/
 
         case "backup":
-            Database.createBackup()
+            if (process.env.ON_LOCAL === "true") {
+                Database.createBackup()
+                resp.text = [ "Backup creado" ]
+            } else {
+                resp.text = [ "Comando no disponible" ]
+            }
             break
 
         case "new":
@@ -201,6 +206,13 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             break
 
 
+        case "fix":
+            for (const pack in Data.cards) {
+                Card.updatePackIndexes(pack)
+            }
+            User.fixAllCol()
+            resp.text = ["Se arreglaron packs y collecciones"]
+            break
 
         case "income":
         case "inc":
@@ -230,6 +242,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             } else {
                 resp.text = ["Comando no disponible"]
             }
+            break
 
         case "rename":
             response = verifyInput(args, act, "rename <pack> <número> <nombre>", true)

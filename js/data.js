@@ -9,6 +9,8 @@ let Data = {
         maxRollCacheIndex: 5,
         maxTimeToInteract: 1,
         economy: {
+            subsidio: 500,
+            lastBuyTimeLimit: 24,
             hoursToClaim: 48,
             minimumOfferIncrease: 50,
             sellMultiplier: 0.5,
@@ -47,6 +49,10 @@ let Data = {
         thereWasChange: false,
         rollCache: [],
         rollCacheIndex: 0,
+        waitingForBulk: {
+            status: false,
+            pack: "",
+        }
     }
 };
 exports.default = Data;
