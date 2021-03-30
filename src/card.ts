@@ -313,6 +313,7 @@ export default class Card { /* Command option */
         for (const pack in Data.cards) {
             let col = Data.cards[pack]
             for (const c of col.filter( c => c.isCard )) {
+                acc += 100 - c.rarity
                 if (randomCard < acc) {
                     c.value += Data.config.card.baseValue*c.rarity/10
                     if (c.value * c.multiplier > Data.storage.topCardValue) {
@@ -320,7 +321,6 @@ export default class Card { /* Command option */
                     }
                     return c
                 }
-                acc += 100 - c.rarity
             }
         }
         /*

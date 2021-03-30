@@ -247,6 +247,7 @@ class Card {
         for (const pack in data_1.default.cards) {
             let col = data_1.default.cards[pack];
             for (const c of col.filter(c => c.isCard)) {
+                acc += 100 - c.rarity;
                 if (randomCard < acc) {
                     c.value += data_1.default.config.card.baseValue * c.rarity / 10;
                     if (c.value * c.multiplier > data_1.default.storage.topCardValue) {
@@ -254,7 +255,6 @@ class Card {
                     }
                     return c;
                 }
-                acc += 100 - c.rarity;
             }
         }
         /*
