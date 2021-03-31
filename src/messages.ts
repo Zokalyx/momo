@@ -72,6 +72,7 @@ export = {
         "**__Momo 2.2:__**",
         "",
         " ⭐ Website funcional! Usá `link` para verlo",
+        " - Rarezas añadidas (Común, Rara, Épica, Legendaria). Falta la implementación de épicas y legendarias"
     ],
 
     help: {
