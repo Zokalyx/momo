@@ -107,7 +107,7 @@ export = {
             "`move` <pack> <número> <pack>` mueve una carta de un pack a otro",
 
             "`pack <pack>` muestra las cartas de un pack",
-            "`link` muestra el último pack seleccionado en el navegador",
+            "`link (<pack>)` muestra el último pack seleccionado en el navegador",
             "`pack list` muestra una lista de todos los packs",
             "`top pack` muestra la lista de los 10 packs con valor promedio de carta más alto"
         ],

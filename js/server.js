@@ -26,7 +26,7 @@ function displayPackInfo() {
         delete c.isCard;
         delete c.id;
         delete c.type;
-        ans += `<strong>${c.getName()}</strong> ${JSON.stringify(c)} <br> <img height=300 src="${cont}"> <br> <br>`;
+        ans += `<strong>${c.getName()}</strong> ${JSON.stringify(c)} <br> <a href="${cont}"> <img height=300 src="${cont}"> </a> <br> <br>`;
     }
     return ans;
 }
