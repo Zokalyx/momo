@@ -61,6 +61,10 @@ module.exports = {
         " - Los packs generales no pueden tener más de 50 cartas",
         " - Arreglos de bugs",
         " - Varias adiciones más y cambios planeados!",
+        "",
+        "**__Momo 2.2:__**",
+        "",
+        " ⭐ Website funcional! Usá `link` para verlo",
     ],
     help: {
         user: [
