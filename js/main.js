@@ -922,7 +922,7 @@ function customCommand(main, act, args, normalArgs, ogId) {
                         else if (nw.type === "img") {
                             niceType = "Imagen";
                         }
-                        tans = ["✅ " + niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + (card_1.default.cardsIn(main) - 1) + ")"];
+                        tans = ["✅ " + niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + (card_1.default.cardsIn(main)) + ")"];
                     }
                     else {
                         tans = ["Esperando contenido para el pack " + util_1.default.code(main)];
