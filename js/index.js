@@ -34,7 +34,7 @@ database_1.default.file("r")
     card_1.default.populate();
     console.log("Created objects!");
     console.log("Logging in to Discord...");
-    //client.login(process.env.DISCORD_TOKEN)
+    client.login(process.env.DISCORD_TOKEN);
 })
     .catch(() => {
     console.log("Couldn't connect to database, shutting down...");
