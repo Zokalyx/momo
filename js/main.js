@@ -136,9 +136,9 @@ function CommandHandler(msg, client) {
                     resp.text = ["❌ Uso correcto: " + util_1.default.code("move <pack> <número> <pack>")];
                 }
                 break;
-            /*case "load":
-                Database.migrate()
-                break*/
+            case "load":
+                database_1.default.migrate();
+                break;
             /*case "ark":
                 if (act > 1) {
                     if (args[1] === "+") {
@@ -524,13 +524,15 @@ function CommandHandler(msg, client) {
             case "link":
                 if (act > 1) {
                     if (args[1] in data_1.default.cards) {
-                        data_1.default.cache.packInWebsite = args[1];
+                        resp.text = ["https://momo.zokalyx.repl.co/" + args[1]];
                     }
                     else {
                         resp.text = ["❌ El pack " + args[1] + " no existe"];
                     }
                 }
-                resp.text = ["https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
+                else {
+                    resp.text = ["https://momo.zokalyx.repl.co/"];
+                }
                 break;
             case "col":
             case "collection":

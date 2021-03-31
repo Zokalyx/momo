@@ -51,6 +51,7 @@ class Database {
         });
     }
     static migrate() {
+        console.log("Loading json...");
         let fs = require("fs");
         let read = JSON.parse(fs.readFileSync("C:\\Users\\White Python\\Desktop\\Momo\\backup.json", 'utf8'));
         data_1.default.users = read.users;

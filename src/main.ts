@@ -118,9 +118,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             } else { resp.text = ["❌ Uso correcto: " + Util.code("move <pack> <número> <pack>")] }
             break
 
-        /*case "load":
+        case "load":
             Database.migrate()
-            break*/
+            break
 
         /*case "ark":
             if (act > 1) {
@@ -478,10 +478,11 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "link":
             if (act > 1) {
                 if (args[1] in Data.cards) {    
-                    Data.cache.packInWebsite = args[1]
+                    resp.text = [ "https://momo.zokalyx.repl.co/" + args[1] ]
                 } else { resp.text = ["❌ El pack " + args[1] + " no existe"]}
+            } else {
+                resp.text = [ "https://momo.zokalyx.repl.co/" ]
             }
-            resp.text = [ "https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
             break
 
         case "col":

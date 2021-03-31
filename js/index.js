@@ -22,11 +22,11 @@ const data_1 = __importDefault(require("./data"));
 const main_1 = __importDefault(require("./main"));
 const user_1 = __importDefault(require("./user"));
 const card_1 = __importDefault(require("./card"));
-server_1.default();
 const client = new discord_js_1.default.Client();
 console.log("Retrieving data...");
 database_1.default.file("r")
     .then(val => {
+    server_1.default();
     Object.assign(data_1.default, val);
     database_1.default.autosave();
     console.log("Creating objects...");
@@ -34,7 +34,7 @@ database_1.default.file("r")
     card_1.default.populate();
     console.log("Created objects!");
     console.log("Logging in to Discord...");
-    client.login(process.env.DISCORD_TOKEN);
+    //client.login(process.env.DISCORD_TOKEN)
 })
     .catch(() => {
     console.log("Couldn't connect to database, shutting down...");

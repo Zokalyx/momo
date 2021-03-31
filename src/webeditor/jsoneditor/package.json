@@ -1,0 +1,108 @@
+{
+  "_from": "jsoneditor@^9.2.0",
+  "_id": "jsoneditor@9.2.0",
+  "_inBundle": false,
+  "_integrity": "sha512-n8ceD09+L9U9lwP3poW6NAEmm2Z02rxhq4HRB6pC+id1N2LpyMhYFxIDlEisdVMr7Rd0HF33YiIbUPjBw9O7JA==",
+  "_location": "/jsoneditor",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "jsoneditor@^9.2.0",
+    "name": "jsoneditor",
+    "escapedName": "jsoneditor",
+    "rawSpec": "^9.2.0",
+    "saveSpec": null,
+    "fetchSpec": "^9.2.0"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/jsoneditor/-/jsoneditor-9.2.0.tgz",
+  "_shasum": "cb11cf5cb80ce686f5275e50f79785c2430f0de9",
+  "_spec": "jsoneditor@^9.2.0",
+  "_where": "C:\\Users\\White Python\\Desktop\\Momo",
+  "author": {
+    "name": "Jos de Jong",
+    "email": "wjosdejong@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/josdejong/jsoneditor/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "ace-builds": "^1.4.12",
+    "ajv": "^6.12.6",
+    "javascript-natural-sort": "^0.7.1",
+    "jmespath": "^0.15.0",
+    "json-source-map": "^0.6.1",
+    "jsonrepair": "^2.0.0",
+    "mobius1-selectr": "^2.4.13",
+    "picomodal": "^3.0.0",
+    "vanilla-picker": "^2.11.2"
+  },
+  "deprecated": false,
+  "description": "A web-based tool to view, edit, format, and validate JSON",
+  "devDependencies": {
+    "@babel/core": "7.13.1",
+    "@babel/preset-env": "7.13.5",
+    "@babel/register": "7.13.0",
+    "babel-loader": "8.2.2",
+    "btoa": "1.2.1",
+    "date-format": "3.0.0",
+    "fancy-log": "1.3.3",
+    "gulp": "4.0.2",
+    "gulp-clean-css": "4.3.0",
+    "gulp-concat-css": "3.1.0",
+    "gulp-sass": "4.1.0",
+    "jsdom": "16.4.0",
+    "json-loader": "0.5.7",
+    "mkdirp": "1.0.4",
+    "mocha": "8.3.0",
+    "source-map-loader": "2.0.1",
+    "standard": "16.0.3",
+    "uglify-js": "3.12.8",
+    "webpack": "5.24.1"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "examples",
+    "src",
+    "HISTORY.md",
+    "index.js",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "homepage": "https://github.com/josdejong/jsoneditor",
+  "license": "Apache-2.0",
+  "main": "./dist/jsoneditor.min.js",
+  "name": "jsoneditor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josdejong/jsoneditor.git"
+  },
+  "scripts": {
+    "build": "gulp",
+    "lint": "standard --env=mocha",
+    "minify": "gulp minify",
+    "prepublishOnly": "npm test && npm run build",
+    "start": "gulp watch",
+    "test": "mocha test --require @babel/register"
+  },
+  "standard": {
+    "ignore": [
+      "src/js/assets",
+      "examples/react*"
+    ]
+  },
+  "tags": [
+    "json",
+    "editor",
+    "viewer",
+    "formatter"
+  ],
+  "version": "9.2.0"
+}

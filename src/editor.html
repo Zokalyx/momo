@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <!-- when using the mode "code", it's important to specify charset utf-8 -->
+    <meta charset="utf-8">
+    <title>Editor de datos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./webeditor/jsoneditor/dist/jsoneditor.min.js"></script>
+    <link href="./webeditor/jsoneditor/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <a href="http://localhost:3000/"> Menú </a> <br> <br>
+    <div id="jsoneditor" style="width: 1000px; height: 600px;"></div> <br>
+    <input type="text" id="password" placeholder="contraseña">
+    <button onclick="submit()"> Guardar </button>
+
+    <script>
+        String.prototype.hashCode = function() {
+            var hash = 0;
+            if (this.length == 0) {
+                return hash;
+            }
+            for (var i = 0; i < this.length; i++) {
+                var char = this.charCodeAt(i);
+                hash = ((hash<<5)-hash)+char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        }
+        // PUT request
+        /*let submit = () => {
+            let updatedJson = JSON.stringify(editor.get());
+            jQuery.post("http://" + window.location.hostname + ":" + window.location.port + "/json", {data: "hola"}, () => 
+                {alert("Datos guardados")}
+            );
+        }*/
+        submit = () => {
+
+            if ($("#password").val().hashCode() !== 1960807562) { 
+                alert("Contraseña incorrecta");
+                return
+            }
+
+            fetch("http://" + window.location.hostname + ":" + window.location.port + "/json",
+                {
+                    method: "post",
+                    body: JSON.stringify(editor.get())
+                }
+            ).then(() => {displaySuccess()}).catch(console.log)
+        }
+
+        let displaySuccess = () => {
+            alert("Datos guardados")
+        }
+
+        // create the editor
+        const container = document.getElementById("jsoneditor");
+        const options = {};
+        const editor = new JSONEditor(container, options);
+
+        // set json
+        const initialJson = {
+            "Cargando datos": "..."
+        }
+        let json
+        $.getJSON("http://" + window.location.hostname + ":" + window.location.port + "/json", (data, status) => {
+            editor.set(data);
+        })
+    </script>
+</body>
+</html>

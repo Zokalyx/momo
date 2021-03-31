@@ -10,13 +10,12 @@ import Main from "./main"
 import User from "./user"
 import Card from "./card";
 
-keepAlive()
-
 const client = new Discord.Client()
 
 console.log("Retrieving data...")
 Database.file("r")
-    .then(val => { 
+    .then(val => {
+        keepAlive()
         Object.assign(Data, val)
         Database.autosave()
 
@@ -26,7 +25,7 @@ Database.file("r")
         console.log("Created objects!")
 
         console.log("Logging in to Discord...")
-        client.login(process.env.DISCORD_TOKEN)
+        //client.login(process.env.DISCORD_TOKEN)
     })
     .catch(() => {
         console.log("Couldn't connect to database, shutting down...")
