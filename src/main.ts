@@ -476,6 +476,11 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
 
         case "link":
+            if (act > 1) {
+                if (args[1] in Data.cards) {    
+                    Data.cache.packInWebsite = args[1]
+                } else { resp.text = ["❌ El pack " + args[1] + " no existe"]}
+            }
             resp.text = [ "https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
             break
 

@@ -522,6 +522,14 @@ function CommandHandler(msg, client) {
                 }
                 break;
             case "link":
+                if (act > 1) {
+                    if (args[1] in data_1.default.cards) {
+                        data_1.default.cache.packInWebsite = args[1];
+                    }
+                    else {
+                        resp.text = ["❌ El pack " + args[1] + " no existe"];
+                    }
+                }
                 resp.text = ["https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
                 break;
             case "col":
