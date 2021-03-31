@@ -30,7 +30,7 @@ for (const pack in Data.cards) {
 }
 
 server.all("/editor", (req, res, next) => {
-    res.sendFile("editor.html", {root: "./" })
+    res.sendFile("editor.html", {root: "./js/" })
 })
 
 server.get("/json", (req, res, next) => {
