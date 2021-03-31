@@ -30,7 +30,7 @@ for (const pack in data_1.default.cards) {
     });
 }
 server.all("/editor", (req, res, next) => {
-    res.sendFile("website/editor.html", { root: "./" });
+    res.sendFile("editor.html", { root: "./" });
 });
 server.get("/json", (req, res, next) => {
     res.send(JSON.stringify(data_1.default));
