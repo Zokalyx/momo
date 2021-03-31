@@ -545,13 +545,13 @@ export default class User {
                                 let baseReward = Math.round(card.value*card.multiplier*Data.config.economy.reactorBaseRewardMultiplier)
                                 if (card.owner === "" || cardObj.msg.reactedBy.length === 0) {
                                     reactorReward = baseReward
-                                    result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`
+                                    result = `✅ ${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`
                                     if (card.owner !== "") {
                                         result += `\n${Data.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`
                                     }
                                 } else {
                                     reactorReward = Math.round(baseReward*Data.config.economy.reactorNonOwnerMultiplier)
-                                    result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}`
+                                    result = `✅ ${userName} reaccionó a ${cardName} y ganó $${reactorReward}`
                                     result += `\n${Data.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`
                                     Data.users[card.owner].modifyData("bal", baseReward)
                                 }

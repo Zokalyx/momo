@@ -461,14 +461,14 @@ class User {
                                 let baseReward = Math.round(card.value * card.multiplier * data_1.default.config.economy.reactorBaseRewardMultiplier);
                                 if (card.owner === "" || cardObj.msg.reactedBy.length === 0) {
                                     reactorReward = baseReward;
-                                    result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`;
+                                    result = `✅ ${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`;
                                     if (card.owner !== "") {
                                         result += `\n${data_1.default.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`;
                                     }
                                 }
                                 else {
                                     reactorReward = Math.round(baseReward * data_1.default.config.economy.reactorNonOwnerMultiplier);
-                                    result = `${userName} reaccionó a ${cardName} y ganó $${reactorReward}`;
+                                    result = `✅ ${userName} reaccionó a ${cardName} y ganó $${reactorReward}`;
                                     result += `\n${data_1.default.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`;
                                     data_1.default.users[card.owner].modifyData("bal", baseReward);
                                 }
