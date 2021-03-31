@@ -57,6 +57,7 @@ class Card {
     getEmbed() {
         let nickname = this.owner === "" ? "-" : data_1.default.users[this.owner].defaultName;
         let ans = new discord_js_1.MessageEmbed()
+            .setAuthor(this.getRarityText())
             .setTitle(this.getLong())
             .setDescription(this.description)
             .setImage(this.content)
@@ -67,6 +68,22 @@ class Card {
             ans.addFields({ name: "En subasta!", value: "Revisá auc list", inline: false });
         }
         return ans;
+    }
+    getRarityText() {
+        let r = this.rarity;
+        let ans = "";
+        if (r >= 50) {
+            ans = "Legendaria";
+        }
+        else if (r >= 40) {
+            ans = "Épica";
+        }
+        else if (r >= 25) {
+            ans = "Rara";
+        }
+        else {
+            ans = "Común";
+        }
     }
     updateIndexes() {
         let cardIndex = 0;

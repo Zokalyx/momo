@@ -105,6 +105,7 @@ export default class Card { /* Command option */
     getEmbed(): MessageEmbed {
         let nickname: string = this.owner === "" ? "-" : Data.users[this.owner].defaultName
         let ans = new MessageEmbed()
+            .setAuthor(this.getRarityText())
             .setTitle(this.getLong())
             .setDescription(this.description)
             .setImage(this.content)
@@ -121,6 +122,20 @@ export default class Card { /* Command option */
         return ans
             
             
+    }
+
+    getRarityText() {
+        let r = this.rarity
+        let ans = ""
+        if (r >= 50) {
+            ans = "Legendaria"
+        } else if (r >= 40) {
+            ans = "Épica"
+        } else if (r >= 25) {
+            ans = "Rara"
+        } else {
+            ans = "Común"
+        }
     }
 
     updateIndexes(): void {
