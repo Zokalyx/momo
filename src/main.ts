@@ -853,7 +853,7 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
                     } else if (nw.type === "img") {
                         niceType = "Imagen"
                     }
-                    tans = ["✅" + niceType + " agregado/a al comando " + Util.code(main) + " (#" + (Card.cardsIn(main)-1) + ")"]
+                    tans = ["✅ " + niceType + " agregado/a al comando " + Util.code(main) + " (#" + (Card.cardsIn(main)-1) + ")"]
                 } else { 
                     tans = ["Esperando contenido para el pack " + Util.code(main)]
                     Data.cache.waitingForBulk.status = true
