@@ -522,7 +522,7 @@ function CommandHandler(msg, client) {
                 }
                 break;
             case "link":
-                resp.text = ["❌ NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
+                resp.text = ["https://momo.zokalyx.repl.co - actualmente muestra el pack " + util_1.default.code(data_1.default.cache.packInWebsite) + ", elegí otro con pack <pack>"];
                 break;
             case "col":
             case "collection":

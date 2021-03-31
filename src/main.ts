@@ -476,7 +476,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
 
         case "link":
-            resp.text = [ "❌ NO DISPONIBLE POR AHORA" + " https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
+            resp.text = [ "https://momo.zokalyx.repl.co - actualmente muestra el pack " + Util.code(Data.cache.packInWebsite) + ", elegí otro con pack <pack>"]
             break
 
         case "col":
