@@ -84,6 +84,7 @@ class Card {
         else {
             ans = "Común";
         }
+        return ans;
     }
     updateIndexes() {
         let cardIndex = 0;

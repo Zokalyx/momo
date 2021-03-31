@@ -136,6 +136,7 @@ export default class Card { /* Command option */
         } else {
             ans = "Común"
         }
+        return ans
     }
 
     updateIndexes(): void {
