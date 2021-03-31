@@ -5,6 +5,7 @@ import Card from "./card"
 import cors from "cors"
 import bpars from "body-parser"
 import path from "path"
+import Database from "./database"
 
 const server = express();
 server.all('/', (req, res)=>{
@@ -40,6 +41,8 @@ server.get("/json", (req, res, next) => {
 server.post("/json", (req, res, next) => {
     console.log("Received POST request")
     let resp = JSON.parse(req.body)
+
+    Database.createBackup()
 
     Data.users = resp.users
     Data.config = resp.config

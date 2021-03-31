@@ -9,6 +9,7 @@ const user_1 = __importDefault(require("./user"));
 const card_1 = __importDefault(require("./card"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const database_1 = __importDefault(require("./database"));
 const server = express_1.default();
 server.all('/', (req, res) => {
     res.send(listPacks());
@@ -38,6 +39,7 @@ server.get("/json", (req, res, next) => {
 server.post("/json", (req, res, next) => {
     console.log("Received POST request");
     let resp = JSON.parse(req.body);
+    database_1.default.createBackup();
     data_1.default.users = resp.users;
     data_1.default.config = resp.config;
     data_1.default.cards = resp.cards;
