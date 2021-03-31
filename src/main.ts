@@ -25,7 +25,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 if (gifRequest.success) {
                     cont = gifRequest.link
                 } else {
-                    tans = "Hubo un error"
+                    tans = "❌ Hubo un error"
                 }
             }
             let nw = new Card({pack: main, content: cont})
@@ -36,7 +36,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             } else if (nw.type === "img") {
                 niceType = "Imagen"
             }
-            tans = niceType + " agregado/a al comando " + Util.code(main)  + " (#" + (Card.cardsIn(main)-1) + ")"
+            tans = "✅ " + niceType + " agregado/a al comando " + Util.code(main)  + " (#" + Card.cardsIn(main) + ")"
             msg.channel.send(tans)
             return
         }

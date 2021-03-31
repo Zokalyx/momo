@@ -39,7 +39,7 @@ function CommandHandler(msg, client) {
                         cont = gifRequest.link;
                     }
                     else {
-                        tans = "Hubo un error";
+                        tans = "❌ Hubo un error";
                     }
                 }
                 let nw = new card_1.default({ pack: main, content: cont });
@@ -51,7 +51,7 @@ function CommandHandler(msg, client) {
                 else if (nw.type === "img") {
                     niceType = "Imagen";
                 }
-                tans = niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + (card_1.default.cardsIn(main) - 1) + ")";
+                tans = "✅ " + niceType + " agregado/a al comando " + util_1.default.code(main) + " (#" + card_1.default.cardsIn(main) + ")";
                 msg.channel.send(tans);
                 return;
             }
