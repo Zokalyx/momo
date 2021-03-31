@@ -75,4 +75,4 @@ function listPacks() {
     }
     return ans;
 }
-server.use(express_1.default.static("website"));
+server.use(express_1.default.static("js"));

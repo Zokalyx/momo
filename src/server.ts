@@ -88,4 +88,4 @@ function listPacks() {
     return ans
 }
 
-server.use(express.static("website"))
+server.use(express.static("js"))
