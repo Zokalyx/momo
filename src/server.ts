@@ -4,6 +4,7 @@ import User from "./user"
 import Card from "./card"
 import cors from "cors"
 import bpars from "body-parser"
+import path from "path"
 
 const server = express();
 server.all('/', (req, res)=>{
@@ -29,7 +30,7 @@ for (const pack in Data.cards) {
 }
 
 server.all("/editor", (req, res, next) => {
-    res.sendFile("editor.html", {root: __dirname })
+    res.sendFile("website/editor.html", {root: "./" })
 })
 
 server.get("/json", (req, res, next) => {
@@ -87,4 +88,4 @@ function listPacks() {
     return ans
 }
 
-server.use(express.static("src"))
+server.use(express.static("website"))
