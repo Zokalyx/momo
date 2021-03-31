@@ -728,6 +728,9 @@ function CommandHandler(msg, client) {
             case "cfg":
                 resp.text = [JSON.stringify(data_1.default.config).split("").map(v => v === "," ? "\n" : v).filter(v => v !== "{" && v !== "}" && v !== '"').join("")];
                 break;
+            case "ok":
+                resp.text = ["👌"];
+                break;
             case "-":
             case "remove":
                 if (act > 1) {

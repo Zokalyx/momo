@@ -682,6 +682,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             resp.text = [JSON.stringify(Data.config).split("").map( v => v === "," ? "\n" : v).filter( v => v !== "{" && v !== "}" && v !== '"').join("")]
             break
 
+        case "ok":
+            resp.text = ["👌"]
+            break
 
         case "-":
         case "remove":
