@@ -72,10 +72,10 @@ class Card {
     getRarityText() {
         let r = this.rarity;
         let ans = "";
-        if (r >= 50) {
+        if (r >= 55) {
             ans = "Legendaria";
         }
-        else if (r >= 40) {
+        else if (r >= 50) {
             ans = "Épica";
         }
         else if (r >= 25) {
