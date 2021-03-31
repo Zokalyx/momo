@@ -27,7 +27,7 @@ export = {
         "`connect4`: Cuatro en línea",
     ],
 
-    new: [
+    old: [
         "**__Momo 2.0:__**",
         "",
         "__Reforma económica:__",
@@ -51,8 +51,9 @@ export = {
         " - Ahora existe `top pack`",
         " - Se van a implementar juegos y apuestas, entre otras cosas",
         " - Ahora las minúsculas y mayúsculas son totalmente intercambiables",
-        "",
-        "",
+    ],
+
+    new: [
         "**__Momo 2.1:__**",
         "",
         " ⭐ Modo de adición rápida: `<pack> +` inicia la adición rápida de imágenes y gifs",
@@ -65,6 +66,8 @@ export = {
         " - Los packs generales no pueden tener más de 50 cartas",
         " - Arreglos de bugs",
         " - Varias adiciones más y cambios planeados!",
+        "",
+        "",
         "",
         "**__Momo 2.2:__**",
         "",
