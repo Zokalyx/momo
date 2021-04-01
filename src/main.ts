@@ -91,6 +91,16 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     let askedForConfirm = false
     switch(main) {
 
+        case "clear":
+            let num = 1989
+            let ans = "** **"
+            for (let i = 0; i < num; i++) {
+                ans += "\n"
+            }
+            ans += "** **"
+            resp.text = [ans]
+            break
+
         case "move":
             if (act > 3) {
                 let val = Card.validate(args[1], args[2])

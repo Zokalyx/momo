@@ -104,6 +104,15 @@ function CommandHandler(msg, client) {
         let response; // Auxiliary
         let askedForConfirm = false;
         switch (main) {
+            case "clear":
+                let num = 1989;
+                let ans = "** **";
+                for (let i = 0; i < num; i++) {
+                    ans += "\n";
+                }
+                ans += "** **";
+                resp.text = [ans];
+                break;
             case "move":
                 if (act > 3) {
                     let val = card_1.default.validate(args[1], args[2]);
