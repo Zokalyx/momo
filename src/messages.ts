@@ -128,6 +128,7 @@ export = {
             "`( )` indica un parámetro **opcional**",
             "",
             "`new` muestra las adiciones más **nuevas**",
+            "`old` muestra actualizaciones viejas",
             "",
             "`help card` muestra los comandos relacionados a **cartas**",
             "`help user` muestra los comandos relacionados a **usuarios**",
