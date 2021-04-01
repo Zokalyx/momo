@@ -175,6 +175,10 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             resp.text = Messages.new
             break
 
+        case "old":
+            resp.text = Messages.old
+            break
+
         case "help":
         case "h":
             let m = Messages.help

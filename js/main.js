@@ -189,6 +189,9 @@ function CommandHandler(msg, client) {
             case "new":
                 resp.text = messages_1.default.new;
                 break;
+            case "old":
+                resp.text = messages_1.default.old;
+                break;
             case "help":
             case "h":
                 let m = messages_1.default.help;
