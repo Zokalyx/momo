@@ -8,7 +8,7 @@ import Database from "./database"
 import Data from "./data"
 import Main from "./main"
 import User from "./user"
-import Card from "./card";
+import Card from "./card"
 
 const client = new Discord.Client()
 

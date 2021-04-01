@@ -248,6 +248,12 @@ class Card {
             }
         }
     }
+    static setRarityOf(pack, nums, rarity) {
+        let toDelete = nums.split(" ").map(v => Number(v));
+        for (const t of toDelete) {
+            data_1.default.cards[pack][t - 1].rarity = rarity;
+        }
+    }
     static rollCard(userID) {
         data_1.default.cache.rollCacheIndex++;
         if (data_1.default.cache.rollCacheIndex > data_1.default.config.maxRollCacheIndex) {

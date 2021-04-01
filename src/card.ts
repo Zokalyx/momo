@@ -310,6 +310,13 @@ export default class Card { /* Command option */
         }
     }
     
+    static setRarityOf(pack: string, nums: string, rarity: number) {
+        let toDelete = nums.split(" ").map(v => Number(v))
+        for (const t of toDelete) {
+            Data.cards[pack][t-1].rarity = rarity;
+        }
+    }
+
 
     static rollCard(userID: string) {
         Data.cache.rollCacheIndex++
