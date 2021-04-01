@@ -67,7 +67,7 @@ module.exports = {
         "**__Momo 2.2:__**",
         "",
         " ⭐ Website funcional! Usá `link` para verlo",
-        " ⭐ Rarezas añadidas! (Común, Rara, Épica, Legendaria)
+        " ⭐ Rarezas añadidas! (Común, Rara, Épica, Legendaria)",
     ],
     help: {
         user: [
