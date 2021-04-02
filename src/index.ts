@@ -42,12 +42,12 @@ client.on("ready", async () => {
             type: "LISTENING"
         }
     })
-    Database.loadChannel(client)
+    await Database.loadChannel(client)
     if (process.env.IN_DEV === "false") {
         // @ts-ignore
         Data.storage.autoRollChannel.send("✅ Bot en línea")
     }
-    cron.schedule("0 * * * *", () => Main.autoRoll(client))
+    cron.schedule("0 * * * * *", () => Main.autoRoll(client))
 })
 
 client.on("message", (msg) => {

@@ -50,12 +50,12 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
             type: "LISTENING"
         }
     });
-    database_1.default.loadChannel(client);
+    yield database_1.default.loadChannel(client);
     if (process.env.IN_DEV === "false") {
         // @ts-ignore
         data_1.default.storage.autoRollChannel.send("✅ Bot en línea");
     }
-    node_cron_1.default.schedule("0 * * * *", () => main_1.default.autoRoll(client));
+    node_cron_1.default.schedule("0 * * * * *", () => main_1.default.autoRoll(client));
 }));
 client.on("message", (msg) => {
     main_1.default.cmdHandler(msg, client);
