@@ -1085,9 +1085,13 @@ function customCommand(main, act, args, normalArgs, ogId) {
         return tans;
     });
 }
-function autoRoll() {
+function autoRoll(client) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("Auto-rolling...");
+        if (data_1.default.cache.needToReloadChannel) {
+            yield database_1.default.loadChannel(client);
+            data_1.default.cache.needToReloadChannel = false;
+        }
         let crd = card_1.default.rollCard();
         let embed = crd.getEmbed();
         // @ts-ignore

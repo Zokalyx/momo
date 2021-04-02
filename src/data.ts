@@ -70,6 +70,7 @@ interface data {
         }
     }
     cache: {
+        needToReloadChannel: boolean
         packInWebsite: string
         waitingForConfirm: boolean
         thereWasChange: boolean
@@ -133,6 +134,7 @@ let Data: data = {
         categories: {},
     },
     cache: {
+        needToReloadChannel: false,
         packInWebsite: "zuko",
         waitingForConfirm: false,
         thereWasChange: false,

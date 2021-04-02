@@ -50,6 +50,12 @@ class Database {
             }, data_1.default.config.autosaveFrequency * 60 * 1000);
         });
     }
+    static loadChannel(client) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            data_1.default.storage.autoRollChannel = yield ((_a = (yield client.guilds.fetch("722283351792287826")).channels.cache.get("765251560179367976")) === null || _a === void 0 ? void 0 : _a.fetch());
+        });
+    }
     static migrate() {
         console.log("Loading json...");
         let fs = require("fs");

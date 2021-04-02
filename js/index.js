@@ -42,7 +42,6 @@ database_1.default.file("r")
     process.exit();
 });
 client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     console.log("Connection to Discord established!");
     client.user.setPresence({
         status: "online",
@@ -51,12 +50,12 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
             type: "LISTENING"
         }
     });
-    data_1.default.storage.autoRollChannel = yield ((_a = (yield client.guilds.fetch("722283351792287826")).channels.cache.get("765251560179367976")) === null || _a === void 0 ? void 0 : _a.fetch());
+    database_1.default.loadChannel(client);
     if (process.env.IN_DEV === "false") {
         // @ts-ignore
         data_1.default.storage.autoRollChannel.send("✅ Bot en línea");
     }
-    node_cron_1.default.schedule("0 * * * *", main_1.default.autoRoll);
+    node_cron_1.default.schedule("0 * * * *", () => main_1.default.autoRoll(client));
 }));
 client.on("message", (msg) => {
     main_1.default.cmdHandler(msg, client);

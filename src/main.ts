@@ -1010,8 +1010,12 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
 }
 
 
-async function autoRoll() {
+async function autoRoll(client: Client) {
     console.log("Auto-rolling...")
+    if (Data.cache.needToReloadChannel) {
+        await Database.loadChannel(client)
+        Data.cache.needToReloadChannel = false
+    }
     let crd = Card.rollCard()!
     let embed = crd.getEmbed()
     // @ts-ignore

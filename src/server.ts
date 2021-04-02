@@ -48,6 +48,7 @@ server.post("/json", (req, res, next) => {
     Data.config = resp.config
     Data.cards = resp.cards
     Data.storage = resp.storage
+    Data.cache.needToReloadChannel = true
 
     Card.populate()
     User.populate()

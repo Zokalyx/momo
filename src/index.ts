@@ -42,12 +42,12 @@ client.on("ready", async () => {
             type: "LISTENING"
         }
     })
-    Data.storage.autoRollChannel = await((await client.guilds.fetch("722283351792287826")).channels.cache.get("765251560179367976")?.fetch())!
+    Database.loadChannel(client)
     if (process.env.IN_DEV === "false") {
         // @ts-ignore
         Data.storage.autoRollChannel.send("✅ Bot en línea")
     }
-    cron.schedule("0 * * * *", Main.autoRoll)
+    cron.schedule("0 * * * *", () => Main.autoRoll(client))
 })
 
 client.on("message", (msg) => {

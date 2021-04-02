@@ -46,6 +46,7 @@ let Data = {
         categories: {},
     },
     cache: {
+        needToReloadChannel: false,
         packInWebsite: "zuko",
         waitingForConfirm: false,
         thereWasChange: false,

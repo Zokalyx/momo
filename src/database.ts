@@ -1,3 +1,4 @@
+import { Client } from "discord.js"
 import { Pool } from "pg"
 import Data from "./data"
 
@@ -36,6 +37,10 @@ export default class Database {
                 Database.file("w")
             }
         }, Data.config.autosaveFrequency*60*1000)
+    }
+
+    static async loadChannel(client: Client) {
+        Data.storage.autoRollChannel = await((await client.guilds.fetch("722283351792287826")).channels.cache.get("765251560179367976")?.fetch())!
     }
 
     static migrate() {

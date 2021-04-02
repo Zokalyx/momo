@@ -44,6 +44,7 @@ server.post("/json", (req, res, next) => {
     data_1.default.config = resp.config;
     data_1.default.cards = resp.cards;
     data_1.default.storage = resp.storage;
+    data_1.default.cache.needToReloadChannel = true;
     card_1.default.populate();
     user_1.default.populate();
     console.log("Saved data from web editor");
