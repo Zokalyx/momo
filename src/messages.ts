@@ -76,7 +76,7 @@ export = {
         " - Nuevo comando: `clear`",
         " ⭐ Categorías! Separan los packs para más orden - `cat`",
         " - Rolls automáticos!",
-        " - Comando `odds` añadido"
+        " - Comando `odds` añadido",
     ],
 
     help: {
@@ -117,6 +117,7 @@ export = {
             "`lore <pack> <número> <descripción>` le pone una descripción a la carta",
             "`top cards` muestra las 20 cartas más valiosas",
             "`move` <pack> <número> <pack>` mueve una carta de un pack a otro",
+            "`odds` muestra las probabilidades de que salgan cartas según sus rarezas",
 
             "`pack <pack>` muestra las cartas de un pack",
             "`link (<pack>)` muestra el último pack seleccionado en el navegador",
