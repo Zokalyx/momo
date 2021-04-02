@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = __importDefault(require("discord.js"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const node_cron_1 = __importDefault(require("node-cron"));
 dotenv_1.default.config();
 require("console-stamp")(console, "HH:MM:ss");
 const server_1 = __importDefault(require("./server"));
@@ -25,7 +26,7 @@ const card_1 = __importDefault(require("./card"));
 const client = new discord_js_1.default.Client();
 console.log("Retrieving data...");
 database_1.default.file("r")
-    .then(val => {
+    .then((val) => __awaiter(void 0, void 0, void 0, function* () {
     server_1.default();
     Object.assign(data_1.default, val);
     database_1.default.autosave();
@@ -35,12 +36,13 @@ database_1.default.file("r")
     console.log("Created objects!");
     console.log("Logging in to Discord...");
     client.login(process.env.DISCORD_TOKEN);
-})
+}))
     .catch(() => {
     console.log("Couldn't connect to database, shutting down...");
     process.exit();
 });
 client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     console.log("Connection to Discord established!");
     client.user.setPresence({
         status: "online",
@@ -49,6 +51,12 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
             type: "LISTENING"
         }
     });
+    data_1.default.storage.autoRollChannel = yield ((_a = (yield client.guilds.fetch("722283351792287826")).channels.cache.get("765251560179367976")) === null || _a === void 0 ? void 0 : _a.fetch());
+    if (process.env.IN_DEV === "false") {
+        // @ts-ignore
+        data_1.default.storage.autoRollChannel.send("✅ Bot en línea");
+    }
+    node_cron_1.default.schedule("0 * * * *", main_1.default.autoRoll);
 }));
 client.on("message", (msg) => {
     main_1.default.cmdHandler(msg, client);

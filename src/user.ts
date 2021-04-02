@@ -1,4 +1,4 @@
-import {  Message, MessageEmbed, Guild, DataResolver } from "discord.js"
+import {  Message, MessageEmbed, Guild, DataResolver, TextChannel } from "discord.js"
 import { response } from "express"
 import Card from "./card"
 import Data from "./data"

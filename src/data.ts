@@ -44,6 +44,7 @@ interface data {
         }
     }
     storage: {
+        autoRollChannel: Object
         topCardValue: number
         auctions: Array<{
             card: {
@@ -125,6 +126,7 @@ let Data: data = {
         }
     },
     storage: {
+        autoRollChannel: {},
         topCardValue: 0,
         auctions: [],
         auctionsLog: [],

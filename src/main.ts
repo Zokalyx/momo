@@ -12,6 +12,7 @@ import { transcode } from "node:buffer"
 export default class Main {
     static cmdHandler = CommandHandler
     static rctHandler = ReactionHandler
+    static autoRoll = autoRoll
 }
 
 async function CommandHandler(msg: Discord.Message, client: Client) {
@@ -393,7 +394,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
         case "debug":
         case "dg":
-            Util.debug(normalArgs.slice(1), Data, Card, User)
+            Util.debug(normalArgs.slice(1), Data, Card, User, ch)
             break
 
         case "save":
@@ -1006,4 +1007,20 @@ async function customCommand(main: string, act: number, args: Array<string>, nor
         tans = [Util.selectRandom(arr).content]
     }
     return tans
+}
+
+
+async function autoRoll() {
+    console.log("Auto-rolling...")
+    let crd = Card.rollCard()!
+    let embed = crd.getEmbed()
+    // @ts-ignore
+    Data.storage.autoRollChannel.send(Util.title("Autoroll (cada 60 minutos)"))
+    // @ts-ignore
+    let msg = await Data.storage.autoRollChannel.send(embed)
+    Data.cache.rollCache[Data.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() }
+    if (crd.owner === "") {
+        msg.react("💰")
+    }
+    msg.react("🔥")
 }

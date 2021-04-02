@@ -39,6 +39,7 @@ let Data = {
         }
     },
     storage: {
+        autoRollChannel: {},
         topCardValue: 0,
         auctions: [],
         auctionsLog: [],

@@ -25,6 +25,7 @@ class Main {
 exports.default = Main;
 Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
+Main.autoRoll = autoRoll;
 function CommandHandler(msg, client) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -425,7 +426,7 @@ function CommandHandler(msg, client) {
                 break;
             case "debug":
             case "dg":
-                util_1.default.debug(normalArgs.slice(1), data_1.default, card_1.default, user_1.default);
+                util_1.default.debug(normalArgs.slice(1), data_1.default, card_1.default, user_1.default, ch);
                 break;
             case "save":
                 let msg = yield ch.send("Guardando datos...");
@@ -1082,5 +1083,21 @@ function customCommand(main, act, args, normalArgs, ogId) {
             tans = [util_1.default.selectRandom(arr).content];
         }
         return tans;
+    });
+}
+function autoRoll() {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("Auto-rolling...");
+        let crd = card_1.default.rollCard();
+        let embed = crd.getEmbed();
+        // @ts-ignore
+        data_1.default.storage.autoRollChannel.send(util_1.default.title("Autoroll (cada 60 minutos)"));
+        // @ts-ignore
+        let msg = yield data_1.default.storage.autoRollChannel.send(embed);
+        data_1.default.cache.rollCache[data_1.default.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() };
+        if (crd.owner === "") {
+            msg.react("💰");
+        }
+        msg.react("🔥");
     });
 }

@@ -60,7 +60,7 @@ class Util {
                 return singular ? "compra" : "compras";
         }
     }
-    static debug(args, Data, Card, User) {
+    static debug(args, Data, Card, User, channel) {
         console.log(eval(args.join(" ")));
     }
     static selectRandom(array) {

@@ -70,7 +70,7 @@ export default class Util {
         }
     }
 
-    static debug(args: Array<string>, Data: any, Card: any, User: any) {
+    static debug(args: Array<string>, Data: any, Card: any, User: any, channel: TextChannel) {
         console.log(eval(args.join(" ")))
     }
 

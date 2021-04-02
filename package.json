@@ -15,6 +15,7 @@
     "@types/express": "^4.17.11",
     "@types/jsoneditor": "^8.6.0",
     "@types/node": "^14.14.36",
+    "@types/node-cron": "^2.0.3",
     "bent": "^7.3.12",
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
@@ -27,6 +28,7 @@
     "ffmpeg": "0.0.4",
     "fs": "0.0.1-security",
     "jsoneditor": "^9.2.0",
+    "node-cron": "^3.0.0",
     "path": "^0.12.7",
     "pg": "^8.5.1"
   },
