@@ -92,7 +92,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     switch(main) {
 
         case "clear":
-            let num = 1989
+            let num = 1000
             let ans = "** **"
             for (let i = 0; i < num; i++) {
                 ans += "\n"

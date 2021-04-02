@@ -105,7 +105,7 @@ function CommandHandler(msg, client) {
         let askedForConfirm = false;
         switch (main) {
             case "clear":
-                let num = 1989;
+                let num = 1000;
                 let ans = "** **";
                 for (let i = 0; i < num; i++) {
                     ans += "\n";
