@@ -522,7 +522,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 let ans = [Util.title(`Colección de ${user.defaultName} (pack ${Util.upperFirst(pack)}):`), ""]
                 for (const card of col.pack) {
                     ans.push(
-                        `${Util.bold(card.getLong()) + ":"} ${card.type} - Valor: $${card.value} - x${card.multiplier}`
+                        `${Util.bold(card.getLong()) + ":"} ${card.type} - $${card.value} - x${card.multiplier} - ${card.getRarityData().letter}`
                         + (card.inAuction ? " En subasta" : "")
                     )
                 }
@@ -652,7 +652,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
                     Data.cache.packInWebsite = args[1]
                     resp.text = Data.cards[args[1]].filter(c => c.isCard).map(c =>
-                        Util.bold(c.getLong() + ":") + ` ${c.type} - Valor: $${c.value} - x${c.multiplier}`
+                        Util.bold(c.getLong() + ":") + ` ${c.type} - $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
                         + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + Data.users[c.owner].defaultName)    
                     )
                     resp.text.unshift("")
@@ -681,7 +681,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     case "card":
                     case "cards":
                         resp.text = Card.getTop().slice(0, 15).map((c, i) =>
-                            `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
+                            `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
                             + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + Data.users[c.owner].defaultName) 
                             + (c.inAuction ? " - En subasta" : ""))
                         resp.text.unshift(Util.title("Top cartas:"))

@@ -567,7 +567,7 @@ function CommandHandler(msg, client) {
                     let col = user.packInfo(pack);
                     let ans = [util_1.default.title(`Colección de ${user.defaultName} (pack ${util_1.default.upperFirst(pack)}):`), ""];
                     for (const card of col.pack) {
-                        ans.push(`${util_1.default.bold(card.getLong()) + ":"} ${card.type} - Valor: $${card.value} - x${card.multiplier}`
+                        ans.push(`${util_1.default.bold(card.getLong()) + ":"} ${card.type} - $${card.value} - x${card.multiplier} - ${card.getRarityData().letter}`
                             + (card.inAuction ? " En subasta" : ""));
                     }
                     ans.push("");
@@ -698,7 +698,7 @@ function CommandHandler(msg, client) {
                     }
                     else if (args[1] in data_1.default.cards) {
                         data_1.default.cache.packInWebsite = args[1];
-                        resp.text = data_1.default.cards[args[1]].filter(c => c.isCard).map(c => util_1.default.bold(c.getLong() + ":") + ` ${c.type} - Valor: $${c.value} - x${c.multiplier}`
+                        resp.text = data_1.default.cards[args[1]].filter(c => c.isCard).map(c => util_1.default.bold(c.getLong() + ":") + ` ${c.type} - $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
                             + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + data_1.default.users[c.owner].defaultName));
                         resp.text.unshift("");
                         resp.text.unshift(util_1.default.title("Pack " + util_1.default.upperFirst(args[1]) + ":"));
@@ -726,7 +726,7 @@ function CommandHandler(msg, client) {
                         case "c":
                         case "card":
                         case "cards":
-                            resp.text = card_1.default.getTop().slice(0, 15).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} Valor: $${c.value} - x${c.multiplier}`
+                            resp.text = card_1.default.getTop().slice(0, 15).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
                                 + (c.owner === "" ? " - Sin dueño" : " - Dueño: " + data_1.default.users[c.owner].defaultName)
                                 + (c.inAuction ? " - En subasta" : ""));
                             resp.text.unshift(util_1.default.title("Top cartas:"));

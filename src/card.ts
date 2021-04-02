@@ -128,20 +128,25 @@ export default class Card { /* Command option */
         let r = this.rarity
         let ans = ""
         let link = ""
+        let l = ""
         if (r >= 70) {
             ans = "Legendaria"
             link = "https://i.imgur.com/ld215xY.png"
+            l = "L"
         } else if (r >= 50) {
             ans = "Épica"
             link = "https://i.imgur.com/lZxwWqK.png"
+            l = "E"
         } else if (r >= 25) {
             ans = "Rara"
             link = "https://i.imgur.com/HhmKxjy.png"
+            l = "R"
         } else {
             ans = "Común"
             link = "https://i.imgur.com/kEmbj45.png"
+            l = "C"
         }
-        return {text: ans, img: link}
+        return {text: ans, img: link, letter: l}
     }
 
     updateIndexes(): void {
