@@ -71,6 +71,7 @@ module.exports = {
         " - Nuevo comando: `clear`",
         " ⭐ Categorías! Separan los packs para más orden - `cat`",
         " - Rolls automáticos!",
+        " - Comando `odds` añadido"
     ],
     help: {
         user: [

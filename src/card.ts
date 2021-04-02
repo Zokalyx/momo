@@ -367,7 +367,7 @@ export default class Card { /* Command option */
                 }
             }
         }
-        return {comunes: coms, raras: rars, epicas: eps, legendarias: legs}
+        return {comunes: coms/100, raras: rars/100, epicas: eps/100, legendarias: legs/100}
     }
 
 

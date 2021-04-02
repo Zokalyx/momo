@@ -309,7 +309,7 @@ class Card {
                 }
             }
         }
-        return { comunes: coms, raras: rars, epicas: eps, legendarias: legs };
+        return { comunes: coms / 100, raras: rars / 100, epicas: eps / 100, legendarias: legs / 100 };
     }
     static rollCard(userID) {
         data_1.default.cache.rollCacheIndex++;
