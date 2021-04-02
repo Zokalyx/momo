@@ -105,7 +105,7 @@ export default class Card { /* Command option */
     getEmbed(): MessageEmbed {
         let nickname: string = this.owner === "" ? "-" : Data.users[this.owner].defaultName
         let ans = new MessageEmbed()
-            .setAuthor(this.getRarityText())
+            .setAuthor(this.getRarityData().text, this.getRarityData().img)
             .setTitle(this.getLong())
             .setDescription(this.description)
             .setImage(this.content)
@@ -124,19 +124,24 @@ export default class Card { /* Command option */
             
     }
 
-    getRarityText() {
+    getRarityData() {
         let r = this.rarity
         let ans = ""
-        if (r >= 55) {
+        let link = ""
+        if (r >= 70) {
             ans = "Legendaria"
+            link = "https://i.imgur.com/ld215xY.png"
         } else if (r >= 50) {
             ans = "Épica"
+            link = "https://i.imgur.com/lZxwWqK.png"
         } else if (r >= 25) {
             ans = "Rara"
+            link = "https://i.imgur.com/HhmKxjy.png"
         } else {
             ans = "Común"
+            link = "https://i.imgur.com/kEmbj45.png"
         }
-        return ans
+        return {text: ans, img: link}
     }
 
     updateIndexes(): void {
