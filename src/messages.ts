@@ -74,6 +74,7 @@ export = {
         " ⭐ Website funcional! Usá `link` para verlo",
         " ⭐ Rarezas añadidas! (Común, Rara, Épica, Legendaria)",
         " - Nuevo comando: `clear`",
+        " ⭐ Categorías! Separan los packs para más orden - `cat`"
     ],
 
     help: {

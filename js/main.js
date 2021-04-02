@@ -609,6 +609,59 @@ function CommandHandler(msg, client) {
                 }
                 resp = user_1.default.doIfTarget(targetUser, targetFound, callback, targetName);
                 break;
+            case "category":
+            case "cat":
+                if (act > 1) {
+                    if (args[1] in data_1.default.storage.categories) {
+                        let totalValue = 0;
+                        let ownedCards = 0;
+                        let gifs = 0;
+                        let imgs = 0;
+                        resp.text = [util_1.default.title(`Categoría ${util_1.default.bold(args[1].toUpperCase())}:`), ""];
+                        let foundFirst = false;
+                        let foundNext = false;
+                        for (const pack in data_1.default.cards) {
+                            if (!foundFirst) {
+                                if (pack === data_1.default.storage.categories[args[1]]) {
+                                    foundFirst = true;
+                                }
+                                else {
+                                    continue;
+                                }
+                            }
+                            else {
+                                for (const p in data_1.default.storage.categories) {
+                                    if (pack === data_1.default.storage.categories[p]) {
+                                        foundNext = true;
+                                    }
+                                }
+                                if (foundNext) {
+                                    break;
+                                }
+                            }
+                            let pinf = card_1.default.packInfo(pack);
+                            resp.text.push(`**${util_1.default.upperFirst(pack)}:** ${pinf.gifs} gifs y ${pinf.imgs} imgs - Total: $${pinf.totalValue} - Promedio: $${Math.round(pinf.averageValue)} - ${pinf.cardsOwned}/${card_1.default.cardsIn(pack)} con dueño`);
+                            totalValue += pinf.totalValue;
+                            ownedCards += pinf.cardsOwned;
+                            gifs += pinf.gifs;
+                            imgs += pinf.imgs;
+                        }
+                        resp.text.push("");
+                        let tot = card_1.default.totalAmount();
+                        resp.text.push(`${util_1.default.title("Totales:")} ${gifs} gifs y ${imgs} imgs - Total: $${totalValue} - Promedio: $${Math.round(totalValue / tot)} - ${ownedCards}/${tot} (${Math.round(ownedCards / tot * 100)}%) con dueño`);
+                    }
+                    else {
+                        resp.text = ["La categoría " + util_1.default.code(args[1]) + " no existe"];
+                    }
+                }
+                else {
+                    let ans = [util_1.default.title("Categorías:"), ""];
+                    for (const cat in data_1.default.storage.categories) {
+                        ans.push(util_1.default.bold(cat.toUpperCase()));
+                    }
+                    resp.text = ans;
+                }
+                break;
             case "p":
             case "pack":
                 if (act > 1) {
@@ -629,6 +682,19 @@ function CommandHandler(msg, client) {
                         resp.text.push("");
                         let tot = card_1.default.totalAmount();
                         resp.text.push(`${util_1.default.title("Totales:")} ${gifs} gifs y ${imgs} imgs - Total: $${totalValue} - Promedio: $${Math.round(totalValue / tot)} - ${ownedCards}/${tot} (${Math.round(ownedCards / tot * 100)}%) con dueño`);
+                        for (const cat in data_1.default.storage.categories) {
+                            let pk = data_1.default.storage.categories[cat];
+                            let ind = 0;
+                            for (const c of resp.text) {
+                                if (c.startsWith(`**${util_1.default.upperFirst(pk)}`)) {
+                                    break;
+                                }
+                                ind++;
+                            }
+                            resp.text.splice(ind, 0, "");
+                            resp.text.splice(ind, 0, util_1.default.title(cat.toUpperCase()));
+                            resp.text.splice(ind, 0, "");
+                        }
                     }
                     else if (args[1] in data_1.default.cards) {
                         data_1.default.cache.packInWebsite = args[1];

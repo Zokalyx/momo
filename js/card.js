@@ -250,7 +250,11 @@ class Card {
     }
     static setRarityOf(pack, nums, rarity) {
         let toDelete = nums.split(" ").map(v => Number(v));
+        console.log(pack);
+        console.log(toDelete);
         for (const t of toDelete) {
+            console.log(t);
+            console.log(data_1.default.cards[pack]);
             data_1.default.cards[pack][t - 1].rarity = rarity;
         }
     }
@@ -263,7 +267,7 @@ class Card {
         for (const pack in data_1.default.cards) {
             let col = data_1.default.cards[pack];
             for (const c of col.filter(c => c.isCard)) {
-                totalWeights += 60 - c.rarity;
+                totalWeights += 80 - c.rarity;
             }
         }
         let randomCard = Math.floor(Math.random() * totalWeights);

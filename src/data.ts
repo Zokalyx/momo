@@ -64,6 +64,9 @@ interface data {
             offeredBy: string
             offeredAt: number
         }>
+        categories: {
+            [key: string]: string
+        }
     }
     cache: {
         packInWebsite: string
@@ -125,6 +128,7 @@ let Data: data = {
         topCardValue: 0,
         auctions: [],
         auctionsLog: [],
+        categories: {},
     },
     cache: {
         packInWebsite: "zuko",

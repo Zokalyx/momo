@@ -312,7 +312,11 @@ export default class Card { /* Command option */
     
     static setRarityOf(pack: string, nums: string, rarity: number) {
         let toDelete = nums.split(" ").map(v => Number(v))
+        console.log(pack)
+        console.log(toDelete)
         for (const t of toDelete) {
+            console.log(t)
+            console.log(Data.cards[pack])
             Data.cards[pack][t-1].rarity = rarity;
         }
     }
@@ -327,7 +331,7 @@ export default class Card { /* Command option */
         for (const pack in Data.cards) {
             let col = Data.cards[pack]
             for (const c of col.filter( c => c.isCard )) {
-                totalWeights += 60 - c.rarity
+                totalWeights += 80 - c.rarity
             }
         }
 

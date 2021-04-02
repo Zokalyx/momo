@@ -42,6 +42,7 @@ let Data = {
         topCardValue: 0,
         auctions: [],
         auctionsLog: [],
+        categories: {},
     },
     cache: {
         packInWebsite: "zuko",

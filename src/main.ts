@@ -132,6 +132,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             Database.migrate()
             break
 
+
         /*case "ark":
             if (act > 1) {
                 if (args[1] === "+") {
@@ -560,6 +561,56 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             resp = User.doIfTarget(targetUser, targetFound, callback, targetName!)
             break
 
+        case "category":
+        case "cat":
+            if (act > 1) {
+                if (args[1] in Data.storage.categories) {
+                    
+                    let totalValue = 0
+                    let ownedCards = 0
+                    let gifs = 0
+                    let imgs = 0
+                    resp.text = [Util.title(`Categoría ${Util.bold(args[1].toUpperCase())}:`), ""]
+                    let foundFirst = false
+                    let foundNext = false
+                    for (const pack in Data.cards) {
+                        if (!foundFirst) {
+                            if (pack === Data.storage.categories[args[1]]) {
+                                foundFirst = true
+                            } else { continue }
+                        } else {
+                            for (const p in Data.storage.categories) {
+                                if (pack === Data.storage.categories[p]) {
+                                    foundNext = true
+                                }
+                            }
+                            if (foundNext) {
+                                break
+                            }
+                        }
+                        let pinf = Card.packInfo(pack)
+                        resp.text.push(`**${Util.upperFirst(pack)}:** ${pinf.gifs} gifs y ${pinf.imgs} imgs - Total: $${pinf.totalValue} - Promedio: $${Math.round(pinf.averageValue)} - ${pinf.cardsOwned}/${Card.cardsIn(pack)} con dueño`)
+                        totalValue += pinf.totalValue
+                        ownedCards += pinf.cardsOwned
+                        gifs += pinf.gifs
+                        imgs += pinf.imgs
+                    }
+                    resp.text.push("")
+                    let tot = Card.totalAmount()
+                    resp.text.push(`${Util.title("Totales:")} ${gifs} gifs y ${imgs} imgs - Total: $${totalValue} - Promedio: $${Math.round(totalValue/tot)} - ${ownedCards}/${tot} (${Math.round(ownedCards/tot*100)}%) con dueño`)
+
+
+                } else { resp.text = ["La categoría " + Util.code(args[1]) + " no existe"]}
+            } else {
+                let ans = [ Util.title("Categorías:"), ""]
+                for (const cat in Data.storage.categories) {
+                    ans.push(Util.bold(cat.toUpperCase()))
+                }
+                resp.text = ans
+            }
+            break
+
+
         case "p":
         case "pack":
             if (act > 1) {
@@ -581,6 +632,21 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     resp.text.push("")
                     let tot = Card.totalAmount()
                     resp.text.push(`${Util.title("Totales:")} ${gifs} gifs y ${imgs} imgs - Total: $${totalValue} - Promedio: $${Math.round(totalValue/tot)} - ${ownedCards}/${tot} (${Math.round(ownedCards/tot*100)}%) con dueño`)
+
+                    for (const cat in Data.storage.categories) {
+                        let pk = Data.storage.categories[cat]
+                        let ind = 0
+                        for (const c of resp.text) {
+                            if (c.startsWith(`**${Util.upperFirst(pk)}`)) {
+                                break
+                            }
+                            ind++
+                        }
+                        resp.text.splice(ind, 0, "")
+                        resp.text.splice(ind, 0, Util.title(cat.toUpperCase()))
+                        resp.text.splice(ind, 0, "")
+                    }
+
 
                 } else if (args[1] in Data.cards) {
 
