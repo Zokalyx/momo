@@ -332,6 +332,45 @@ export default class Card { /* Command option */
     }
 
 
+    static calculateOdds() {
+        let tot = 0, legs = 0, eps = 0, coms = 0, rars = 0;
+        for (let i = 0; i < 10000; i++) {
+            let totalWeights = 0;
+            for (const pack in Data.cards) {
+                let col = Data.cards[pack];
+                for (const c of col.filter( c => c.isCard )) {
+                    totalWeights += Data.config.card.rollBase - c.rarity;
+                }
+            }
+
+            let randomCard = Math.floor(Math.random()*totalWeights)
+            let acc = 0;
+            let br = false
+            for (const pack in Data.cards) {
+                let col = Data.cards[pack];
+                for (const c of col.filter( c => c.isCard )) {
+                    acc += Data.config.card.rollBase - c.rarity;
+                    if (randomCard < acc) {
+                        switch (c.rarity) {
+                            case 10: coms++; break;
+                            case 25: rars++; break;
+                            case 50: eps++; break;
+                            case 70: legs++; break;
+                        }
+                        br = true
+                        break
+                    }
+                    
+                }
+                if (br) {
+                    break
+                }
+            }
+        }
+        return {comunes: coms, raras: rars, epicas: eps, legendarias: legs}
+    }
+
+
     static rollCard(userID?: string) {
         Data.cache.rollCacheIndex++
         if (Data.cache.rollCacheIndex > Data.config.maxRollCacheIndex) {

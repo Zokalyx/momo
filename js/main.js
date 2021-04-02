@@ -856,6 +856,12 @@ function CommandHandler(msg, client) {
                     resp.text = ["❌ Uso correcto: " + util_1.default.code("+ <comando>")];
                 }
                 break;
+            case "odds":
+                resp.text = [util_1.default.title("Probabilidades por rareza:")];
+                for (const [key, value] of Object.entries(card_1.default.calculateOdds())) {
+                    resp.text.push(`${key}: ${value}%`);
+                }
+                break;
             case "roll":
             case "r":
                 if (ogUser.updateEconomy().rolls >= 1) {

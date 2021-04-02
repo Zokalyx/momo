@@ -268,6 +268,49 @@ class Card {
             data_1.default.cards[pack][t - 1].rarity = rarity;
         }
     }
+    static calculateOdds() {
+        let tot = 0, legs = 0, eps = 0, coms = 0, rars = 0;
+        for (let i = 0; i < 10000; i++) {
+            let totalWeights = 0;
+            for (const pack in data_1.default.cards) {
+                let col = data_1.default.cards[pack];
+                for (const c of col.filter(c => c.isCard)) {
+                    totalWeights += data_1.default.config.card.rollBase - c.rarity;
+                }
+            }
+            let randomCard = Math.floor(Math.random() * totalWeights);
+            let acc = 0;
+            let br = false;
+            for (const pack in data_1.default.cards) {
+                let col = data_1.default.cards[pack];
+                for (const c of col.filter(c => c.isCard)) {
+                    acc += data_1.default.config.card.rollBase - c.rarity;
+                    if (randomCard < acc) {
+                        switch (c.rarity) {
+                            case 10:
+                                coms++;
+                                break;
+                            case 25:
+                                rars++;
+                                break;
+                            case 50:
+                                eps++;
+                                break;
+                            case 70:
+                                legs++;
+                                break;
+                        }
+                        br = true;
+                        break;
+                    }
+                }
+                if (br) {
+                    break;
+                }
+            }
+        }
+        return { comunes: coms, raras: rars, epicas: eps, legendarias: legs };
+    }
     static rollCard(userID) {
         data_1.default.cache.rollCacheIndex++;
         if (data_1.default.cache.rollCacheIndex > data_1.default.config.maxRollCacheIndex) {

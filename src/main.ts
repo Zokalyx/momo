@@ -800,6 +800,13 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             break
 
 
+        case "odds":
+            resp.text = [Util.title("Probabilidades por rareza:")]
+            for (const [key, value] of Object.entries(Card.calculateOdds())) {
+                resp.text.push(`${key}: ${value}%`)
+            }
+            break
+
         case "roll":
         case "r":
             if (ogUser.updateEconomy().rolls >= 1) {
