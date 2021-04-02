@@ -341,7 +341,7 @@ export default class Card { /* Command option */
         for (const pack in Data.cards) {
             let col = Data.cards[pack]
             for (const c of col.filter( c => c.isCard )) {
-                totalWeights += 80 - c.rarity
+                totalWeights += Data.config.card.rollBase - c.rarity
             }
         }
 
@@ -350,7 +350,7 @@ export default class Card { /* Command option */
         for (const pack in Data.cards) {
             let col = Data.cards[pack]
             for (const c of col.filter( c => c.isCard )) {
-                acc += 80 - c.rarity
+                acc += Data.config.card.rollBase - c.rarity
                 if (randomCard < acc) {
                     c.value += Data.config.card.baseValue*c.rarity/10
                     if (c.value * c.multiplier > Data.storage.topCardValue) {

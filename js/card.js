@@ -277,7 +277,7 @@ class Card {
         for (const pack in data_1.default.cards) {
             let col = data_1.default.cards[pack];
             for (const c of col.filter(c => c.isCard)) {
-                totalWeights += 80 - c.rarity;
+                totalWeights += data_1.default.config.card.rollBase - c.rarity;
             }
         }
         let randomCard = Math.floor(Math.random() * totalWeights);
@@ -285,7 +285,7 @@ class Card {
         for (const pack in data_1.default.cards) {
             let col = data_1.default.cards[pack];
             for (const c of col.filter(c => c.isCard)) {
-                acc += 80 - c.rarity;
+                acc += data_1.default.config.card.rollBase - c.rarity;
                 if (randomCard < acc) {
                     c.value += data_1.default.config.card.baseValue * c.rarity / 10;
                     if (c.value * c.multiplier > data_1.default.storage.topCardValue) {

@@ -38,6 +38,7 @@ interface data {
             }
         }
         card: {
+            rollBase: number
             baseValue: number
             baseRarity: number
             gifRarityMultiplier: number
@@ -121,6 +122,7 @@ let Data: data = {
             }
         },
         card: {
+            rollBase: 90,
             baseValue: 100,
             baseRarity: 10,
             gifRarityMultiplier: 2,

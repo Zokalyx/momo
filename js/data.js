@@ -33,6 +33,7 @@ let Data = {
             }
         },
         card: {
+            rollBase: 90,
             baseValue: 100,
             baseRarity: 10,
             gifRarityMultiplier: 2,
