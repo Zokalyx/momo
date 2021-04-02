@@ -831,7 +831,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         }
 
     if (resp?.text) {
-        Util.chunkAndSend(resp.text, 20, ch)
+        Util.chunkAndSend(resp.text, 1950, ch)
     }
     if (resp?.embed) {
         ch.send(resp.embed)

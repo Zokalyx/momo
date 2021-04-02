@@ -888,7 +888,7 @@ function CommandHandler(msg, client) {
                 }
         }
         if (resp === null || resp === void 0 ? void 0 : resp.text) {
-            util_1.default.chunkAndSend(resp.text, 20, ch);
+            util_1.default.chunkAndSend(resp.text, 1950, ch);
         }
         if (resp === null || resp === void 0 ? void 0 : resp.embed) {
             ch.send(resp.embed);

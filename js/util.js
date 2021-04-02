@@ -9,15 +9,24 @@ class Util {
         value = Math.pow(value, 0.3);
         return color_convert_1.hsv.rgb([value * 360, value * 100, value * 100]);
     }
-    static chunk(array, size) {
+    static chunk(array, characterLimit) {
         let ans = [];
-        if (array.length > size) {
-            let first = array.slice(0, size);
-            let last = array.slice(size);
-            ans = [first, ...Util.chunk(last, size)];
+        let len = 0;
+        let maxInd = 0;
+        for (const c of array) {
+            len += c.length;
+            if (len >= characterLimit) {
+                break;
+            }
+            maxInd++;
+        }
+        if (maxInd === array.length) {
+            ans = [array];
         }
         else {
-            ans = [array];
+            let first = array.slice(0, maxInd);
+            let last = array.slice(maxInd);
+            ans = [first, ...Util.chunk(last, characterLimit)];
         }
         return ans;
     }

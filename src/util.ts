@@ -13,14 +13,23 @@ export default class Util {
         return hsv.rgb([value*360, value*100, value*100])
     }
 
-    static chunk(array: Array<any>, size: number): Array<Array<any>> {
+    static chunk(array: Array<any>, characterLimit: number): Array<Array<any>> {
         let ans = []
-        if (array.length > size) {
-            let first = array.slice(0, size)
-            let last = array.slice(size)
-            ans = [first, ...Util.chunk(last, size)]
-        } else {
+        let len = 0
+        let maxInd = 0
+        for (const c of array) {
+            len += c.length
+            if (len >= characterLimit) {
+                break
+            }
+            maxInd++
+        }
+        if (maxInd === array.length) {
             ans = [array]
+        } else {
+            let first = array.slice(0, maxInd)
+            let last = array.slice(maxInd)
+            ans = [first, ...Util.chunk(last, characterLimit)]
         }
         return ans
     }
