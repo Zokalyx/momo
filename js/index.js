@@ -29,7 +29,7 @@ database_1.default.file("r")
     .then((val) => __awaiter(void 0, void 0, void 0, function* () {
     server_1.default();
     Object.assign(data_1.default, val);
-    database_1.default.autosave();
+    //Database.autosave()
     console.log("Creating objects...");
     user_1.default.populate();
     card_1.default.populate();
@@ -55,7 +55,13 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
         // @ts-ignore
         data_1.default.storage.autoRollChannel.send("✅ Bot en línea");
     }
-    node_cron_1.default.schedule("0 * * * * *", () => main_1.default.autoRoll(client));
+    node_cron_1.default.schedule("0 * * * *", () => main_1.default.autoRoll(client));
+    node_cron_1.default.schedule("0 * * * * *", () => {
+        if (data_1.default.cache.thereWasChange) {
+            database_1.default.file("w");
+            data_1.default.cache.thereWasChange = false;
+        }
+    });
 }));
 client.on("message", (msg) => {
     main_1.default.cmdHandler(msg, client);

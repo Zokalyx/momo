@@ -18,7 +18,7 @@ Database.file("r")
     .then(async val => {
         keepAlive()
         Object.assign(Data, val)
-        Database.autosave()
+        //Database.autosave()
 
         console.log("Creating objects...")
         User.populate()
@@ -47,7 +47,13 @@ client.on("ready", async () => {
         // @ts-ignore
         Data.storage.autoRollChannel.send("✅ Bot en línea")
     }
-    cron.schedule("0 * * * * *", () => Main.autoRoll(client))
+    cron.schedule("0 * * * *", () => Main.autoRoll(client))
+    cron.schedule("0 * * * * *", () => {
+        if (Data.cache.thereWasChange) {
+            Database.file("w")
+            Data.cache.thereWasChange = false
+        }    
+    })
 })
 
 client.on("message", (msg) => {
