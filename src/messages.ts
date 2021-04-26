@@ -87,9 +87,12 @@ export = {
             "`user (<usuario>)` muestra los datos de un usuario (default = los tuyos)",
             "`name <nombre>` cambia tu nombre principal (no es el que los demás van a usar)",
             "`desc <descripción>` cambia tu descripción",
+            "`img <link>` cambia tu imagen de perfil",
+            "`img reset` reestablece tu imagen de perfil",
 
             "`col (<usuario>)` muestra datos sobre toda la colección de un usuario (default = la tuya)",
             "`col (<usuario>) <pack>` muestra las cartas pertenecientes a un pack de un usuario (default = las tuyas)",
+            "`top col (<usuario>)` muestra las cartas más valiosas de un usuario",
             "`top user` muestra los usuarios con más plata",
 
             "`bal (<usuario>)` muestra el balance de un usuario (default = el tuyo)",
@@ -115,6 +118,7 @@ export = {
             "`give <usuario> <pack> <número>` le da esa carta a otro usuario",
             "`rename <pack> <número> <nombre>` renombra la carta (tiene que ser tuya)",
             "`lore <pack> <número> <descripción>` le pone una descripción a la carta",
+            "`replace <pack> <número> <link>` reemplaza la imagen de una carta - no cambia rareza o tipo",
             "`top cards` muestra las 20 cartas más valiosas",
             "`move` <pack> <número> <pack>` mueve una carta de un pack a otro",
             "`odds` muestra las probabilidades de que salgan cartas según sus rarezas",

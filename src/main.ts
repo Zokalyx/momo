@@ -92,6 +92,79 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     let askedForConfirm = false
     switch(main) {
 
+        case "img":
+        case "image":
+        case "pfp":
+            if (act > 1) {
+                if (args[1] === "default" || args[1] === "reset") {
+                    await ogUser.updateGuildInfo(guild)
+                    resp.text = ["✅ Imagen de perfil reestablecida"]
+                    resp.embed = ogUser.getUserEmbed()
+                } else if (args[1].startsWith("http")) {
+                    ogUser.avatarURL = normalArgs[1]
+                    resp.text = ["✅ Imagen de perfil cambiada - si no aparece, el link no puede ser utilizado"]
+                    resp.embed = ogUser.getUserEmbed()
+                } else {
+                    resp.text = ["❌ Link de imagen no válido"]
+                }
+            } else {
+                resp.text = ["❌ Uso correcto: " + Util.code("img <link>") + " o " + Util.code("img reset")]
+            }
+            break
+
+        case "replace":
+            if (act > 3) {
+                if (args[3].startsWith("http")) {
+                    let response = Card.validate(args[1], args[2])
+                    if (response.success) {
+
+                        let cont = args[3]
+                        let type = ""
+                        let imageTypes = [".png", ".jpg", ".jpeg", ".gif"]
+                        for (const img of imageTypes) {
+                            if (cont.includes(img)) {
+                                let sliceAt: number = cont.search(img)
+                                cont = cont.slice(0, sliceAt + img.length)
+                                if (img === ".gif") {
+                                    type = "gif"
+                                } else {
+                                    type = "img"
+                                }
+                                break
+                            } else {
+                                type = "txt"
+                            }
+                        }
+
+                        let failed = false
+                        if (type === "gif") {
+                            if (cont.includes("tenor") && !cont.endsWith(".gif")) {
+                                let gifRequest: {success: boolean, link: string} = await Request.getTenorGif(cont)
+                                if (gifRequest.success) {
+                                    cont = gifRequest.link
+                                } else {
+                                    resp.text = ["❌ Hubo un error"]
+                                    failed = true
+                                    break
+                                }
+                            }
+                        }
+
+                        if (!failed) {
+                            resp.text = ["✅ Se cambió la imagen de " + response.card?.getLong() + " - Imagen anterior: " + response.card?.content]
+                            response.card!.content = cont
+                            resp.embed = response.card!.getEmbed()
+                        }
+                    }
+                } else {
+                    ["❌ Link de imagen no válido"]
+                }
+            } else {
+                resp.text = ["❌ Uso correcto: " + Util.code("img <link>")]
+            }
+            break
+
+
         case "clear":
             let num = 1000
             let ans = "** **"
@@ -671,6 +744,25 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "top":
             if (act > 1) {
                 switch (args[1]) {
+                    case "col":
+                    case "collection":
+                        if (act > 2) {
+                            let response = User.getUserFromNick(args[2])
+                            if (response.success) {
+                                targetUser = response.user!
+                            } else {
+                                resp.text = [`❌ El usuario  ${Util.code(args[2])} no existe`]
+                            }
+                        } else {
+                            targetUser = ogUser
+                        }
+                        resp.text = Card.getTop().filter( c => c.owner === targetUser.id ).slice(0, 15).map((c, i) =>
+                            `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
+                            + (c.inAuction ? " - En subasta" : ""))
+                        resp.text.unshift(Util.title(`Top cartas de ${targetUser.defaultName}:`))
+                        break
+
+
                     case "u":
                     case "user":
                     case "users":
