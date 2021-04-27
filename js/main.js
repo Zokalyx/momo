@@ -139,7 +139,7 @@ function CommandHandler(msg, client) {
                             for (const img of imageTypes) {
                                 if (cont.includes(img)) {
                                     let sliceAt = cont.search(img);
-                                    cont = cont.slice(0, sliceAt + img.length);
+                                    // cont = cont.slice(0, sliceAt + img.length)
                                     if (img === ".gif") {
                                         type = "gif";
                                     }

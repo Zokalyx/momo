@@ -23,7 +23,7 @@ class Card {
         for (const img of imageTypes) {
             if (content.includes(img)) {
                 let sliceAt = content.search(img);
-                content = content.slice(0, sliceAt + img.length);
+                // content = content.slice(0, sliceAt + img.length)
                 if (img === ".gif") {
                     this.type = "gif";
                 }

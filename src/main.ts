@@ -125,7 +125,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         for (const img of imageTypes) {
                             if (cont.includes(img)) {
                                 let sliceAt: number = cont.search(img)
-                                cont = cont.slice(0, sliceAt + img.length)
+                                // cont = cont.slice(0, sliceAt + img.length)
                                 if (img === ".gif") {
                                     type = "gif"
                                 } else {
