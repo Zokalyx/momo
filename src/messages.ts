@@ -77,6 +77,14 @@ export = {
         " ⭐ Categorías! Separan los packs para más orden - `cat`",
         " - Rolls automáticos!",
         " - Comando `odds` añadido",
+        "",
+        "",
+        "",
+        "**__Momo 2.3:__**",
+        "",
+        " ⭐ Comando `img` para cambiar tu foto de perfil",
+        " ⭐ Comando `replace` para reemplazar cartas con links rotos",
+        " ⭐ Comando `top col` para ver tus mejores cartas",
     ],
 
     help: {
