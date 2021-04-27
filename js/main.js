@@ -109,14 +109,15 @@ function CommandHandler(msg, client) {
             case "image":
             case "pfp":
                 if (act > 1) {
+                    let oldImg = ogUser.avatarURL;
                     if (args[1] === "default" || args[1] === "reset") {
                         yield ogUser.updateGuildInfo(guild);
-                        resp.text = ["✅ Imagen de perfil reestablecida"];
+                        resp.text = ["✅ Imagen de perfil reestablecida - imagen anterior: " + oldImg];
                         resp.embed = ogUser.getUserEmbed();
                     }
                     else if (args[1].startsWith("http")) {
                         ogUser.avatarURL = normalArgs[1];
-                        resp.text = ["✅ Imagen de perfil cambiada - si no aparece, el link no puede ser utilizado"];
+                        resp.text = ["✅ Imagen de perfil cambiada - si no aparece, el link no puede ser utilizado  - imagen anterior: " + oldImg];
                         resp.embed = ogUser.getUserEmbed();
                     }
                     else {
