@@ -121,6 +121,18 @@ function CommandHandler(msg, client) {
                         ogUser.avatarURL = normalArgs[1];
                         resp.text = ["✅ Imagen de perfil cambiada - si no aparece, el link no puede ser utilizado  - imagen anterior: " + oldImg];
                         resp.embed = ogUser.getUserEmbed();
+                        if (args[1].includes("gif")) {
+                            if (normalArgs[1].includes("tenor") && !normalArgs[1].endsWith(".gif")) {
+                                let gifRequest = yield request_1.default.getTenorGif(normalArgs[1]);
+                                if (gifRequest.success) {
+                                    ogUser.avatarURL = gifRequest.link;
+                                }
+                                else {
+                                    resp.text = ["❌ Hubo un error"];
+                                    break;
+                                }
+                            }
+                        }
                     }
                     else {
                         resp.text = ["❌ Link de imagen no válido"];
