@@ -8,6 +8,7 @@ const data_1 = __importDefault(require("./data"));
 const util_1 = __importDefault(require("./util"));
 class Card {
     constructor({ pack, content, rarity = 0, owner = "", value = 0, multiplier = 1, name = "", description = "" }) {
+        this.audio = "";
         this.inArk = false;
         this.pack = pack;
         this.content = content;
@@ -62,10 +63,13 @@ class Card {
             .setDescription(this.description)
             .setImage(this.content)
             .setColor(util_1.default.valueToRgb(this.value * this.multiplier / data_1.default.storage.topCardValue))
-            .setFooter(`${this.cardIndex + 1}/${Card.cardsIn(this.pack)} - id: ${this.pack} ${this.id + 1}`)
+            //.setFooter(`${this.cardIndex+1}/${Card.cardsIn(this.pack)} - id: ${this.pack} ${this.id+1}`)
             .addFields({ name: "Dueño", value: nickname, inline: true }, { name: "Valor", value: "$" + this.value, inline: true }, { name: "Multiplicador", value: "x" + this.multiplier, inline: true });
         if (this.inAuction) {
             ans.addFields({ name: "En subasta!", value: "Revisá auc list", inline: false });
+        }
+        if (this.audio) {
+            ans.setFooter("Audio: " + this.audio);
         }
         return ans;
     }

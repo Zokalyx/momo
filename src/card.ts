@@ -35,6 +35,7 @@ interface totalPackInfo {
 
 export default class Card { /* Command option */
 
+    audio: string
     pack: string
     id: number
     cardIndex: number
@@ -52,6 +53,7 @@ export default class Card { /* Command option */
 
     constructor( {pack, content, rarity = 0, owner = "", value = 0, multiplier = 1, name = "", description = ""}: cardInput ) {
     
+        this.audio = ""
         this.inArk = false
         this.pack = pack
         this.content = content
@@ -110,7 +112,7 @@ export default class Card { /* Command option */
             .setDescription(this.description)
             .setImage(this.content)
             .setColor(Util.valueToRgb(this.value*this.multiplier/Data.storage.topCardValue))
-            .setFooter(`${this.cardIndex+1}/${Card.cardsIn(this.pack)} - id: ${this.pack} ${this.id+1}`)
+            //.setFooter(`${this.cardIndex+1}/${Card.cardsIn(this.pack)} - id: ${this.pack} ${this.id+1}`)
             .addFields(
                 { name: "Dueño", value: nickname, inline: true },
                 { name: "Valor", value: "$" + this.value, inline: true },
@@ -118,6 +120,9 @@ export default class Card { /* Command option */
             )
         if (this.inAuction) {
             ans.addFields( { name: "En subasta!", value: "Revisá auc list", inline: false } )
+        }
+        if (this.audio) {
+            ans.setFooter("Audio: " + this.audio)
         }
         return ans
             

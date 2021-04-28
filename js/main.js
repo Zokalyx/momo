@@ -28,7 +28,7 @@ Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
 Main.autoRoll = autoRoll;
 function CommandHandler(msg, client) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
     return __awaiter(this, void 0, void 0, function* () {
         if (!msg.content.startsWith(data_1.default.config.prefix)) {
             if (!msg.author.bot && msg.content.startsWith("http") && data_1.default.cache.waitingForBulk.status) {
@@ -328,6 +328,7 @@ function CommandHandler(msg, client) {
                         let response = card_1.default.validate(args[1], args[2]);
                         if (response.success) {
                             resp.embed = (_c = response.card) === null || _c === void 0 ? void 0 : _c.getEmbed();
+                            resp.audio = (_d = response.card) === null || _d === void 0 ? void 0 : _d.audio;
                         }
                         else {
                             resp.text = [response.message];
@@ -539,6 +540,36 @@ function CommandHandler(msg, client) {
                     data_1.default.cache.dispatcher.setVolume(1);
                 }
                 break;
+            case "stop":
+                break;
+            case "audio":
+                if (act > 3) {
+                    let response = card_1.default.validate(args[1], args[2]);
+                    if (response.success) {
+                        let c = response.card;
+                        if ((c === null || c === void 0 ? void 0 : c.owner) === ogUser.id) {
+                            if (c.rarity === 70) {
+                                if (normalArgs[3].startsWith("https://www.youtube.com/watch?v=")) {
+                                    c.audio = normalArgs[3];
+                                    resp.text = ["✅ Se cambió el audio de " + c.getLong()];
+                                }
+                            }
+                            else {
+                                resp.text = ["❌ " + (c === null || c === void 0 ? void 0 : c.getLong()) + " tiene que ser legendaria para poder ponerle audio"];
+                            }
+                        }
+                        else {
+                            resp.text = ["❌ " + (c === null || c === void 0 ? void 0 : c.getLong()) + " no te pertenece"];
+                        }
+                    }
+                    else {
+                        resp.text = ["❌ No existe la carta " + args[1] + " #" + args[2]];
+                    }
+                }
+                else {
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("audio <pack> <número> <link>")];
+                }
+                break;
             case "song":
                 console.log("asd");
                 if (act > 1) {
@@ -556,7 +587,7 @@ function CommandHandler(msg, client) {
                 break;
             case "leave":
                 data_1.default.storage.reconnect = false;
-                (_d = data_1.default.cache.vconnection) === null || _d === void 0 ? void 0 : _d.channel.leave();
+                (_e = data_1.default.cache.vconnection) === null || _e === void 0 ? void 0 : _e.channel.leave();
                 data_1.default.cache.vconnection = undefined;
                 break;
             case "user":
@@ -1031,6 +1062,19 @@ function CommandHandler(msg, client) {
                         msg.react("💰");
                     }
                     msg.react("🔥");
+                    if ((((_f = msg.member) === null || _f === void 0 ? void 0 : _f.voice) !== undefined || ((_g = msg.member) === null || _g === void 0 ? void 0 : _g.voice) !== null) && crd.audio) {
+                        if (((_h = msg.member) === null || _h === void 0 ? void 0 : _h.voice.channel.id) !== ((_j = data_1.default.cache.vconnection) === null || _j === void 0 ? void 0 : _j.channel.id)) {
+                            data_1.default.cache.vconnection = yield ((_k = msg.member) === null || _k === void 0 ? void 0 : _k.voice.channel.join());
+                        }
+                        data_1.default.cache.dispatcher = (_l = data_1.default.cache.vconnection) === null || _l === void 0 ? void 0 : _l.play(yield ytdl_core_discord_1.default(crd.audio, {
+                            // @ts-ignore
+                            filter: format => ['251'],
+                            highWaterMark: 1 << 25
+                        }), {
+                            type: 'opus',
+                            volume: data_1.default.storage.muted ? 0 : 1,
+                        });
+                    }
                     return;
                 }
                 else {
@@ -1057,15 +1101,16 @@ function CommandHandler(msg, client) {
         if (resp === null || resp === void 0 ? void 0 : resp.embed) {
             ch.send(resp.embed);
         }
-        if ((((_e = msg.member) === null || _e === void 0 ? void 0 : _e.voice) !== undefined || ((_f = msg.member) === null || _f === void 0 ? void 0 : _f.voice) !== null) && resp.audio) {
-            if (((_g = msg.member) === null || _g === void 0 ? void 0 : _g.voice.channel.id) !== ((_h = data_1.default.cache.vconnection) === null || _h === void 0 ? void 0 : _h.channel.id)) {
-                data_1.default.cache.vconnection = yield ((_j = msg.member) === null || _j === void 0 ? void 0 : _j.voice.channel.join());
+        if ((((_m = msg.member) === null || _m === void 0 ? void 0 : _m.voice) !== undefined || ((_o = msg.member) === null || _o === void 0 ? void 0 : _o.voice) !== null) && resp.audio) {
+            if (((_p = msg.member) === null || _p === void 0 ? void 0 : _p.voice.channel.id) !== ((_q = data_1.default.cache.vconnection) === null || _q === void 0 ? void 0 : _q.channel.id)) {
+                data_1.default.cache.vconnection = yield ((_r = msg.member) === null || _r === void 0 ? void 0 : _r.voice.channel.join());
             }
-            data_1.default.cache.dispatcher = (_k = data_1.default.cache.vconnection) === null || _k === void 0 ? void 0 : _k.play(yield ytdl_core_discord_1.default(resp.audio, {
+            data_1.default.cache.dispatcher = (_s = data_1.default.cache.vconnection) === null || _s === void 0 ? void 0 : _s.play(yield ytdl_core_discord_1.default(resp.audio, {
                 // @ts-ignore
                 filter: format => ['251'],
                 highWaterMark: 1 << 25
             }), {
+                volume: data_1.default.storage.muted ? 0 : 1,
                 type: 'opus'
             });
         }
@@ -1261,6 +1306,7 @@ function customCommand(main, act, args, normalArgs, ogId) {
     });
 }
 function autoRoll(client) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         console.log("Auto-rolling...");
         if (data_1.default.cache.needToReloadChannel) {
@@ -1279,5 +1325,15 @@ function autoRoll(client) {
             msg.react("💰");
         }
         msg.react("🔥");
+        if (data_1.default.cache.vconnection && crd.audio) {
+            data_1.default.cache.dispatcher = (_a = data_1.default.cache.vconnection) === null || _a === void 0 ? void 0 : _a.play(yield ytdl_core_discord_1.default(crd.audio, {
+                // @ts-ignore
+                filter: format => ['251'],
+                highWaterMark: 1 << 25
+            }), {
+                type: 'opus',
+                volume: data_1.default.storage.muted ? 0 : 1,
+            });
+        }
     });
 }

@@ -321,6 +321,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     let response = Card.validate(args[1], args[2])
                     if (response.success) {
                         resp.embed = response.card?.getEmbed()
+                        resp.audio = response.card?.audio
                     } else {
                         resp.text = [response.message!]
                     }
@@ -505,6 +506,34 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 // @ts-ignore
                 Data.cache.vconnection!.voice!.setSelfMute(false)
                 Data.cache.dispatcher.setVolume(1)
+            }
+            break
+
+        case "stop":
+            break
+
+        case "audio":
+            if (act > 3) {
+                let response = Card.validate(args[1], args[2])
+                if (response.success) {
+                    let c = response.card
+                    if (c?.owner === ogUser.id) {
+                        if (c.rarity === 70) {
+                            if (normalArgs[3].startsWith("https://www.youtube.com/watch?v=")) {
+                                c.audio = normalArgs[3]
+                                resp.text = ["✅ Se cambió el audio de " + c.getLong()]
+                            }
+                        } else {
+                            resp.text = ["❌ " + c?.getLong() + " tiene que ser legendaria para poder ponerle audio"]
+                        }
+                    } else {
+                        resp.text = ["❌ " + c?.getLong() + " no te pertenece"]
+                    }
+                } else {
+                    resp.text = ["❌ No existe la carta " + args[1] + " #" + args[2]]
+                }
+            } else {
+                resp.text = ["❌ Uso correcto: " + Util.code("audio <pack> <número> <link>")]
             }
             break
 
@@ -977,8 +1006,22 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     msg.react("💰")
                 }
                 msg.react("🔥")
-                return
 
+                if ((msg.member?.voice !== undefined || msg.member?.voice !== null) && crd.audio) {
+                    if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id) {
+                        Data.cache.vconnection = await msg.member?.voice.channel!.join()
+                    }
+                    Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
+                        // @ts-ignore
+                        filter: format => ['251'],
+                        highWaterMark: 1 << 25
+                    }), {
+                        type: 'opus',
+                        volume: Data.storage.muted ? 0 : 1,
+                    })
+                }
+
+                return
             } else { 
                 let wait = ogUser.waitingTimes().rolls
                 resp.text = ["❌ No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`]}
@@ -1012,6 +1055,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             filter: format => ['251'],
             highWaterMark: 1 << 25
         }), {
+            volume: Data.storage.muted ? 0 : 1,
             type: 'opus'
         })
     }
@@ -1206,4 +1250,15 @@ async function autoRoll(client: Client) {
         msg.react("💰")
     }
     msg.react("🔥")
+
+    if (Data.cache.vconnection && crd.audio) {
+        Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
+            // @ts-ignore
+            filter: format => ['251'],
+            highWaterMark: 1 << 25
+        }), {
+            type: 'opus',
+            volume: Data.storage.muted ? 0 : 1,
+        })
+    }
 }
