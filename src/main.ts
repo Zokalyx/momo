@@ -495,6 +495,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             if (Data.cache.vconnection) {
                 // @ts-ignore
                 Data.cache.vconnection!.voice!.setSelfMute(true)
+                Data.cache.dispatcher.setVolume(0)
             }
             break
 
@@ -503,6 +504,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             if (Data.cache.vconnection) {
                 // @ts-ignore
                 Data.cache.vconnection!.voice!.setSelfMute(false)
+                Data.cache.dispatcher.setVolume(1)
             }
             break
 
@@ -1005,7 +1007,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id) {
             Data.cache.vconnection = await msg.member?.voice.channel!.join()
         }
-        Data.cache.vconnection?.play(await ytdl(resp.audio , {
+        Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(resp.audio , {
             // @ts-ignore
             filter: format => ['251'],
             highWaterMark: 1 << 25

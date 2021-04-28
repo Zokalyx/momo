@@ -528,6 +528,7 @@ function CommandHandler(msg, client) {
                 if (data_1.default.cache.vconnection) {
                     // @ts-ignore
                     data_1.default.cache.vconnection.voice.setSelfMute(true);
+                    data_1.default.cache.dispatcher.setVolume(0);
                 }
                 break;
             case "unmute":
@@ -535,6 +536,7 @@ function CommandHandler(msg, client) {
                 if (data_1.default.cache.vconnection) {
                     // @ts-ignore
                     data_1.default.cache.vconnection.voice.setSelfMute(false);
+                    data_1.default.cache.dispatcher.setVolume(1);
                 }
                 break;
             case "song":
@@ -1059,7 +1061,7 @@ function CommandHandler(msg, client) {
             if (((_g = msg.member) === null || _g === void 0 ? void 0 : _g.voice.channel.id) !== ((_h = data_1.default.cache.vconnection) === null || _h === void 0 ? void 0 : _h.channel.id)) {
                 data_1.default.cache.vconnection = yield ((_j = msg.member) === null || _j === void 0 ? void 0 : _j.voice.channel.join());
             }
-            (_k = data_1.default.cache.vconnection) === null || _k === void 0 ? void 0 : _k.play(yield ytdl_core_discord_1.default(resp.audio, {
+            data_1.default.cache.dispatcher = (_k = data_1.default.cache.vconnection) === null || _k === void 0 ? void 0 : _k.play(yield ytdl_core_discord_1.default(resp.audio, {
                 // @ts-ignore
                 filter: format => ['251'],
                 highWaterMark: 1 << 25

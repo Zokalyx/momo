@@ -23,8 +23,10 @@ export default class Database {
         } else if (mode === "w") {
             let vc = Data.storage.voiceChannel
             let vc2 = Data.cache.vconnection
+            let vc3 = Data.cache.dispatcher
             delete Data.storage["voiceChannel"]
             delete Data.cache["vconnection"]
+            delete Data.cache["dispatcher"]
             let toSave = JSON.parse(JSON.stringify(Data))
             delete toSave["cache"] // Don't save cache
             let stringy: string = JSON.stringify(toSave)
@@ -33,6 +35,7 @@ export default class Database {
             console.log("Data saved!")
             Data.storage.voiceChannel = vc
             Data.cache.vconnection = vc2
+            Data.cache.dispatcher = vc3
         }
     }
 

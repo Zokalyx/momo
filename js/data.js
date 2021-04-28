@@ -60,6 +60,7 @@ let Data = {
             status: false,
             pack: "",
         },
+        dispatcher: undefined,
         vconnection: undefined,
         needToReloadVc: false,
     }

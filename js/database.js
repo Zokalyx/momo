@@ -33,8 +33,10 @@ class Database {
             else if (mode === "w") {
                 let vc = data_1.default.storage.voiceChannel;
                 let vc2 = data_1.default.cache.vconnection;
+                let vc3 = data_1.default.cache.dispatcher;
                 delete data_1.default.storage["voiceChannel"];
                 delete data_1.default.cache["vconnection"];
+                delete data_1.default.cache["dispatcher"];
                 let toSave = JSON.parse(JSON.stringify(data_1.default));
                 delete toSave["cache"]; // Don't save cache
                 let stringy = JSON.stringify(toSave);
@@ -43,6 +45,7 @@ class Database {
                 console.log("Data saved!");
                 data_1.default.storage.voiceChannel = vc;
                 data_1.default.cache.vconnection = vc2;
+                data_1.default.cache.dispatcher = vc3;
             }
         });
     }

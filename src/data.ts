@@ -90,6 +90,7 @@ interface data {
             pack: string
         }
         vconnection: VoiceConnection | undefined
+        dispatcher: any
         needToReloadVc: boolean
     }
 }
@@ -154,6 +155,7 @@ let Data: data = {
             status: false,
             pack: "",
         },
+        dispatcher: undefined,
         vconnection: undefined,
         needToReloadVc: false,
     }
