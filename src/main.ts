@@ -8,6 +8,7 @@ import Database from "./database"
 import Request from "./request"
 import Messages from "./messages"
 import { transcode } from "node:buffer"
+import DisTube from "distube"
 
 export default class Main {
     static cmdHandler = CommandHandler
@@ -15,7 +16,7 @@ export default class Main {
     static autoRoll = autoRoll
 }
 
-async function CommandHandler(msg: Discord.Message, client: Client) {
+async function CommandHandler(msg: Discord.Message, client: Client, distube: DisTube) {
     if (!msg.content.startsWith(Data.config.prefix)) {
         if (!msg.author.bot && msg.content.startsWith("http") && Data.cache.waitingForBulk.status) {
             let cont = msg.content
@@ -46,6 +47,8 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     Data.cache.waitingForBulk.status = false
     
     Data.cache.thereWasChange = true
+
+    let mmm = msg
 
     let normalArgs = msg.content.split(" ")  // To be used when user input is important
     let args = normalArgs.map(a => a.toLowerCase())
@@ -480,6 +483,18 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "user":
         case "u":
             resp = User.doIfTarget(targetUser, targetFound, targetUser.getUserEmbed, args[1])
+            let songs = {
+                "284696251566391296": "https://www.youtube.com/watch?v=nMjSS4UKcCw", // fran
+                "333027390622138369": "https://www.youtube.com/watch?v=nMjSS4UKcCw"  // lucas
+            }
+                if (targetUser.id in songs) {
+                    try {
+                    // @ts-ignore
+                    await distube.play(mmm, songs[targetUser.id])
+                    let queue = await distube.getQueue("722283351792287826")
+                    queue.autoplay = false
+                    } catch(e) {}
+                }
             break
 
         case "wait":
@@ -800,9 +815,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         break
 
                     default:
-                        resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")} o ${Util.code("packs")})`]
+                        resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")}, ${Util.code("col")} o ${Util.code("packs")})`]
                 }
-            } else { resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")} o ${Util.code("packs")})`] }
+            } else { resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")}, ${Util.code("col")} o ${Util.code("packs")})`] }
             break
 
         case "exit":

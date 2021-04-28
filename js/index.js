@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = __importDefault(require("discord.js"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const node_cron_1 = __importDefault(require("node-cron"));
+const distube_1 = __importDefault(require("distube"));
 dotenv_1.default.config();
 require("console-stamp")(console, "HH:MM:ss");
 const server_1 = __importDefault(require("./server"));
@@ -24,6 +25,7 @@ const main_1 = __importDefault(require("./main"));
 const user_1 = __importDefault(require("./user"));
 const card_1 = __importDefault(require("./card"));
 const client = new discord_js_1.default.Client();
+const distube = new distube_1.default(client, { searchSongs: false, emitNewSongOnly: true, leaveOnFinish: true });
 console.log("Retrieving data...");
 database_1.default.file("r")
     .then((val) => __awaiter(void 0, void 0, void 0, function* () {
@@ -64,6 +66,6 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     });
 }));
 client.on("message", (msg) => {
-    main_1.default.cmdHandler(msg, client);
+    main_1.default.cmdHandler(msg, client, distube);
 });
 client.on("messageReactionAdd", main_1.default.rctHandler);

@@ -1,6 +1,7 @@
 import Discord from "discord.js"
 import dotenv from "dotenv"
 import cron from "node-cron"
+import Distube from "distube"
 dotenv.config()
 require("console-stamp")(console, "HH:MM:ss");
 
@@ -12,6 +13,7 @@ import User from "./user"
 import Card from "./card"
 
 const client = new Discord.Client()
+const distube = new Distube(client, { searchSongs: false, emitNewSongOnly: true, leaveOnFinish: true } )
 
 console.log("Retrieving data...")
 Database.file("r")
@@ -57,7 +59,7 @@ client.on("ready", async () => {
 })
 
 client.on("message", (msg) => {
-    Main.cmdHandler(msg, client)
+    Main.cmdHandler(msg, client, distube)
 })
 client.on("messageReactionAdd", Main.rctHandler)
 

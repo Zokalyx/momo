@@ -26,7 +26,7 @@ exports.default = Main;
 Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
 Main.autoRoll = autoRoll;
-function CommandHandler(msg, client) {
+function CommandHandler(msg, client, distube) {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         if (!msg.content.startsWith(data_1.default.config.prefix)) {
@@ -60,6 +60,7 @@ function CommandHandler(msg, client) {
         } // only listen when prefix
         data_1.default.cache.waitingForBulk.status = false;
         data_1.default.cache.thereWasChange = true;
+        let mmm = msg;
         let normalArgs = msg.content.split(" "); // To be used when user input is important
         let args = normalArgs.map(a => a.toLowerCase());
         let act = args.length;
@@ -512,6 +513,19 @@ function CommandHandler(msg, client) {
             case "user":
             case "u":
                 resp = user_1.default.doIfTarget(targetUser, targetFound, targetUser.getUserEmbed, args[1]);
+                let songs = {
+                    "284696251566391296": "https://www.youtube.com/watch?v=nMjSS4UKcCw",
+                    "333027390622138369": "https://www.youtube.com/watch?v=nMjSS4UKcCw" // lucas
+                };
+                if (targetUser.id in songs) {
+                    try {
+                        // @ts-ignore
+                        yield distube.play(mmm, songs[targetUser.id]);
+                        let queue = yield distube.getQueue("722283351792287826");
+                        queue.autoplay = false;
+                    }
+                    catch (e) { }
+                }
                 break;
             case "wait":
             case "w":
@@ -842,11 +856,11 @@ function CommandHandler(msg, client) {
                             resp.text.unshift(util_1.default.title("Top cartas tuyas:"));
                             break;
                         default:
-                            resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")} o ${util_1.default.code("packs")})`];
+                            resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")}, ${util_1.default.code("col")} o ${util_1.default.code("packs")})`];
                     }
                 }
                 else {
-                    resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")} o ${util_1.default.code("packs")})`];
+                    resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")}, ${util_1.default.code("col")} o ${util_1.default.code("packs")})`];
                 }
                 break;
             case "exit":

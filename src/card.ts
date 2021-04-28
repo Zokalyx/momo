@@ -373,7 +373,7 @@ export default class Card { /* Command option */
 
     static rollCard(userID?: string) {
         Data.cache.rollCacheIndex++
-        if (Data.cache.rollCacheIndex > Data.config.maxRollCacheIndex) {
+        if (Data.cache.rollCacheIndex >= Data.config.maxRollCacheIndex) {
             Data.cache.rollCacheIndex = 0
         }
         let totalWeights = 0

@@ -313,7 +313,7 @@ class Card {
     }
     static rollCard(userID) {
         data_1.default.cache.rollCacheIndex++;
-        if (data_1.default.cache.rollCacheIndex > data_1.default.config.maxRollCacheIndex) {
+        if (data_1.default.cache.rollCacheIndex >= data_1.default.config.maxRollCacheIndex) {
             data_1.default.cache.rollCacheIndex = 0;
         }
         let totalWeights = 0;
