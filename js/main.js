@@ -1084,10 +1084,10 @@ function CommandHandler(msg, client) {
                         data_1.default.cache.dispatcher = (_l = data_1.default.cache.vconnection) === null || _l === void 0 ? void 0 : _l.play(yield ytdl_core_discord_1.default(crd.audio, {
                             // @ts-ignore
                             filter: format => ['251'],
-                            highWaterMark: 1 << 25
+                            highWaterMark: 1 << 25,
                         }), {
                             type: 'opus',
-                            volume: data_1.default.storage.muted ? 0 : 1,
+                            volume: data_1.default.storage.muted ? 0 : 1
                         });
                     }
                     return;
@@ -1123,10 +1123,10 @@ function CommandHandler(msg, client) {
             data_1.default.cache.dispatcher = (_s = data_1.default.cache.vconnection) === null || _s === void 0 ? void 0 : _s.play(yield ytdl_core_discord_1.default(resp.audio, {
                 // @ts-ignore
                 filter: format => ['251'],
-                highWaterMark: 1 << 25
+                highWaterMark: 1 << 25,
             }), {
-                volume: data_1.default.storage.muted ? 0 : 1,
-                type: 'opus'
+                type: 'opus',
+                volume: data_1.default.storage.muted ? 0 : 1
             });
         }
         if (!askedForConfirm) {
@@ -1344,10 +1344,10 @@ function autoRoll(client) {
             data_1.default.cache.dispatcher = (_a = data_1.default.cache.vconnection) === null || _a === void 0 ? void 0 : _a.play(yield ytdl_core_discord_1.default(crd.audio, {
                 // @ts-ignore
                 filter: format => ['251'],
-                highWaterMark: 1 << 25
+                highWaterMark: 1 << 25,
             }), {
                 type: 'opus',
-                volume: data_1.default.storage.muted ? 0 : 1,
+                volume: data_1.default.storage.muted ? 0 : 1
             });
         }
     });

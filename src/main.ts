@@ -534,7 +534,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 if (response.success) {
                     let c = response.card
                     if (c?.owner === ogUser.id || c?.owner === "") {
-                        if (c.rarity === 70 || c.multiplier >= 10) {
+                        if (c.rarity === 70 || c.multiplier >= 10 ) {
                             if (normalArgs[3].startsWith("https://www.youtube.com/watch?v=")) {
                                 c.audio = normalArgs[3]
                                 resp.text = ["✅ Se cambió el audio de " + c.getLong()]
@@ -1030,10 +1030,10 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                     Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
                         // @ts-ignore
                         filter: format => ['251'],
-                        highWaterMark: 1 << 25
+                        highWaterMark: 1 << 25,
                     }), {
                         type: 'opus',
-                        volume: Data.storage.muted ? 0 : 1,
+                        volume: Data.storage.muted ? 0 : 1
                     })
                 }
 
@@ -1069,10 +1069,10 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(resp.audio , {
             // @ts-ignore
             filter: format => ['251'],
-            highWaterMark: 1 << 25
+            highWaterMark: 1 << 25,
         }), {
-            volume: Data.storage.muted ? 0 : 1,
-            type: 'opus'
+            type: 'opus',
+            volume: Data.storage.muted ? 0 : 1
         })
     }
 
@@ -1271,10 +1271,10 @@ async function autoRoll(client: Client) {
         Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
             // @ts-ignore
             filter: format => ['251'],
-            highWaterMark: 1 << 25
+            highWaterMark: 1 << 25,
         }), {
             type: 'opus',
-            volume: Data.storage.muted ? 0 : 1,
+            volume: Data.storage.muted ? 0 : 1
         })
     }
 }
