@@ -541,6 +541,9 @@ function CommandHandler(msg, client) {
                 }
                 break;
             case "stop":
+                if (data_1.default.cache.vconnection) {
+                    data_1.default.cache.dispatcher.destroy();
+                }
                 break;
             case "audio":
                 if (act > 3) {

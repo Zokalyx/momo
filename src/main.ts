@@ -510,6 +510,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             break
 
         case "stop":
+            if (Data.cache.vconnection) {
+                Data.cache.dispatcher.destroy()
+            }
             break
 
         case "audio":
