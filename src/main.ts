@@ -7,8 +7,6 @@ import Util from "./util"
 import Database from "./database"
 import Request from "./request"
 import Messages from "./messages"
-import { transcode } from "node:buffer"
-import DisTube from "distube"
 import ytdl from "ytdl-core-discord"
 
 export default class Main {
@@ -17,7 +15,7 @@ export default class Main {
     static autoRoll = autoRoll
 }
 
-async function CommandHandler(msg: Discord.Message, client: Client, distube: DisTube) {
+async function CommandHandler(msg: Discord.Message, client: Client) {
     if (!msg.content.startsWith(Data.config.prefix)) {
         if (!msg.author.bot && msg.content.startsWith("http") && Data.cache.waitingForBulk.status) {
             let cont = msg.content
@@ -91,7 +89,7 @@ async function CommandHandler(msg: Discord.Message, client: Client, distube: Dis
         targetId = targetUser.id
     }
 
-    let resp: {text: Array<string> | undefined, embed: MessageEmbed | undefined} | undefined = {text: undefined, embed: undefined} // response object
+    let resp: {text: Array<string> | undefined, embed: MessageEmbed | undefined, audio?: any | undefined} | undefined = {text: undefined, embed: undefined, audio: undefined} // response object
     let response // Auxiliary
     let askedForConfirm = false
     switch(main) {
@@ -165,7 +163,7 @@ async function CommandHandler(msg: Discord.Message, client: Client, distube: Dis
                     ["❌ Link de imagen no válido"]
                 }
             } else {
-                resp.text = ["❌ Uso correcto: " + Util.code("img <link>")]
+                resp.text = ["❌ Uso correcto: " + Util.code("replace <pack> <número> <link>")]
             }
             break
 
@@ -472,7 +470,7 @@ async function CommandHandler(msg: Discord.Message, client: Client, distube: Dis
 
         case "debug":
         case "dg":
-            Util.debug(normalArgs.slice(1), Data, Card, User, ch)
+            Util.debug(normalArgs.slice(1), Data, Card, User, ch, client)
             break
 
         case "save":
@@ -481,25 +479,58 @@ async function CommandHandler(msg: Discord.Message, client: Client, distube: Dis
             msg.edit("Guardando datos... ✅")
             break
 
+        case "join":
+            Data.storage.reconnect = true
+            if (Data.cache.vconnection && mmm.member!.voice.channelID !== Data.cache.vconnection.channel.id) {
+                Data.cache.vconnection = await mmm.member!.voice.channel!.join()
+            } else if (!Data.cache.vconnection && mmm.member!.voice.channelID) {
+                Data.cache.vconnection = await mmm.member!.voice.channel!.join()
+            } else {
+                Data.cache.vconnection = await Data.storage.voiceChannel!.join()
+            }
+            break   
+
+        case "mute":
+            Data.storage.muted = true
+            if (Data.cache.vconnection) {
+                // @ts-ignore
+                Data.cache.vconnection!.voice!.setSelfMute(true)
+            }
+            break
+
+        case "unmute":
+            Data.storage.muted = false
+            if (Data.cache.vconnection) {
+                // @ts-ignore
+                Data.cache.vconnection!.voice!.setSelfMute(false)
+            }
+            break
+
+        case "song":
+            console.log("asd")
+            if (act > 1) {
+                if (normalArgs[1].startsWith("https://www.youtube.com/watch?v=")) {
+                    resp.text = ["✅ Tu canción de perfil fue actualizada"]
+                    ogUser.song = normalArgs[1]
+                } else {
+                    resp.text = ["❌ Link no válido"]
+                }
+            } else {
+                resp.text = ["❌ Uso correcto: " + Util.code("song <link>")]
+            }
+            break
+
+        case "leave":
+            Data.storage.reconnect = false
+            Data.cache.vconnection?.channel.leave()
+            Data.cache.vconnection = undefined
+            break
+
         case "user":
         case "u":
             resp = User.doIfTarget(targetUser, targetFound, targetUser.getUserEmbed, args[1])
-            let songs: {[key: string]: string} = {
-                "284696251566391296": "https://www.youtube.com/watch?v=nMjSS4UKcCw", // fran
-                "333027390622138369": "https://www.youtube.com/watch?v=nMjSS4UKcCw"  // lucas
-            }
-            if (targetUser.id in songs) {
-                if (mmm.member?.voice) {
-                    let vc = mmm.member.voice.channel
-                    let connection = await vc?.join()
-                    connection?.play(await ytdl(songs[targetUser.id] , {
-                        // @ts-ignore
-                        filter: format => ['251'],
-                        highWaterMark: 1 << 25
-                    }), {
-                        type: 'opus'
-                    })
-                }
+            if (targetUser.song) {
+                resp.audio = targetUser.song
             }
             /* 
                 if (targetUser.id in songs) {
@@ -970,6 +1001,19 @@ async function CommandHandler(msg: Discord.Message, client: Client, distube: Dis
         ch.send(resp.embed)
     }
 
+    if ((msg.member?.voice !== undefined || msg.member?.voice !== null) && resp.audio) {
+        if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id) {
+            Data.cache.vconnection = await msg.member?.voice.channel!.join()
+        }
+        Data.cache.vconnection?.play(await ytdl(resp.audio , {
+            // @ts-ignore
+            filter: format => ['251'],
+            highWaterMark: 1 << 25
+        }), {
+            type: 'opus'
+        })
+    }
+
     if (!askedForConfirm) {
         Data.cache.waitingForConfirm = false
     } else {
@@ -1148,6 +1192,7 @@ async function autoRoll(client: Client) {
         await Database.loadChannel(client)
         Data.cache.needToReloadChannel = false
     }
+    Data.cache.thereWasChange = true
     let crd = Card.rollCard()!
     let embed = crd.getEmbed()
     // @ts-ignore

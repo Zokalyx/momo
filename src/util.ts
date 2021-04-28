@@ -1,6 +1,6 @@
 import { hsv } from "color-convert"
 import { RGB } from "color-name"
-import { TextChannel } from "discord.js"
+import { Client, TextChannel } from "discord.js"
 
 export default class Util {
     
@@ -70,7 +70,7 @@ export default class Util {
         }
     }
 
-    static debug(args: Array<string>, Data: any, Card: any, User: any, channel: TextChannel) {
+    static async debug(args: Array<string>, Data: any, Card: any, User: any, channel: TextChannel, client: Client) {
         console.log(eval(args.join(" ")))
     }
 

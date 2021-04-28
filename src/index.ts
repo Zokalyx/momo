@@ -1,8 +1,6 @@
 import Discord from "discord.js"
 import dotenv from "dotenv"
 import cron from "node-cron"
-import Distube from "distube"
-import ytdl from "ytdl-core-discord"
 dotenv.config()
 require("console-stamp")(console, "HH:MM:ss");
 
@@ -14,7 +12,6 @@ import User from "./user"
 import Card from "./card"
 
 const client = new Discord.Client()
-const distube = new Distube(client, { searchSongs: false, emitNewSongOnly: true, leaveOnFinish: true } )
 
 console.log("Retrieving data...")
 Database.file("r")
@@ -46,21 +43,39 @@ client.on("ready", async () => {
         }
     })
     await Database.loadChannel(client)
+    await Database.loadDefaultVoiceChannel(client)
+    if (Data.storage.reconnect) {
+        Data.cache.vconnection = await Data.storage.voiceChannel!.join()
+        if (Data.storage.muted) {
+            // @ts-ignore
+            Data.cache.vconnection.voice?.setSelfMute(true)
+        }
+    }
+
     if (process.env.IN_DEV === "false") {
         // @ts-ignore
         Data.storage.autoRollChannel.send("✅ Bot en línea")
     }
     cron.schedule("0 * * * *", () => Main.autoRoll(client))
-    cron.schedule("0 * * * * *", () => {
+    cron.schedule("0 * * * * *", async () => {
         if (Data.cache.thereWasChange) {
             Database.file("w")
             Data.cache.thereWasChange = false
         }    
+
+        if (Data.cache.needToReloadVc) {
+            Database.loadDefaultVoiceChannel(client)
+            Data.cache.needToReloadVc = false
+
+            if (Data.storage.reconnect && Data.cache.vconnection) {
+                Data.cache.vconnection = await Data.storage.voiceChannel!.join()
+            }
+        }
     })
 })
 
 client.on("message", (msg) => {
-    Main.cmdHandler(msg, client, distube)
+    Main.cmdHandler(msg, client)
 })
 client.on("messageReactionAdd", Main.rctHandler)
 

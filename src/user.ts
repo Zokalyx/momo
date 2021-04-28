@@ -74,6 +74,7 @@ export default class User {
 
     lastBuyTime: number
     id: string
+    song: string
     nicks: Array<string>
     defaultName: string
     color: string
@@ -94,6 +95,7 @@ export default class User {
 
         this.lastBuyTime = Date.now()
         this.id = id
+        this.song = ""
         this.nicks = nicks
         this.description = description
         this.defaultName = defaultName

@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js"
+import { Message, MessageEmbed, VoiceChannel, VoiceConnection, VoiceState } from "discord.js"
 import Card from "./card"
 import User from "./user"
 
@@ -69,6 +69,9 @@ interface data {
         categories: {
             [key: string]: string
         }
+        voiceChannel: VoiceChannel | undefined
+        reconnect: boolean
+        muted: boolean
     }
     cache: {
         needToReloadChannel: boolean
@@ -86,6 +89,8 @@ interface data {
             status: boolean
             pack: string
         }
+        vconnection: VoiceConnection | undefined
+        needToReloadVc: boolean
     }
 }
 
@@ -134,6 +139,9 @@ let Data: data = {
         auctions: [],
         auctionsLog: [],
         categories: {},
+        voiceChannel: undefined,
+        reconnect: false,
+        muted: false,
     },
     cache: {
         needToReloadChannel: false,
@@ -145,7 +153,9 @@ let Data: data = {
         waitingForBulk: {
             status: false,
             pack: "",
-        }
+        },
+        vconnection: undefined,
+        needToReloadVc: false,
     }
 }
 

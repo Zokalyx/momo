@@ -1,4 +1,4 @@
-import { Client } from "discord.js"
+import { Client, VoiceChannel } from "discord.js"
 import { Pool } from "pg"
 import Data from "./data"
 
@@ -21,12 +21,18 @@ export default class Database {
             return response["rows"][0]["value"]
 
         } else if (mode === "w") {
+            let vc = Data.storage.voiceChannel
+            let vc2 = Data.cache.vconnection
+            delete Data.storage["voiceChannel"]
+            delete Data.cache["vconnection"]
             let toSave = JSON.parse(JSON.stringify(Data))
             delete toSave["cache"] // Don't save cache
             let stringy: string = JSON.stringify(toSave)
             await database.query(`UPDATE data SET value = '${stringy}'`)
             database.release()
             console.log("Data saved!")
+            Data.storage.voiceChannel = vc
+            Data.cache.vconnection = vc2
         }
     }
 
@@ -41,6 +47,11 @@ export default class Database {
 
     static async loadChannel(client: Client) {
         Data.storage.autoRollChannel = await((await client.guilds.fetch("722283351792287826")).channels.cache.get("765251560179367976")?.fetch())!
+    }
+
+    static async loadDefaultVoiceChannel(client: Client) {
+        // @ts-ignore
+        Data.storage.voiceChannel = await((await client.guilds.fetch("722283351792287826")).channels.cache.get("734284181777154050")!)!
     }
 
     static migrate() {
