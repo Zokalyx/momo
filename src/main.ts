@@ -9,6 +9,7 @@ import Request from "./request"
 import Messages from "./messages"
 import { transcode } from "node:buffer"
 import DisTube from "distube"
+import ytdl from "ytdl-core-discord"
 
 export default class Main {
     static cmdHandler = CommandHandler
@@ -483,10 +484,24 @@ async function CommandHandler(msg: Discord.Message, client: Client, distube: Dis
         case "user":
         case "u":
             resp = User.doIfTarget(targetUser, targetFound, targetUser.getUserEmbed, args[1])
-            let songs = {
+            let songs: {[key: string]: string} = {
                 "284696251566391296": "https://www.youtube.com/watch?v=nMjSS4UKcCw", // fran
                 "333027390622138369": "https://www.youtube.com/watch?v=nMjSS4UKcCw"  // lucas
             }
+            if (targetUser.id in songs) {
+                if (mmm.member?.voice) {
+                    let vc = mmm.member.voice.channel
+                    let connection = await vc?.join()
+                    connection?.play(await ytdl(songs[targetUser.id] , {
+                        // @ts-ignore
+                        filter: format => ['251'],
+                        highWaterMark: 1 << 25
+                    }), {
+                        type: 'opus'
+                    })
+                }
+            }
+            /* 
                 if (targetUser.id in songs) {
                     try {
                     // @ts-ignore
@@ -495,7 +510,9 @@ async function CommandHandler(msg: Discord.Message, client: Client, distube: Dis
                     queue.autoplay = false
                     } catch(e) {}
                 }
+            */
             break
+            
 
         case "wait":
         case "w":

@@ -2,6 +2,7 @@ import Discord from "discord.js"
 import dotenv from "dotenv"
 import cron from "node-cron"
 import Distube from "distube"
+import ytdl from "ytdl-core-discord"
 dotenv.config()
 require("console-stamp")(console, "HH:MM:ss");
 

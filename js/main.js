@@ -20,6 +20,7 @@ const util_1 = __importDefault(require("./util"));
 const database_1 = __importDefault(require("./database"));
 const request_1 = __importDefault(require("./request"));
 const messages_1 = __importDefault(require("./messages"));
+const ytdl_core_discord_1 = __importDefault(require("ytdl-core-discord"));
 class Main {
 }
 exports.default = Main;
@@ -27,7 +28,7 @@ Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
 Main.autoRoll = autoRoll;
 function CommandHandler(msg, client, distube) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
         if (!msg.content.startsWith(data_1.default.config.prefix)) {
             if (!msg.author.bot && msg.content.startsWith("http") && data_1.default.cache.waitingForBulk.status) {
@@ -518,14 +519,28 @@ function CommandHandler(msg, client, distube) {
                     "333027390622138369": "https://www.youtube.com/watch?v=nMjSS4UKcCw" // lucas
                 };
                 if (targetUser.id in songs) {
-                    try {
-                        // @ts-ignore
-                        yield distube.play(mmm, songs[targetUser.id]);
-                        let queue = yield distube.getQueue("722283351792287826");
-                        queue.autoplay = false;
+                    if ((_d = mmm.member) === null || _d === void 0 ? void 0 : _d.voice) {
+                        let vc = mmm.member.voice.channel;
+                        let connection = yield (vc === null || vc === void 0 ? void 0 : vc.join());
+                        connection === null || connection === void 0 ? void 0 : connection.play(yield ytdl_core_discord_1.default(songs[targetUser.id], {
+                            // @ts-ignore
+                            filter: format => ['251'],
+                            highWaterMark: 1 << 25
+                        }), {
+                            type: 'opus'
+                        });
                     }
-                    catch (e) { }
                 }
+                /*
+                    if (targetUser.id in songs) {
+                        try {
+                        // @ts-ignore
+                        await distube.play(mmm, songs[targetUser.id])
+                        let queue = await distube.getQueue("722283351792287826")
+                        queue.autoplay = false
+                        } catch(e) {}
+                    }
+                */
                 break;
             case "wait":
             case "w":
