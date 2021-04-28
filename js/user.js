@@ -20,6 +20,7 @@ class User {
     constructor({ id, guild, defaultName = "", nicks = [], initials = { bal: -1, reacts: -1, buys: -1, invs: -1, rolls: -1 }, description = "" }) {
         this.lastBuyTime = Date.now();
         this.id = id;
+        this.song = "";
         this.nicks = nicks;
         this.description = description;
         this.defaultName = defaultName;

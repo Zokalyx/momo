@@ -31,12 +31,18 @@ class Database {
                 return response["rows"][0]["value"];
             }
             else if (mode === "w") {
+                let vc = data_1.default.storage.voiceChannel;
+                let vc2 = data_1.default.cache.vconnection;
+                delete data_1.default.storage["voiceChannel"];
+                delete data_1.default.cache["vconnection"];
                 let toSave = JSON.parse(JSON.stringify(data_1.default));
                 delete toSave["cache"]; // Don't save cache
                 let stringy = JSON.stringify(toSave);
                 yield database.query(`UPDATE data SET value = '${stringy}'`);
                 database.release();
                 console.log("Data saved!");
+                data_1.default.storage.voiceChannel = vc;
+                data_1.default.cache.vconnection = vc2;
             }
         });
     }
@@ -54,6 +60,12 @@ class Database {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             data_1.default.storage.autoRollChannel = yield ((_a = (yield client.guilds.fetch("722283351792287826")).channels.cache.get("765251560179367976")) === null || _a === void 0 ? void 0 : _a.fetch());
+        });
+    }
+    static loadDefaultVoiceChannel(client) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // @ts-ignore
+            data_1.default.storage.voiceChannel = yield ((yield client.guilds.fetch("722283351792287826")).channels.cache.get("734284181777154050"));
         });
     }
     static migrate() {

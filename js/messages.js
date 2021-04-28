@@ -80,6 +80,8 @@ module.exports = {
         " ⭐ Comando `img` para cambiar tu foto de perfil",
         " ⭐ Comando `replace` para reemplazar cartas con links rotos",
         " ⭐ Comando `top col` para ver tus mejores cartas",
+        " ⭐ Comando `song` para ponerte una canción de perfil",
+        " Comandos `mute`, `unmute`, `join`, `leave` para controlar el audio del bot"
     ],
     help: {
         user: [
@@ -90,6 +92,7 @@ module.exports = {
             "`desc <descripción>` cambia tu descripción",
             "`img <link>` cambia tu imagen de perfil",
             "`img reset` reestablece tu imagen de perfil",
+            "`song <link>` establece tu canción de perfil (link de Youtube)",
             "`col (<usuario>)` muestra datos sobre toda la colección de un usuario (default = la tuya)",
             "`col (<usuario>) <pack>` muestra las cartas pertenecientes a un pack de un usuario (default = las tuyas)",
             "`top col (<usuario>)` muestra las cartas más valiosas de un usuario",
@@ -170,6 +173,8 @@ module.exports = {
             "`exit (nosave)` apaga el bot y guarda los datos a menos que se escriba 'nosave'",
             "`config` muestra la configuración actual",
             "`fix` reordena cartas y colecciones en caso de que haya un problema",
+            "`mute` y `unmute` mutea y desmutea al bot",
+            "`join` y `leave` hacen que el bot se una o se vaya del chat de voz",
         ],
     },
 };

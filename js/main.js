@@ -27,8 +27,8 @@ exports.default = Main;
 Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
 Main.autoRoll = autoRoll;
-function CommandHandler(msg, client, distube) {
-    var _a, _b, _c, _d;
+function CommandHandler(msg, client) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
     return __awaiter(this, void 0, void 0, function* () {
         if (!msg.content.startsWith(data_1.default.config.prefix)) {
             if (!msg.author.bot && msg.content.startsWith("http") && data_1.default.cache.waitingForBulk.status) {
@@ -103,7 +103,7 @@ function CommandHandler(msg, client, distube) {
             targetName = targetUser.defaultName;
             targetId = targetUser.id;
         }
-        let resp = { text: undefined, embed: undefined }; // response object
+        let resp = { text: undefined, embed: undefined, audio: undefined }; // response object
         let response; // Auxiliary
         let askedForConfirm = false;
         switch (main) {
@@ -180,7 +180,7 @@ function CommandHandler(msg, client, distube) {
                     }
                 }
                 else {
-                    resp.text = ["❌ Uso correcto: " + util_1.default.code("img <link>")];
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("replace <pack> <número> <link>")];
                 }
                 break;
             case "clear":
@@ -504,32 +504,64 @@ function CommandHandler(msg, client, distube) {
                 break;
             case "debug":
             case "dg":
-                util_1.default.debug(normalArgs.slice(1), data_1.default, card_1.default, user_1.default, ch);
+                util_1.default.debug(normalArgs.slice(1), data_1.default, card_1.default, user_1.default, ch, client);
                 break;
             case "save":
                 let msg = yield ch.send("Guardando datos...");
                 yield database_1.default.file("w");
                 msg.edit("Guardando datos... ✅");
                 break;
+            case "join":
+                data_1.default.storage.reconnect = true;
+                if (data_1.default.cache.vconnection && mmm.member.voice.channelID !== data_1.default.cache.vconnection.channel.id) {
+                    data_1.default.cache.vconnection = yield mmm.member.voice.channel.join();
+                }
+                else if (!data_1.default.cache.vconnection && mmm.member.voice.channelID) {
+                    data_1.default.cache.vconnection = yield mmm.member.voice.channel.join();
+                }
+                else {
+                    data_1.default.cache.vconnection = yield data_1.default.storage.voiceChannel.join();
+                }
+                break;
+            case "mute":
+                data_1.default.storage.muted = true;
+                if (data_1.default.cache.vconnection) {
+                    // @ts-ignore
+                    data_1.default.cache.vconnection.voice.setSelfMute(true);
+                }
+                break;
+            case "unmute":
+                data_1.default.storage.muted = false;
+                if (data_1.default.cache.vconnection) {
+                    // @ts-ignore
+                    data_1.default.cache.vconnection.voice.setSelfMute(false);
+                }
+                break;
+            case "song":
+                console.log("asd");
+                if (act > 1) {
+                    if (normalArgs[1].startsWith("https://www.youtube.com/watch?v=")) {
+                        resp.text = ["✅ Tu canción de perfil fue actualizada"];
+                        ogUser.song = normalArgs[1];
+                    }
+                    else {
+                        resp.text = ["❌ Link no válido"];
+                    }
+                }
+                else {
+                    resp.text = ["❌ Uso correcto: " + util_1.default.code("song <link>")];
+                }
+                break;
+            case "leave":
+                data_1.default.storage.reconnect = false;
+                (_d = data_1.default.cache.vconnection) === null || _d === void 0 ? void 0 : _d.channel.leave();
+                data_1.default.cache.vconnection = undefined;
+                break;
             case "user":
             case "u":
                 resp = user_1.default.doIfTarget(targetUser, targetFound, targetUser.getUserEmbed, args[1]);
-                let songs = {
-                    "284696251566391296": "https://www.youtube.com/watch?v=nMjSS4UKcCw",
-                    "333027390622138369": "https://www.youtube.com/watch?v=nMjSS4UKcCw" // lucas
-                };
-                if (targetUser.id in songs) {
-                    if ((_d = mmm.member) === null || _d === void 0 ? void 0 : _d.voice) {
-                        let vc = mmm.member.voice.channel;
-                        let connection = yield (vc === null || vc === void 0 ? void 0 : vc.join());
-                        connection === null || connection === void 0 ? void 0 : connection.play(yield ytdl_core_discord_1.default(songs[targetUser.id], {
-                            // @ts-ignore
-                            filter: format => ['251'],
-                            highWaterMark: 1 << 25
-                        }), {
-                            type: 'opus'
-                        });
-                    }
+                if (targetUser.song) {
+                    resp.audio = targetUser.song;
                 }
                 /*
                     if (targetUser.id in songs) {
@@ -1023,6 +1055,18 @@ function CommandHandler(msg, client, distube) {
         if (resp === null || resp === void 0 ? void 0 : resp.embed) {
             ch.send(resp.embed);
         }
+        if ((((_e = msg.member) === null || _e === void 0 ? void 0 : _e.voice) !== undefined || ((_f = msg.member) === null || _f === void 0 ? void 0 : _f.voice) !== null) && resp.audio) {
+            if (((_g = msg.member) === null || _g === void 0 ? void 0 : _g.voice.channel.id) !== ((_h = data_1.default.cache.vconnection) === null || _h === void 0 ? void 0 : _h.channel.id)) {
+                data_1.default.cache.vconnection = yield ((_j = msg.member) === null || _j === void 0 ? void 0 : _j.voice.channel.join());
+            }
+            (_k = data_1.default.cache.vconnection) === null || _k === void 0 ? void 0 : _k.play(yield ytdl_core_discord_1.default(resp.audio, {
+                // @ts-ignore
+                filter: format => ['251'],
+                highWaterMark: 1 << 25
+            }), {
+                type: 'opus'
+            });
+        }
         if (!askedForConfirm) {
             data_1.default.cache.waitingForConfirm = false;
         }
@@ -1221,6 +1265,7 @@ function autoRoll(client) {
             yield database_1.default.loadChannel(client);
             data_1.default.cache.needToReloadChannel = false;
         }
+        data_1.default.cache.thereWasChange = true;
         let crd = card_1.default.rollCard();
         let embed = crd.getEmbed();
         // @ts-ignore

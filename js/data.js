@@ -45,6 +45,9 @@ let Data = {
         auctions: [],
         auctionsLog: [],
         categories: {},
+        voiceChannel: undefined,
+        reconnect: false,
+        muted: false,
     },
     cache: {
         needToReloadChannel: false,
@@ -56,7 +59,9 @@ let Data = {
         waitingForBulk: {
             status: false,
             pack: "",
-        }
+        },
+        vconnection: undefined,
+        needToReloadVc: false,
     }
 };
 exports.default = Data;
