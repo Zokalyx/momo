@@ -534,13 +534,13 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 if (response.success) {
                     let c = response.card
                     if (c?.owner === ogUser.id || c?.owner === "") {
-                        if (c.rarity === 70) {
+                        if (c.rarity === 70 || c.multiplier >= 10) {
                             if (normalArgs[3].startsWith("https://www.youtube.com/watch?v=")) {
                                 c.audio = normalArgs[3]
                                 resp.text = ["✅ Se cambió el audio de " + c.getLong()]
                             }
                         } else {
-                            resp.text = ["❌ " + c?.getLong() + " tiene que ser legendaria para poder ponerle audio"]
+                            resp.text = ["❌ " + c?.getLong() + " tiene que ser legendaria o tener multiplicador x10 para poder ponerle audio"]
                         }
                     } else {
                         resp.text = ["❌ " + c?.getLong() + " tiene dueño"]
