@@ -533,7 +533,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 let response = Card.validate(args[1], args[2])
                 if (response.success) {
                     let c = response.card
-                    if (c?.owner === ogUser.id) {
+                    if (c?.owner === ogUser.id || c?.owner === "") {
                         if (c.rarity === 70) {
                             if (normalArgs[3].startsWith("https://www.youtube.com/watch?v=")) {
                                 c.audio = normalArgs[3]
@@ -543,7 +543,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                             resp.text = ["❌ " + c?.getLong() + " tiene que ser legendaria para poder ponerle audio"]
                         }
                     } else {
-                        resp.text = ["❌ " + c?.getLong() + " no te pertenece"]
+                        resp.text = ["❌ " + c?.getLong() + " tiene dueño"]
                     }
                 } else {
                     resp.text = ["❌ No existe la carta " + args[1] + " #" + args[2]]

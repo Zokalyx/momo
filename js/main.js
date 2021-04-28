@@ -562,7 +562,7 @@ function CommandHandler(msg, client) {
                     let response = card_1.default.validate(args[1], args[2]);
                     if (response.success) {
                         let c = response.card;
-                        if ((c === null || c === void 0 ? void 0 : c.owner) === ogUser.id) {
+                        if ((c === null || c === void 0 ? void 0 : c.owner) === ogUser.id || (c === null || c === void 0 ? void 0 : c.owner) === "") {
                             if (c.rarity === 70) {
                                 if (normalArgs[3].startsWith("https://www.youtube.com/watch?v=")) {
                                     c.audio = normalArgs[3];
@@ -574,7 +574,7 @@ function CommandHandler(msg, client) {
                             }
                         }
                         else {
-                            resp.text = ["❌ " + (c === null || c === void 0 ? void 0 : c.getLong()) + " no te pertenece"];
+                            resp.text = ["❌ " + (c === null || c === void 0 ? void 0 : c.getLong()) + " tiene dueño"];
                         }
                     }
                     else {
