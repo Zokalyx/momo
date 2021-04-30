@@ -979,9 +979,9 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                         break
 
                     default:
-                        resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")}, ${Util.code("col")} o ${Util.code("packs")})`]
+                        resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")}, ${Util.code("col")}, ${Util.code("inv")} o ${Util.code("packs")})`]
                 }
-            } else { resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")}, ${Util.code("col")} o ${Util.code("packs")})`] }
+            } else { resp.text = [`❌ Uso correcto: ${Util.code("top <categoría>")} (${Util.code("users")}, ${Util.code("cards")}, ${Util.code("col")}, ${Util.code("inv")} o ${Util.code("packs")})`] }
             break
 
         case "exit":

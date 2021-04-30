@@ -1014,11 +1014,11 @@ function CommandHandler(msg, client) {
                             resp.text.unshift(util_1.default.title("Top cartas tuyas:"));
                             break;
                         default:
-                            resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")}, ${util_1.default.code("col")} o ${util_1.default.code("packs")})`];
+                            resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")}, ${util_1.default.code("col")}, ${util_1.default.code("inv")} o ${util_1.default.code("packs")})`];
                     }
                 }
                 else {
-                    resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")}, ${util_1.default.code("col")} o ${util_1.default.code("packs")})`];
+                    resp.text = [`❌ Uso correcto: ${util_1.default.code("top <categoría>")} (${util_1.default.code("users")}, ${util_1.default.code("cards")}, ${util_1.default.code("col")}, ${util_1.default.code("inv")} o ${util_1.default.code("packs")})`];
                 }
                 break;
             case "exit":
