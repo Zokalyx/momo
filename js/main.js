@@ -760,10 +760,44 @@ function CommandHandler(msg, client) {
                     ans.push(`${util_1.default.title("Totales:")} Total: $${col.total.totalValue} - Promedio: $${Math.round(col.total.averageValue)} - Ingresos: $${Math.round(col.total.passiveIncome)}`);
                     return ans;
                 };
+                let rarityCards = (user, rarity) => {
+                    let ans = card_1.default.getTop().filter(c => c.owner === user.id).filter(v => v.rarity === rarity).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
+                        + (c.inAuction ? " - En subasta" : ""));
+                    let titles = {
+                        70: "legendarias",
+                        50: "épicas",
+                        25: "raras",
+                        10: "comunes"
+                    };
+                    ans.unshift(util_1.default.title(`Top cartas ${titles[rarity]} de ${user.defaultName}:`));
+                    return ans;
+                };
+                let rarityNames = {
+                    70: ["leg", "legendaria", "legendarias", "legendary", "legendaries"],
+                    50: ["epc", "epica", "epicas", "epic", "epics"],
+                    25: ["rar", "rara", "raras", "rare", "rares"],
+                    10: ["com", "comun", "comunes", "common", "commons"],
+                };
+                let isInRarityNames = (str) => {
+                    let ans = false;
+                    let rarity = 0;
+                    for (const rar in rarityNames) {
+                        if (rarityNames[rar].includes(str)) {
+                            ans = true;
+                            rarity = Number(rar);
+                            break;
+                        }
+                    }
+                    return { success: ans, rarity: rarity };
+                };
                 if (act > 2) {
                     targetName = args[1];
                     callback = () => {
-                        if (args[2] in data_1.default.cards) {
+                        let response = isInRarityNames(args[2]);
+                        if (response.success) {
+                            return rarityCards(targetUser, response.rarity);
+                        }
+                        else if (args[2] in data_1.default.cards) {
                             return packInfo(targetUser, args[2]);
                         }
                         else {
@@ -773,13 +807,19 @@ function CommandHandler(msg, client) {
                 }
                 else if (act > 1) {
                     targetName = args[1];
-                    if (args[1] in data_1.default.cards) {
+                    let response = isInRarityNames(args[1]);
+                    if (args[1] in data_1.default.cards || response.success) {
                         targetUser = ogUser;
                         targetName = ogName;
                         targetId = ogId;
                         targetFound = true;
                         callback = () => {
-                            return packInfo(targetUser, args[1]);
+                            if (response.success) {
+                                return rarityCards(targetUser, response.rarity);
+                            }
+                            else {
+                                return packInfo(targetUser, args[1]);
+                            }
                         };
                     }
                     else {
@@ -903,6 +943,24 @@ function CommandHandler(msg, client) {
             case "top":
                 if (act > 1) {
                     switch (args[1]) {
+                        case "invs":
+                        case "inv":
+                            if (act > 2) {
+                                let response = user_1.default.getUserFromNick(args[2]);
+                                if (response.success) {
+                                    targetUser = response.user;
+                                }
+                                else {
+                                    resp.text = [`❌ El usuario  ${util_1.default.code(args[2])} no existe`];
+                                }
+                            }
+                            else {
+                                targetUser = ogUser;
+                            }
+                            resp.text = card_1.default.getTop().filter(c => c.owner === targetUser.id).sort((a, b) => a.multiplier - b.multiplier).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
+                                + (c.inAuction ? " - En subasta" : ""));
+                            resp.text.unshift(util_1.default.title(`Top inversiones de ${targetUser.defaultName}:`));
+                            break;
                         case "col":
                         case "collection":
                             if (act > 2) {
@@ -1078,7 +1136,7 @@ function CommandHandler(msg, client) {
                     }
                     msg.react("🔥");
                     if ((((_f = msg.member) === null || _f === void 0 ? void 0 : _f.voice) !== undefined || ((_g = msg.member) === null || _g === void 0 ? void 0 : _g.voice) !== null) && crd.audio) {
-                        if (((_h = msg.member) === null || _h === void 0 ? void 0 : _h.voice.channel.id) !== ((_j = data_1.default.cache.vconnection) === null || _j === void 0 ? void 0 : _j.channel.id)) {
+                        if (((_h = msg.member) === null || _h === void 0 ? void 0 : _h.voice.channel.id) !== ((_j = data_1.default.cache.vconnection) === null || _j === void 0 ? void 0 : _j.channel.id) && data_1.default.storage.reconnect) {
                             data_1.default.cache.vconnection = yield ((_k = msg.member) === null || _k === void 0 ? void 0 : _k.voice.channel.join());
                         }
                         data_1.default.cache.dispatcher = (_l = data_1.default.cache.vconnection) === null || _l === void 0 ? void 0 : _l.play(yield ytdl_core_discord_1.default(crd.audio, {
@@ -1117,7 +1175,7 @@ function CommandHandler(msg, client) {
             ch.send(resp.embed);
         }
         if ((((_m = msg.member) === null || _m === void 0 ? void 0 : _m.voice) !== undefined || ((_o = msg.member) === null || _o === void 0 ? void 0 : _o.voice) !== null) && resp.audio) {
-            if (((_p = msg.member) === null || _p === void 0 ? void 0 : _p.voice.channel.id) !== ((_q = data_1.default.cache.vconnection) === null || _q === void 0 ? void 0 : _q.channel.id)) {
+            if (((_p = msg.member) === null || _p === void 0 ? void 0 : _p.voice.channel.id) !== ((_q = data_1.default.cache.vconnection) === null || _q === void 0 ? void 0 : _q.channel.id) && data_1.default.storage.reconnect) {
                 data_1.default.cache.vconnection = yield ((_r = msg.member) === null || _r === void 0 ? void 0 : _r.voice.channel.join());
             }
             data_1.default.cache.dispatcher = (_s = data_1.default.cache.vconnection) === null || _s === void 0 ? void 0 : _s.play(yield ytdl_core_discord_1.default(resp.audio, {
