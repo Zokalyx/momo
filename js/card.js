@@ -315,6 +315,23 @@ class Card {
         }
         return { comunes: coms / 100, raras: rars / 100, epicas: eps / 100, legendarias: legs / 100 };
     }
+    static selectRandom() {
+        let count = 0;
+        for (const pack in data_1.default.cards) {
+            count += data_1.default.cards[pack].filter(c => c.isCard).length;
+        }
+        let randomCard = Math.floor(Math.random() * count);
+        let acc = 0;
+        for (const pack in data_1.default.cards) {
+            let col = data_1.default.cards[pack].filter(c => c.isCard);
+            for (const card of col) {
+                if (acc === randomCard) {
+                    return card;
+                }
+                acc++;
+            }
+        }
+    }
     static rollCard(userID) {
         data_1.default.cache.rollCacheIndex++;
         if (data_1.default.cache.rollCacheIndex >= data_1.default.config.maxRollCacheIndex) {

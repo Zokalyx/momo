@@ -88,7 +88,8 @@ export = {
         " ⭐ Comando `song` para ponerte una canción de perfil",
         " - Comandos `mute`, `unmute`, `join`, `leave` para controlar el audio del bot",
         " - `col (<usuario>) <categoría>` para ver todas las cartas de una determinada rareza",
-        " ⭐ `top inv (<usuario>)` para ver tus cartas con más inversiones"
+        " ⭐ `top inv (<usuario>)` para ver tus cartas con más inversiones",
+        " - Inversiones automáticas al azar cada 12 horas"
     ],
 
     help: {

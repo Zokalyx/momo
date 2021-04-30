@@ -375,6 +375,25 @@ export default class Card { /* Command option */
         return {comunes: coms/100, raras: rars/100, epicas: eps/100, legendarias: legs/100}
     }
 
+    static selectRandom() {
+
+        let count = 0
+        for (const pack in Data.cards) {
+            count += Data.cards[pack].filter(c => c.isCard).length
+        }
+        let randomCard = Math.floor(Math.random()*count)
+
+        let acc = 0
+        for (const pack in Data.cards) {
+            let col = Data.cards[pack].filter(c => c.isCard)
+            for (const card of col) {
+                if (acc === randomCard) {
+                    return card
+                }
+                acc ++
+            }
+        }
+    }
 
     static rollCard(userID?: string) {
         Data.cache.rollCacheIndex++

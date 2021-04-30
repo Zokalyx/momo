@@ -35,13 +35,13 @@ Database.file("r")
 
 client.on("ready", async () => {
     console.log("Connection to Discord established!")
-    client.user!.setPresence({
+    /*client.user!.setPresence({
         status: "online",
         activity: {
             name: "new",
             type: "LISTENING"
         }
-    })
+    })*/
     await Database.loadChannel(client)
     await Database.loadDefaultVoiceChannel(client)
     if (Data.storage.reconnect) {
@@ -57,6 +57,7 @@ client.on("ready", async () => {
         Data.storage.autoRollChannel.send("✅ Bot en línea")
     }
     cron.schedule("0 * * * *", () => Main.autoRoll(client))
+    cron.schedule("0 0,12 * * *", () => Main.autoRoll(client))
     cron.schedule("0 * * * * *", async () => {
         if (Data.cache.thereWasChange) {
             Database.file("w")

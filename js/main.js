@@ -517,7 +517,12 @@ function CommandHandler(msg, client) {
                 break;
             case "debug":
             case "dg":
-                util_1.default.debug(normalArgs.slice(1), data_1.default, card_1.default, user_1.default, ch, client);
+                if (args[1] === "test") {
+                    autoInvest(client);
+                }
+                else {
+                    util_1.default.debug(normalArgs.slice(1), data_1.default, card_1.default, user_1.default, ch, client);
+                }
                 break;
             case "save":
                 let msg = yield ch.send("Guardando datos...");
@@ -1018,9 +1023,11 @@ function CommandHandler(msg, client) {
                 break;
             case "exit":
                 let suc = true;
+                let save = true;
                 if (act > 1) {
                     if (args[1] === "nosave") {
                         ch.send("Apagando bot sin guardar...");
+                        save = false;
                     }
                     else {
                         suc = false;
@@ -1413,5 +1420,32 @@ function autoRoll(client) {
                 volume: data_1.default.storage.muted ? 0 : 1
             });
         }
+    });
+}
+function autoInvest(client) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("Auto-investing...");
+        if (data_1.default.cache.needToReloadChannel) {
+            yield database_1.default.loadChannel(client);
+            data_1.default.cache.needToReloadChannel = false;
+        }
+        data_1.default.cache.thereWasChange = true;
+        let crd = card_1.default.selectRandom();
+        crd.multiplier++;
+        let embed = crd.getEmbed();
+        // @ts-ignore
+        data_1.default.storage.autoRollChannel.send(util_1.default.title("Inversión automática (cada 24 horas)"));
+        // @ts-ignore
+        let msg = yield data_1.default.storage.autoRollChannel.send(embed);
+        /*if (Data.cache.vconnection && crd.audio) {
+            Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
+                // @ts-ignore
+                filter: format => ['251'],
+                highWaterMark: 1 << 25,
+            }), {
+                type: 'opus',
+                volume: Data.storage.muted ? 0 : 1
+            })
+        }*/
     });
 }

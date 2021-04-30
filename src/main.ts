@@ -484,7 +484,11 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
         case "debug":
         case "dg":
-            Util.debug(normalArgs.slice(1), Data, Card, User, ch, client)
+            if (args[1] === "test") {
+                autoInvest(client)
+            } else {
+                Util.debug(normalArgs.slice(1), Data, Card, User, ch, client)
+            }
             break
 
         case "save":
@@ -982,9 +986,11 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
         case "exit":
             let suc = true
+            let save = true
             if (act > 1) {
                 if (args[1] === "nosave") {
                     ch.send("Apagando bot sin guardar...")
+                    save = false
                 } else {
                     suc = false
                     resp.text = [Util.code("exit nosave") + " apaga el bot sin guardar"]
@@ -1346,4 +1352,31 @@ async function autoRoll(client: Client) {
             volume: Data.storage.muted ? 0 : 1
         })
     }
+}
+
+async function autoInvest(client: Client) {
+    console.log("Auto-investing...")
+    if (Data.cache.needToReloadChannel) {
+        await Database.loadChannel(client)
+        Data.cache.needToReloadChannel = false
+    }
+    Data.cache.thereWasChange = true
+    let crd = Card.selectRandom()!
+    crd.multiplier++
+    let embed = crd.getEmbed()
+    // @ts-ignore
+    Data.storage.autoRollChannel.send(Util.title("Inversión automática (cada 24 horas)"))
+    // @ts-ignore
+    let msg = await Data.storage.autoRollChannel.send(embed)
+
+    /*if (Data.cache.vconnection && crd.audio) {
+        Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
+            // @ts-ignore
+            filter: format => ['251'],
+            highWaterMark: 1 << 25,
+        }), {
+            type: 'opus',
+            volume: Data.storage.muted ? 0 : 1
+        })
+    }*/
 }
