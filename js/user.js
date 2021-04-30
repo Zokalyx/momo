@@ -435,6 +435,7 @@ class User {
                             this.modifyData("invs", -1);
                             this.modifyData("bal", -card.value);
                             this.updateEconomy();
+                            this.lastBuyTime = Date.now();
                             result = `✅ ${userName} invirtió en ${cardName} por $${card.value} y aumentó su multiplicador a x${card.multiplier}!`;
                             success = true;
                             if (card.value * card.multiplier > data_1.default.storage.topCardValue) {
