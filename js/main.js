@@ -957,7 +957,7 @@ function CommandHandler(msg, client) {
                             else {
                                 targetUser = ogUser;
                             }
-                            resp.text = card_1.default.getTop().filter(c => c.owner === targetUser.id).sort((a, b) => a.multiplier - b.multiplier).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
+                            resp.text = card_1.default.getTop().filter(c => c.owner === targetUser.id).filter(c => c.multiplier > 1).sort((a, b) => b.multiplier - a.multiplier).map((c, i) => `${util_1.default.bold("#" + (i + 1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
                                 + (c.inAuction ? " - En subasta" : ""));
                             resp.text.unshift(util_1.default.title(`Top inversiones de ${targetUser.defaultName}:`));
                             break;

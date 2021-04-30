@@ -81,7 +81,9 @@ module.exports = {
         " ⭐ Comando `replace` para reemplazar cartas con links rotos",
         " ⭐ Comando `top col` para ver tus mejores cartas",
         " ⭐ Comando `song` para ponerte una canción de perfil",
-        " Comandos `mute`, `unmute`, `join`, `leave` para controlar el audio del bot"
+        " - Comandos `mute`, `unmute`, `join`, `leave` para controlar el audio del bot",
+        " - `col (<usuario>) <categoría>` para ver todas las cartas de una determinada rareza",
+        " ⭐ `top inv (<usuario>)` para ver tus cartas con más inversiones"
     ],
     help: {
         user: [
@@ -95,7 +97,9 @@ module.exports = {
             "`song <link>` establece tu canción de perfil (link de Youtube)",
             "`col (<usuario>)` muestra datos sobre toda la colección de un usuario (default = la tuya)",
             "`col (<usuario>) <pack>` muestra las cartas pertenecientes a un pack de un usuario (default = las tuyas)",
+            "`col (<usuario>) <rareza>` muestra las cartas de una determinada rareza de un usuario)",
             "`top col (<usuario>)` muestra las cartas más valiosas de un usuario",
+            "`top inv (<usuario>)` muestra las cartas con más inversiones de un usuario",
             "`top user` muestra los usuarios con más plata",
             "`bal (<usuario>)` muestra el balance de un usuario (default = el tuyo)",
             "`inc` muestra tus ingresos pasivos",
