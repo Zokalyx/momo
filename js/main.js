@@ -1434,7 +1434,7 @@ function autoInvest(client) {
         crd.multiplier++;
         let embed = crd.getEmbed();
         // @ts-ignore
-        data_1.default.storage.autoRollChannel.send(util_1.default.title("Inversión automática (cada 24 horas)"));
+        data_1.default.storage.autoRollChannel.send(util_1.default.title("Inversión automática (cada 12 horas)"));
         // @ts-ignore
         let msg = yield data_1.default.storage.autoRollChannel.send(embed);
         /*if (Data.cache.vconnection && crd.audio) {

@@ -1365,7 +1365,7 @@ async function autoInvest(client: Client) {
     crd.multiplier++
     let embed = crd.getEmbed()
     // @ts-ignore
-    Data.storage.autoRollChannel.send(Util.title("Inversión automática (cada 24 horas)"))
+    Data.storage.autoRollChannel.send(Util.title("Inversión automática (cada 12 horas)"))
     // @ts-ignore
     let msg = await Data.storage.autoRollChannel.send(embed)
 
