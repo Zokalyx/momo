@@ -715,23 +715,67 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 ans.push(`${Util.title("Totales:")} Total: $${col.total.totalValue} - Promedio: $${Math.round(col.total.averageValue)} - Ingresos: $${Math.round(col.total.passiveIncome)}`)
                 return ans
             }
+            let rarityCards = (user: User, rarity: number) => {
+                let ans = Card.getTop().filter( c => c.owner === user.id ).filter( v => v.rarity === rarity).map((c, i) =>
+                    `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
+                    + (c.inAuction ? " - En subasta" : ""))
+                let titles: {[key: number]: string} = {
+                    70: "legendarias",
+                    50: "épicas",
+                    25: "raras",
+                    10: "comunes"
+                }
+                ans.unshift(Util.title(`Top cartas ${titles[rarity]} de ${user.defaultName}:`))
+                return ans
+            }
+
+            let rarityNames: {[key: number]: Array<string>} = {
+                70: ["leg", "legendaria", "legendarias", "legendary", "legendaries"],
+                50: ["epc", "epica", "epicas", "epic", "epics"],
+                25: ["rar", "rara", "raras", "rare", "rares"],
+                10: ["com", "comun", "comunes", "common", "commons"],
+            }
+
+            let isInRarityNames = (str: string) => {
+                let ans = false
+                let rarity = 0
+                for (const rar in rarityNames) {
+                    if (rarityNames[rar].includes(str)) {
+                        ans = true
+                        rarity = Number(rar)
+                        break
+                    }
+                }
+                return {success: ans, rarity: rarity}
+            }
 
             if (act > 2) {
+
+
                 targetName = args[1]
                 callback = () => {
-                    if (args[2] in Data.cards) {
+
+                    let response = isInRarityNames(args[2])
+                    if (response.success) {
+                        return rarityCards(targetUser, response.rarity)
+                    } else  if (args[2] in Data.cards) {
                         return packInfo(targetUser, args[2])
                     } else { return [`❌ No existe el pack ${Util.code(args[2])}`] }
                 }
             } else if (act > 1) {
                 targetName = args[1]
-                if (args[1] in Data.cards) {
+                let response = isInRarityNames(args[1])
+                if (args[1] in Data.cards || response.success) {
                     targetUser = ogUser
                     targetName = ogName
                     targetId = ogId
                     targetFound = true
                     callback = () => {
-                        return packInfo(targetUser, args[1])
+                        if (response.success) {
+                            return rarityCards(targetUser, response.rarity)
+                        } else {
+                            return packInfo(targetUser, args[1])
+                        }
                     }
                 } else {
                     callback = () => {
@@ -855,6 +899,27 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "top":
             if (act > 1) {
                 switch (args[1]) {
+
+                    case "invs":
+                    case "inv":
+                        if (act > 2) {
+                            let response = User.getUserFromNick(args[2])
+                            if (response.success) {
+                                targetUser = response.user!
+                            } else {
+                                resp.text = [`❌ El usuario  ${Util.code(args[2])} no existe`]
+                            }
+                        } else {
+                            targetUser = ogUser
+                        }
+                        resp.text = Card.getTop().filter( c => c.owner === targetUser.id ).sort( (a,b) => a.multiplier - b.multiplier ).map((c, i) =>
+                            `${Util.bold("#" + (i+1) + " - " + c.getLong() + ":")} $${c.value} - x${c.multiplier} - ${c.getRarityData().letter}`
+                            + (c.inAuction ? " - En subasta" : ""))
+                        resp.text.unshift(Util.title(`Top inversiones de ${targetUser.defaultName}:`))
+                        break
+
+
+
                     case "col":
                     case "collection":
                         if (act > 2) {
@@ -1024,7 +1089,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
                 msg.react("🔥")
 
                 if ((msg.member?.voice !== undefined || msg.member?.voice !== null) && crd.audio) {
-                    if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id) {
+                    if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id && Data.storage.reconnect) {
                         Data.cache.vconnection = await msg.member?.voice.channel!.join()
                     }
                     Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
@@ -1063,7 +1128,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     }
 
     if ((msg.member?.voice !== undefined || msg.member?.voice !== null) && resp.audio) {
-        if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id) {
+        if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id && Data.storage.reconnect) {
             Data.cache.vconnection = await msg.member?.voice.channel!.join()
         }
         Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(resp.audio , {
