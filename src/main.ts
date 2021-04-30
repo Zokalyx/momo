@@ -1077,35 +1077,39 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
 
         case "roll":
         case "r":
-            if (ogUser.updateEconomy().rolls >= 1) {
-                ogUser.modifyData("rolls", -1)
-                let crd = Card.rollCard(ogId)!
-                let embed = crd.getEmbed()
-                let msg = await ch.send(embed)
-                Data.cache.rollCache[Data.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() }
-                if (crd.owner === "") {
-                    msg.react("💰")
-                }
-                msg.react("🔥")
-
-                if ((msg.member?.voice !== undefined || msg.member?.voice !== null) && crd.audio) {
-                    if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id && Data.storage.reconnect) {
-                        Data.cache.vconnection = await msg.member?.voice.channel!.join()
+            if (ch.id === "836051282589777940") {
+                resp.text = ["❌ Solo rollear en <#765251560179367976>"]
+            } else {
+                if (ogUser.updateEconomy().rolls >= 1) {
+                    ogUser.modifyData("rolls", -1)
+                    let crd = Card.rollCard(ogId)!
+                    let embed = crd.getEmbed()
+                    let msg = await ch.send(embed)
+                    Data.cache.rollCache[Data.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() }
+                    if (crd.owner === "") {
+                        msg.react("💰")
                     }
-                    Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
-                        // @ts-ignore
-                        filter: format => ['251'],
-                        highWaterMark: 1 << 25,
-                    }), {
-                        type: 'opus',
-                        volume: Data.storage.muted ? 0 : 1
-                    })
-                }
+                    msg.react("🔥")
 
-                return
-            } else { 
-                let wait = ogUser.waitingTimes().rolls
-                resp.text = ["❌ No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`]}
+                    if ((msg.member?.voice !== undefined || msg.member?.voice !== null) && crd.audio) {
+                        if (msg.member?.voice.channel!.id !== Data.cache.vconnection?.channel.id && Data.storage.reconnect) {
+                            Data.cache.vconnection = await msg.member?.voice.channel!.join()
+                        }
+                        Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
+                            // @ts-ignore
+                            filter: format => ['251'],
+                            highWaterMark: 1 << 25,
+                        }), {
+                            type: 'opus',
+                            volume: Data.storage.muted ? 0 : 1
+                        })
+                    }
+
+                    return
+                } else { 
+                    let wait = ogUser.waitingTimes().rolls
+                    resp.text = ["❌ No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`]}
+            }
             break
 
 

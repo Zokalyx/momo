@@ -1125,34 +1125,39 @@ function CommandHandler(msg, client) {
                 break;
             case "roll":
             case "r":
-                if (ogUser.updateEconomy().rolls >= 1) {
-                    ogUser.modifyData("rolls", -1);
-                    let crd = card_1.default.rollCard(ogId);
-                    let embed = crd.getEmbed();
-                    let msg = yield ch.send(embed);
-                    data_1.default.cache.rollCache[data_1.default.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() };
-                    if (crd.owner === "") {
-                        msg.react("💰");
-                    }
-                    msg.react("🔥");
-                    if ((((_f = msg.member) === null || _f === void 0 ? void 0 : _f.voice) !== undefined || ((_g = msg.member) === null || _g === void 0 ? void 0 : _g.voice) !== null) && crd.audio) {
-                        if (((_h = msg.member) === null || _h === void 0 ? void 0 : _h.voice.channel.id) !== ((_j = data_1.default.cache.vconnection) === null || _j === void 0 ? void 0 : _j.channel.id) && data_1.default.storage.reconnect) {
-                            data_1.default.cache.vconnection = yield ((_k = msg.member) === null || _k === void 0 ? void 0 : _k.voice.channel.join());
-                        }
-                        data_1.default.cache.dispatcher = (_l = data_1.default.cache.vconnection) === null || _l === void 0 ? void 0 : _l.play(yield ytdl_core_discord_1.default(crd.audio, {
-                            // @ts-ignore
-                            filter: format => ['251'],
-                            highWaterMark: 1 << 25,
-                        }), {
-                            type: 'opus',
-                            volume: data_1.default.storage.muted ? 0 : 1
-                        });
-                    }
-                    return;
+                if (ch.id === "836051282589777940") {
+                    resp.text = ["❌ Solo rollear en <#765251560179367976>"];
                 }
                 else {
-                    let wait = ogUser.waitingTimes().rolls;
-                    resp.text = ["❌ No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`];
+                    if (ogUser.updateEconomy().rolls >= 1) {
+                        ogUser.modifyData("rolls", -1);
+                        let crd = card_1.default.rollCard(ogId);
+                        let embed = crd.getEmbed();
+                        let msg = yield ch.send(embed);
+                        data_1.default.cache.rollCache[data_1.default.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() };
+                        if (crd.owner === "") {
+                            msg.react("💰");
+                        }
+                        msg.react("🔥");
+                        if ((((_f = msg.member) === null || _f === void 0 ? void 0 : _f.voice) !== undefined || ((_g = msg.member) === null || _g === void 0 ? void 0 : _g.voice) !== null) && crd.audio) {
+                            if (((_h = msg.member) === null || _h === void 0 ? void 0 : _h.voice.channel.id) !== ((_j = data_1.default.cache.vconnection) === null || _j === void 0 ? void 0 : _j.channel.id) && data_1.default.storage.reconnect) {
+                                data_1.default.cache.vconnection = yield ((_k = msg.member) === null || _k === void 0 ? void 0 : _k.voice.channel.join());
+                            }
+                            data_1.default.cache.dispatcher = (_l = data_1.default.cache.vconnection) === null || _l === void 0 ? void 0 : _l.play(yield ytdl_core_discord_1.default(crd.audio, {
+                                // @ts-ignore
+                                filter: format => ['251'],
+                                highWaterMark: 1 << 25,
+                            }), {
+                                type: 'opus',
+                                volume: data_1.default.storage.muted ? 0 : 1
+                            });
+                        }
+                        return;
+                    }
+                    else {
+                        let wait = ogUser.waitingTimes().rolls;
+                        resp.text = ["❌ No tenés rolls disponibles" + `, siguiente en ${Math.round(wait)} minutos`];
+                    }
                 }
                 break;
             default:
