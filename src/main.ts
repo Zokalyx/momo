@@ -734,10 +734,10 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             }
 
             let rarityNames: {[key: number]: Array<string>} = {
-                70: ["leg", "legendaria", "legendarias", "legendary", "legendaries"],
-                50: ["epc", "epica", "epicas", "epic", "epics"],
-                25: ["rar", "rara", "raras", "rare", "rares"],
-                10: ["com", "comun", "comunes", "common", "commons"],
+                70: ["l", "leg", "legendaria", "legendarias", "legendary", "legendaries"],
+                50: ["e", "epc", "epica", "epicas", "epic", "epics"],
+                25: ["r", "rar", "rara", "raras", "rare", "rares"],
+                10: ["c", "com", "comun", "comunes", "common", "commons"],
             }
 
             let isInRarityNames = (str: string) => {
