@@ -65,7 +65,7 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
         data_1.default.storage.autoRollChannel.send("✅ Bot en línea");
     }
     node_cron_1.default.schedule("0 * * * *", () => main_1.default.autoRoll(client));
-    node_cron_1.default.schedule("0 0,12 * * *", () => main_1.default.autoRoll(client));
+    node_cron_1.default.schedule("0 3,15 * * *", () => main_1.default.autoRoll(client));
     node_cron_1.default.schedule("0 * * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
         if (data_1.default.cache.thereWasChange) {
             database_1.default.file("w");

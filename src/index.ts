@@ -57,7 +57,7 @@ client.on("ready", async () => {
         Data.storage.autoRollChannel.send("✅ Bot en línea")
     }
     cron.schedule("0 * * * *", () => Main.autoRoll(client))
-    cron.schedule("0 0,12 * * *", () => Main.autoRoll(client))
+    cron.schedule("0 3,15 * * *", () => Main.autoRoll(client))
     cron.schedule("0 * * * * *", async () => {
         if (Data.cache.thereWasChange) {
             Database.file("w")
