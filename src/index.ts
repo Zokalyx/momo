@@ -60,7 +60,11 @@ client.on("ready", async () => {
     cron.schedule("0 3,15 * * *", () => Main.autoRoll(client))
     cron.schedule("0 * * * * *", async () => {
         if (Data.cache.thereWasChange) {
-            Database.file("w")
+            Database.file("w").catch(e => {
+                // @ts-ignore
+                Data.storage.autoRollChannel.send("❌ No se pudieron guardar los datos! Creando backup...")
+                Database.createBackup()
+            })
             Data.cache.thereWasChange = false
         }    
 

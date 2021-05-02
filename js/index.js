@@ -68,7 +68,11 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     node_cron_1.default.schedule("0 3,15 * * *", () => main_1.default.autoRoll(client));
     node_cron_1.default.schedule("0 * * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
         if (data_1.default.cache.thereWasChange) {
-            database_1.default.file("w");
+            database_1.default.file("w").catch(e => {
+                // @ts-ignore
+                data_1.default.storage.autoRollChannel.send("❌ No se pudieron guardar los datos! Creando backup...");
+                database_1.default.createBackup();
+            });
             data_1.default.cache.thereWasChange = false;
         }
         if (data_1.default.cache.needToReloadVc) {
