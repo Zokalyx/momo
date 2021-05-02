@@ -1139,6 +1139,7 @@ function CommandHandler(msg, client) {
                 else {
                     if (ogUser.updateEconomy().rolls >= 1) {
                         ogUser.modifyData("rolls", -1);
+                        ogUser.lastBuyTime = Date.now();
                         let crd = card_1.default.rollCard(ogId);
                         let embed = crd.getEmbed();
                         let msg = yield ch.send(embed);

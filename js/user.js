@@ -477,6 +477,7 @@ class User {
                                 this.modifyData("bal", reactorReward);
                                 this.modifyData("reacts", -1);
                                 success = true;
+                                this.lastBuyTime = Date.now();
                             }
                             else {
                                 result = `❌ Ya reaccionaste a ${cardName}`;

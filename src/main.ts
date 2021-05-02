@@ -1089,6 +1089,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
             } else {
                 if (ogUser.updateEconomy().rolls >= 1) {
                     ogUser.modifyData("rolls", -1)
+                    ogUser.lastBuyTime = Date.now()
                     let crd = Card.rollCard(ogId)!
                     let embed = crd.getEmbed()
                     let msg = await ch.send(embed)
