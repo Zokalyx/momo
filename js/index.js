@@ -70,7 +70,7 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
         if (data_1.default.cache.thereWasChange) {
             database_1.default.file("w").catch(e => {
                 // @ts-ignore
-                data_1.default.storage.autoRollChannel.send("❌ No se pudieron guardar los datos! Creando backup...");
+                data_1.default.storage.autoRollChannel.send("❌ No se pudieron guardar los datos! Creando backup...\nLa próxima vez que se reinicie el bot se va a requerir una carga manual del backup (avisar)");
                 database_1.default.createBackup();
             });
             data_1.default.cache.thereWasChange = false;
