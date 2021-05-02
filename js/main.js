@@ -27,6 +27,7 @@ exports.default = Main;
 Main.cmdHandler = CommandHandler;
 Main.rctHandler = ReactionHandler;
 Main.autoRoll = autoRoll;
+Main.autoInvest = autoInvest;
 function CommandHandler(msg, client) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
     return __awaiter(this, void 0, void 0, function* () {

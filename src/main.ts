@@ -13,6 +13,7 @@ export default class Main {
     static cmdHandler = CommandHandler
     static rctHandler = ReactionHandler
     static autoRoll = autoRoll
+    static autoInvest = autoInvest
 }
 
 async function CommandHandler(msg: Discord.Message, client: Client) {
