@@ -62,7 +62,7 @@ client.on("ready", async () => {
         if (Data.cache.thereWasChange) {
             Database.file("w").catch(e => {
                 // @ts-ignore
-                Data.storage.autoRollChannel.send("❌ No se pudieron guardar los datos! Creando backup...\nLa próxima vez que se reinicie el bot se va a requerir una carga manual del backup (avisar)")
+                Data.storage.autoRollChannel.send("❌ No se pudieron guardar los datos! Creando backup...\nLa próxima vez que se reinicie el bot se va a requerir una carga manual del backup <@284696251566391296>")
                 Database.createBackup()
             })
             Data.cache.thereWasChange = false
