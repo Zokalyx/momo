@@ -1419,7 +1419,7 @@ function autoRoll(client) {
         // @ts-ignore
         let msg = yield data_1.default.storage.autoRollChannel.send(embed);
         data_1.default.cache.rollCache[data_1.default.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() };
-        data_1.default.storage.autoRolls.unshift(crd.getLong());
+        data_1.default.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}`);
         if (data_1.default.storage.autoRolls.length > data_1.default.config.autoInfoMaxSize) {
             data_1.default.storage.autoRolls.pop();
         }
@@ -1452,7 +1452,7 @@ function autoInvest(client) {
         let embed = crd.getEmbed();
         // @ts-ignore
         data_1.default.storage.autoRollChannel.send(util_1.default.title("Inversión automática (cada 12 horas)"));
-        data_1.default.storage.autoInvs.unshift(crd.getLong());
+        data_1.default.storage.autoInvs.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}`);
         if (data_1.default.storage.autoInvs.length > data_1.default.config.autoInfoMaxSize) {
             data_1.default.storage.autoInvs.pop();
         }
