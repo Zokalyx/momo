@@ -108,6 +108,17 @@ function CommandHandler(msg, client) {
         let response; // Auxiliary
         let askedForConfirm = false;
         switch (main) {
+            case "autoroll":
+            case "autoroll":
+            case "autorolls":
+                resp.text = [util_1.default.title("Últimos auto-rolls:"), ...data_1.default.storage.autoRolls.map(v => " - " + v), "Nota: los números de esta lista no se actualizan en tiempo real"];
+                break;
+            case "autoinv":
+            case "autoinvs":
+            case "autoinversiones":
+            case "autoinversion":
+                resp.text = [util_1.default.title("Últimas auto-invs:"), ...data_1.default.storage.autoRolls.map(v => " - " + v), "Nota: los números de las cartas no se actualizan en tiempo real"];
+                break;
             case "img":
             case "image":
             case "pfp":
@@ -1408,6 +1419,10 @@ function autoRoll(client) {
         // @ts-ignore
         let msg = yield data_1.default.storage.autoRollChannel.send(embed);
         data_1.default.cache.rollCache[data_1.default.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() };
+        data_1.default.storage.autoRolls.unshift(crd.getLong());
+        if (data_1.default.storage.autoRolls.length > data_1.default.config.autoInfoMaxSize) {
+            data_1.default.storage.autoRolls.pop();
+        }
         if (crd.owner === "") {
             msg.react("💰");
         }
@@ -1437,6 +1452,10 @@ function autoInvest(client) {
         let embed = crd.getEmbed();
         // @ts-ignore
         data_1.default.storage.autoRollChannel.send(util_1.default.title("Inversión automática (cada 12 horas)"));
+        data_1.default.storage.autoInvs.unshift(crd.getLong());
+        if (data_1.default.storage.autoInvs.length > data_1.default.config.autoInfoMaxSize) {
+            data_1.default.storage.autoInvs.pop();
+        }
         // @ts-ignore
         let msg = yield data_1.default.storage.autoRollChannel.send(embed);
         /*if (Data.cache.vconnection && crd.audio) {

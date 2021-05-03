@@ -6,6 +6,7 @@ interface data {
     users: {[key: string]: User}
     cards: {[key: string]: Array<Card>}
     config: {
+        autoInfoMaxSize: 10
         prefix: string
         autosaveFrequency: number
         maxRollCacheIndex: number
@@ -69,6 +70,8 @@ interface data {
         categories: {
             [key: string]: string
         }
+        autoRolls: Array<string>
+        autoInvs: Array<string>
         voiceChannel: VoiceChannel | undefined
         reconnect: boolean
         muted: boolean
@@ -99,6 +102,7 @@ let Data: data = {
     users: {},
     cards: {},
     config: {
+        autoInfoMaxSize: 10,
         prefix: "-",
         autosaveFrequency: 2, // minutes
         maxRollCacheIndex: 5,
@@ -140,6 +144,8 @@ let Data: data = {
         auctions: [],
         auctionsLog: [],
         categories: {},
+        autoRolls: [],
+        autoInvs: [],
         voiceChannel: undefined,
         reconnect: false,
         muted: false,

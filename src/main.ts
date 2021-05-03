@@ -95,6 +95,20 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
     let askedForConfirm = false
     switch(main) {
 
+        case "autoroll":
+        case "autoroll":
+        case "autorolls":
+            resp.text = [Util.title("Últimos auto-rolls:"), ...Data.storage.autoRolls.map(v => " - " + v), "Nota: los números de esta lista no se actualizan en tiempo real"]
+            break
+
+        case "autoinv":
+        case "autoinvs":
+        case "autoinversiones":
+        case "autoinversion":
+            resp.text = [Util.title("Últimas auto-invs:"), ...Data.storage.autoRolls.map(v => " - " + v), "Nota: los números de las cartas no se actualizan en tiempo real"]
+            break
+
+
         case "img":
         case "image":
         case "pfp":
@@ -1339,6 +1353,10 @@ async function autoRoll(client: Client) {
     // @ts-ignore
     let msg = await Data.storage.autoRollChannel.send(embed)
     Data.cache.rollCache[Data.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() }
+    Data.storage.autoRolls.unshift(crd.getLong())
+    if (Data.storage.autoRolls.length > Data.config.autoInfoMaxSize) {
+        Data.storage.autoRolls.pop()
+    }
     if (crd.owner === "") {
         msg.react("💰")
     }
@@ -1368,6 +1386,10 @@ async function autoInvest(client: Client) {
     let embed = crd.getEmbed()
     // @ts-ignore
     Data.storage.autoRollChannel.send(Util.title("Inversión automática (cada 12 horas)"))
+    Data.storage.autoInvs.unshift(crd.getLong())
+    if (Data.storage.autoInvs.length > Data.config.autoInfoMaxSize) {
+        Data.storage.autoInvs.pop()
+    }
     // @ts-ignore
     let msg = await Data.storage.autoRollChannel.send(embed)
 

@@ -4,6 +4,7 @@ let Data = {
     users: {},
     cards: {},
     config: {
+        autoInfoMaxSize: 10,
         prefix: "-",
         autosaveFrequency: 2,
         maxRollCacheIndex: 5,
@@ -45,6 +46,8 @@ let Data = {
         auctions: [],
         auctionsLog: [],
         categories: {},
+        autoRolls: [],
+        autoInvs: [],
         voiceChannel: undefined,
         reconnect: false,
         muted: false,
