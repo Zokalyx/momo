@@ -1419,14 +1419,14 @@ function autoRoll(client) {
         // @ts-ignore
         let msg = yield data_1.default.storage.autoRollChannel.send(embed);
         data_1.default.cache.rollCache[data_1.default.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() };
-        data_1.default.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}`);
-        if (data_1.default.storage.autoRolls.length > data_1.default.config.autoInfoMaxSize) {
-            data_1.default.storage.autoRolls.pop();
-        }
         if (crd.owner === "") {
             msg.react("💰");
         }
         msg.react("🔥");
+        data_1.default.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}`);
+        if (data_1.default.storage.autoRolls.length > data_1.default.config.autoInfoMaxSize) {
+            data_1.default.storage.autoRolls.pop();
+        }
         if (data_1.default.cache.vconnection && crd.audio) {
             data_1.default.cache.dispatcher = (_a = data_1.default.cache.vconnection) === null || _a === void 0 ? void 0 : _a.play(yield ytdl_core_discord_1.default(crd.audio, {
                 // @ts-ignore

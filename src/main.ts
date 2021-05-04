@@ -1353,14 +1353,14 @@ async function autoRoll(client: Client) {
     // @ts-ignore
     let msg = await Data.storage.autoRollChannel.send(embed)
     Data.cache.rollCache[Data.cache.rollCacheIndex] = { message: msg, card: crd, reactedBy: [], timeRolled: Date.now() }
-    Data.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName}`)
-    if (Data.storage.autoRolls.length > Data.config.autoInfoMaxSize) {
-        Data.storage.autoRolls.pop()
-    }
     if (crd.owner === "") {
         msg.react("💰")
     }
     msg.react("🔥")
+    Data.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName}`)
+    if (Data.storage.autoRolls.length > Data.config.autoInfoMaxSize) {
+        Data.storage.autoRolls.pop()
+    }
 
     if (Data.cache.vconnection && crd.audio) {
         Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
