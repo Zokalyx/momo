@@ -117,7 +117,7 @@ function CommandHandler(msg, client) {
             case "autoinvs":
             case "autoinversiones":
             case "autoinversion":
-                resp.text = [util_1.default.title("Últimas auto-invs:"), ...data_1.default.storage.autoRolls.map(v => " - " + v), "Nota: los números de las cartas no se actualizan en tiempo real"];
+                resp.text = [util_1.default.title("Últimas auto-invs:"), ...data_1.default.storage.autoInvs.map(v => " - " + v), "Nota: los números de las cartas no se actualizan en tiempo real"];
                 break;
             case "img":
             case "image":

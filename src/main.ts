@@ -105,7 +105,7 @@ async function CommandHandler(msg: Discord.Message, client: Client) {
         case "autoinvs":
         case "autoinversiones":
         case "autoinversion":
-            resp.text = [Util.title("Últimas auto-invs:"), ...Data.storage.autoRolls.map(v => " - " + v), "Nota: los números de las cartas no se actualizan en tiempo real"]
+            resp.text = [Util.title("Últimas auto-invs:"), ...Data.storage.autoInvs.map(v => " - " + v), "Nota: los números de las cartas no se actualizan en tiempo real"]
             break
 
 
