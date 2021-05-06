@@ -34,7 +34,8 @@ class Card {
                 break;
             }
             else {
-                this.type = "txt";
+                // this.type = "txt"
+                this.type = "img";
             }
         }
         this.isCard = this.type === "txt" ? false : true;

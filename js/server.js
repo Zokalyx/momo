@@ -34,7 +34,19 @@ server.all("/editor", (req, res, next) => {
     res.sendFile("editor.html", { root: "./js/" });
 });
 server.get("/json", (req, res, next) => {
-    res.send(JSON.stringify(data_1.default));
+    let vc = data_1.default.storage.voiceChannel;
+    let vc2 = data_1.default.cache.vconnection;
+    let vc3 = data_1.default.cache.dispatcher;
+    delete data_1.default.storage["voiceChannel"];
+    delete data_1.default.cache["vconnection"];
+    delete data_1.default.cache["dispatcher"];
+    let toSave = JSON.parse(JSON.stringify(data_1.default));
+    delete toSave["cache"]; // Don't save cache
+    let stringy = JSON.stringify(toSave);
+    res.send(stringy);
+    data_1.default.storage.voiceChannel = vc;
+    data_1.default.cache.vconnection = vc2;
+    data_1.default.cache.dispatcher = vc3;
 });
 server.post("/json", (req, res, next) => {
     console.log("Received POST request");
