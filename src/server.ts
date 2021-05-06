@@ -35,7 +35,19 @@ server.all("/editor", (req, res, next) => {
 })
 
 server.get("/json", (req, res, next) => {
-    res.send(JSON.stringify(Data))
+    let vc = Data.storage.voiceChannel
+    let vc2 = Data.cache.vconnection
+    let vc3 = Data.cache.dispatcher
+    delete Data.storage["voiceChannel"]
+    delete Data.cache["vconnection"]
+    delete Data.cache["dispatcher"]
+    let toSave = JSON.parse(JSON.stringify(Data))
+    delete toSave["cache"] // Don't save cache
+    let stringy: string = JSON.stringify(toSave)
+    res.send(stringy)
+    Data.storage.voiceChannel = vc
+    Data.cache.vconnection = vc2
+    Data.cache.dispatcher = vc3
 })
 
 server.post("/json", (req, res, next) => {

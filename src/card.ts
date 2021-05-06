@@ -78,7 +78,8 @@ export default class Card { /* Command option */
                 }
                 break
             } else {
-                this.type = "txt"
+                // this.type = "txt"
+                this.type = "img"
             }
         }
 
