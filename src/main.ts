@@ -1385,13 +1385,13 @@ async function autoInvest(client: Client) {
     crd.multiplier++
     let embed = crd.getEmbed()
     // @ts-ignore
+    let msg = await Data.storage.autoRollChannel.send(embed)
+    // @ts-ignore
     Data.storage.autoRollChannel.send(Util.title("Inversión automática (cada 12 horas)"))
     Data.storage.autoInvs.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName}`)
     if (Data.storage.autoInvs.length > Data.config.autoInfoMaxSize) {
         Data.storage.autoInvs.pop()
     }
-    // @ts-ignore
-    let msg = await Data.storage.autoRollChannel.send(embed)
 
     /*if (Data.cache.vconnection && crd.audio) {
         Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {

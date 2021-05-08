@@ -1451,13 +1451,13 @@ function autoInvest(client) {
         crd.multiplier++;
         let embed = crd.getEmbed();
         // @ts-ignore
+        let msg = yield data_1.default.storage.autoRollChannel.send(embed);
+        // @ts-ignore
         data_1.default.storage.autoRollChannel.send(util_1.default.title("Inversión automática (cada 12 horas)"));
         data_1.default.storage.autoInvs.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}`);
         if (data_1.default.storage.autoInvs.length > data_1.default.config.autoInfoMaxSize) {
             data_1.default.storage.autoInvs.pop();
         }
-        // @ts-ignore
-        let msg = yield data_1.default.storage.autoRollChannel.send(embed);
         /*if (Data.cache.vconnection && crd.audio) {
             Data.cache.dispatcher = Data.cache.vconnection?.play(await ytdl(crd.audio , {
                 // @ts-ignore
