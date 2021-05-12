@@ -466,6 +466,7 @@ class User {
                                     result = `✅ ${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`;
                                     if (card.owner !== "") {
                                         result += `\n${data_1.default.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`;
+                                        data_1.default.users[card.owner].modifyData("bal", baseReward);
                                     }
                                 }
                                 else {

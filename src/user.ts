@@ -551,6 +551,7 @@ export default class User {
                                     result = `✅ ${userName} reaccionó a ${cardName} y ganó $${reactorReward}!`
                                     if (card.owner !== "") {
                                         result += `\n${Data.users[card.owner].defaultName} ganó $${baseReward} por ser el dueño de la carta`
+                                        Data.users[card.owner].modifyData("bal", baseReward)
                                     }
                                 } else {
                                     reactorReward = Math.round(baseReward*Data.config.economy.reactorNonOwnerMultiplier)
