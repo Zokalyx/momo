@@ -356,7 +356,7 @@ export default class User {
     addCard(card: Card) {
         let packCol = this.collection[card.pack]
         packCol.push(card.id)
-        packCol.sort( (a, b) => a - b)
+        packCol.sort( (a, b) => a - b )
     }
 
     giveMoneyTo(amount: number, user: User) {
