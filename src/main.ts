@@ -17,6 +17,11 @@ export default class Main {
 }
 
 async function CommandHandler(msg: Discord.Message, client: Client) {
+
+    if (msg.channel.id !== "836051282589777940" && msg.channel.id !== "765251560179367976") {
+        return
+    }
+
     if (!msg.content.startsWith(Data.config.prefix)) {
         if (!msg.author.bot && msg.content.startsWith("http") && Data.cache.waitingForBulk.status) {
             let cont = msg.content

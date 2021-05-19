@@ -31,6 +31,9 @@ Main.autoInvest = autoInvest;
 function CommandHandler(msg, client) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
     return __awaiter(this, void 0, void 0, function* () {
+        if (msg.channel.id !== "836051282589777940" && msg.channel.id !== "765251560179367976") {
+            return;
+        }
         if (!msg.content.startsWith(data_1.default.config.prefix)) {
             if (!msg.author.bot && msg.content.startsWith("http") && data_1.default.cache.waitingForBulk.status) {
                 let cont = msg.content;
