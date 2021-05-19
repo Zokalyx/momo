@@ -77,5 +77,9 @@ class Util {
     static selectRandom(array) {
         return array[Math.floor(Math.random() * array.length)];
     }
+    static getFormatDate() {
+        let d = new Date(Date.now() - 10800000);
+        return `${d.getHours()}:00`;
+    }
 }
 exports.default = Util;

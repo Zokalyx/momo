@@ -1426,7 +1426,9 @@ function autoRoll(client) {
             msg.react("💰");
         }
         msg.react("🔥");
-        data_1.default.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}`);
+        data_1.default.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value}
+                                    - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}
+                                    - ${util_1.default.getFormatDate()}`);
         if (data_1.default.storage.autoRolls.length > data_1.default.config.autoInfoMaxSize) {
             data_1.default.storage.autoRolls.pop();
         }
@@ -1457,7 +1459,7 @@ function autoInvest(client) {
         let msg = yield data_1.default.storage.autoRollChannel.send(embed);
         // @ts-ignore
         data_1.default.storage.autoRollChannel.send(util_1.default.title("Inversión automática (cada 12 horas)"));
-        data_1.default.storage.autoInvs.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}`);
+        data_1.default.storage.autoInvs.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName} - ${util_1.default.getFormatDate()}`);
         if (data_1.default.storage.autoInvs.length > data_1.default.config.autoInfoMaxSize) {
             data_1.default.storage.autoInvs.pop();
         }

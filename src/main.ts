@@ -1362,7 +1362,9 @@ async function autoRoll(client: Client) {
         msg.react("💰")
     }
     msg.react("🔥")
-    Data.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName}`)
+    Data.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value}
+                                    - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName}
+                                    - ${Util.getFormatDate()}`)
     if (Data.storage.autoRolls.length > Data.config.autoInfoMaxSize) {
         Data.storage.autoRolls.pop()
     }
@@ -1393,7 +1395,7 @@ async function autoInvest(client: Client) {
     let msg = await Data.storage.autoRollChannel.send(embed)
     // @ts-ignore
     Data.storage.autoRollChannel.send(Util.title("Inversión automática (cada 12 horas)"))
-    Data.storage.autoInvs.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName}`)
+    Data.storage.autoInvs.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName} - ${Util.getFormatDate()}`)
     if (Data.storage.autoInvs.length > Data.config.autoInfoMaxSize) {
         Data.storage.autoInvs.pop()
     }
