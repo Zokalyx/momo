@@ -1362,9 +1362,7 @@ async function autoRoll(client: Client) {
         msg.react("💰")
     }
     msg.react("🔥")
-    Data.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value}
-                                    - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName}
-                                    - ${Util.getFormatDate()}`)
+    Data.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${Data.users[crd.owner].defaultName} - ${Util.getFormatDate()}`)
     if (Data.storage.autoRolls.length > Data.config.autoInfoMaxSize) {
         Data.storage.autoRolls.pop()
     }

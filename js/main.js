@@ -1426,9 +1426,7 @@ function autoRoll(client) {
             msg.react("💰");
         }
         msg.react("🔥");
-        data_1.default.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value}
-                                    - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName}
-                                    - ${util_1.default.getFormatDate()}`);
+        data_1.default.storage.autoRolls.unshift(`${crd.getLong()} - ${crd.getRarityData().letter} - $${crd.value} - $${crd.multiplier} - Dueño: ${data_1.default.users[crd.owner].defaultName} - ${util_1.default.getFormatDate()}`);
         if (data_1.default.storage.autoRolls.length > data_1.default.config.autoInfoMaxSize) {
             data_1.default.storage.autoRolls.pop();
         }
